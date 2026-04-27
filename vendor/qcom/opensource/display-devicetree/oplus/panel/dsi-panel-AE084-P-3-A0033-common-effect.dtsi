@@ -1,0 +1,45 @@
+/***************************************************************
+** Copyright (C), 2025, OPLUS Mobile Comm Corp., Ltd
+**
+** Description : Display effect common config
+** Version : 1.0
+** Date : 2025/07/2
+******************************************************************/
+				qcom,mdss-dsi-loading-effect-1-command = [
+					/* Laoding On 100% */
+					39 00 00 00 00 00 4C A9 01 00 8D 02 02 01 01 00 A3 00 3F 83 00 00 00 00 02 08 C1 00 07 8E 33 EE 33 33 EE 33 33 02 08 C1 08 0F EE 33 33 EE 33 33 BE 33 02 08 C1 10 15 AC 9B AC 0D 0F FF 00 00 02 08 C1 20 22 0F 00 FF 00 00 00 00 00 02 00 B0 78 78 17 00
+				];
+				qcom,mdss-dsi-loading-effect-2-command = [
+					/* Laoding On 110% */
+					39 00 00 00 00 00 4C A9 01 00 8D 02 02 01 01 00 A3 00 3F 83 00 00 00 00 02 08 C1 00 07 8E D4 EE D4 D4 EE D4 D4 02 08 C1 08 0F EE D4 D4 EE D4 D4 CE D4 02 08 C1 10 15 31 9C 31 0D 0F FF 00 00 02 08 C1 20 22 0F 00 FF 00 00 00 00 00 02 00 B0 78 78 17 00
+				];
+				qcom,mdss-dsi-loading-effect-3-command = [
+				];
+				qcom,mdss-dsi-loading-effect-4-command = [
+				];
+				qcom,mdss-dsi-loading-effect-off-command = [
+					/* Laoding On 130% */
+					39 00 00 00 00 00 4C A9 01 00 8D 02 02 01 01 00 A3 00 3F 83 00 00 00 00 02 08 C1 00 07 8F FF FF FF FF FF FF FF 02 08 C1 08 0F FF FF FF FF FF FF DF FF 02 08 C1 10 15 27 9D 27 0D 0F FF 00 00 02 08 C1 20 22 0F 00 FF 00 00 00 00 00 02 00 B0 78 78 17 00
+				];
+
+				oplus,dsi-panel-apuir-on-command = [
+					39 00 00 00 00 00 4C A9 01 00 8D 02 02 01 01 00 A3 00 3F 83 00 00 00 00 02 08 C1 00 07 8F FF FF FF FF FF FF FF 02 08 C1 08 0F FF FF FF FF FF FF FF FF 02 08 C1 10 15 FF FF FF FF 0F FF 00 00 02 08 C1 20 22 3F 33 FF 00 00 00 00 00 02 00 B0 78 78 11 00
+				];
+
+				oplus,dsi-panel-apuir-middle-off-command = [
+					39 00 00 00 00 00 4C A9 01 00 8D 02 02 01 01 00 A3 00 3F 83 00 00 00 00 02 08 C1 00 07 8F FF FF FF FF FF FF FF 02 08 C1 08 0F FF FF FF FF FF FF DF FF 02 08 C1 10 15 27 9D 27 0D 0F FF 00 00 02 08 C1 20 22 FF FF FF 00 00 00 00 00 02 00 B0 78 78 17 00
+				];
+
+				oplus,dsi-panel-apuir-off-command = [
+					39 00 00 00 00 00 4C A9 01 00 8D 02 02 01 01 00 A3 00 3F 83 00 00 00 00 02 08 C1 00 07 8F FF FF FF FF FF FF FF 02 08 C1 08 0F FF FF FF FF FF FF DF FF 02 08 C1 10 15 27 9D 27 0D 0F FF 00 00 02 08 C1 20 22 0F 00 FF 00 00 00 00 00 02 00 B0 78 78 17 00
+				];
+
+				qcom,mdss-dsi-loading-effect-1-command-state = "dsi_hs_mode";
+				qcom,mdss-dsi-loading-effect-2-command-state = "dsi_hs_mode";
+				qcom,mdss-dsi-loading-effect-3-command-state = "dsi_hs_mode";
+				qcom,mdss-dsi-loading-effect-4-command-state = "dsi_hs_mode";
+				qcom,mdss-dsi-loading-effect-off-command-state = "dsi_hs_mode";
+				oplus,dsi-panel-apuir-on-command-state = "dsi_hs_mode";
+				oplus,dsi-panel-apuir-middle-off-command-state = "dsi_hs_mode";
+				oplus,dsi-panel-apuir-off-command-state = "dsi_hs_mode";
+

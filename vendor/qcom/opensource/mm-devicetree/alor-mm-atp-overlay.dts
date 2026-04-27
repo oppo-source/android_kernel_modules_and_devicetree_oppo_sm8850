@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+/dts-v1/;
+/plugin/;
+
+#include "hw_fence/alor-hw-fence.dtsi"
+#include "hfi_core/alor-hfi-core.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Alor ATP + wcn7750 WLAN + SN220U + Kundu";
+	compatible = "qcom,alor-atp", "qcom,alor", "qcom,atp";
+	qcom,msm-id = <685 0x10000>, <727 0x10000>;
+	qcom,board-id = <0x10021 0>;
+};

@@ -1,0 +1,11 @@
+/dts-v1/;
+/plugin/;
+#include "../display/alor-sde-display-mtp-overlay.dts"
+#include "alor-display-overlay-common.dtsi"
+#include "macan-24855-display-alor-overlay.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. alor MTP,macan";
+
+	oplus,project-id = <24855 24877 24878 24879>;
+};

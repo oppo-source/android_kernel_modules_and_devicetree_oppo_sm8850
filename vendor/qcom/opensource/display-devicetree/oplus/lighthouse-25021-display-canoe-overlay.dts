@@ -1,0 +1,11 @@
+/dts-v1/;
+/plugin/;
+#include "../display/canoe-sde-display-mtp-overlay.dts"
+#include "canoe-display-overlay-common.dtsi"
+#include "lighthouse-25021-display-canoe-overlay.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Canoe MTP,lighthouse";
+
+	oplus,project-id = <25021 25022 25211 25212>;
+};

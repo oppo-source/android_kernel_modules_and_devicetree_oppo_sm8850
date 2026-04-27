@@ -1,0 +1,343 @@
+/dts-v1/;
+/plugin/;
+#include "../qcom/canoe-mtp-overlay.dtso"
+#include "canoe_overlay_common.dtsi"
+#include "infiniti_overlay_common.dtsi"
+#include "sensor/infiniti-sensor-24831.dtsi"
+#include "oplus_uff/oplus-uff-24831.dtsi"
+#include "oplus_icc/infiniti-24831-icc.dtsi"
+#include "oplus_misc/oplus-misc-24863.dtsi"
+#include "oplus_nfc/infiniti-24831.dtsi"
+#include "tp/infiniti-oplus-tp-24831.dtsi"
+#include "oplus_chg/oplus-chg-24831.dtsi"
+#include "oplus_chg/oplus-chg-24863.dtsi"
+#include "mm/infiniti-24831-canoe-mm.dtsi"
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/interconnect/qcom,canoe.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+#include <dt-bindings/spmi/spmi.h>
+#include <dt-bindings/oplus/hw-id.h>
+
+/ {
+    model = "Qualcomm Technologies, Inc. Canoe MTP,infiniti";
+    oplus,project-id = <24863>;
+    oplus,hw-id = <OPLUS_EVB1 OPLUS_EVB2 OPLUS_EVB3 OPLUS_PRE_T0 OPLUS_T0 OPLUS_EVT1 OPLUS_EVT2 OPLUS_DVT1 OPLUS_DVT2 OPLUS_PVT1>;
+};
+
+
+&qupv3_se15_spi {
+    status = "ok";
+    #address-cells = <1>;
+	#size-cells = <0>;
+
+    cetc_rsmc {
+        compatible = "cetc,rsmc";
+        spi-bus-id = <0>;
+        reg = <0>;
+        spi-mode = <0>;
+        spi-max-frequency = <6000000>;
+        en_gpio = <&pmh0110_g_gpios 7 GPIO_ACTIVE_LOW>;
+        pinctrl-names = "irq_active";
+        pinctrl-0 = <&satellite_rsmc_ex_int>;
+        irq_gpio = <&tlmm 195 0x00>;
+        mcu_rst_gpio = <&pmh0110_g_gpios 8 GPIO_ACTIVE_LOW>;
+
+        rsmc-tcxo-vcc-type = <1>;
+        tcxo_pwr_gpio = <&pmh0104_gpios 8 GPIO_ACTIVE_LOW>;
+        tcxo_pwr_after_delay_ms = <10>;
+        rsmc_enable_x801;
+
+		platform = <1>;
+   };
+};
+
+&tlmm {
+
+    satellite_rsmc_ex_int:satellite_rsmc_ex_int {
+        mux {
+            pins = "gpio195";
+            function = "gpio";
+        };
+
+        config {
+            pins = "gpio195";
+			drive-strength = <2>;
+            bias-disable;
+			input-enable;
+            qcom,apps;
+        };
+    };
+
+  //#ifdef OPLUS_FEATURE_RF_CABLE_DETECT
+  rf_cable0_active: rf_cable0_active {
+    mux {
+      pins = "gpio47";
+      function = "gpio";
+    };
+    config {
+      pins = "gpio47";
+      drive-strength = <2>;
+      input-enable;
+      bias-pull-up;
+    };
+  };
+  //#endif /* OPLUS_FEATURE_RF_CABLE_DETECT */
+};
+
+
+&pmh0110_g_gpios {
+    satellite_rsmc_en {
+        satellite_rsmc_en_default:satellite_rsmc_en_default {
+            pins = "gpio7";
+            function = "normal";
+            input-disable;
+            output-enable;
+            output-high;
+            power-source = <1>;
+            qcom,drive-strength = <2>;
+        };
+    };
+};
+
+
+
+&pmh0110_g_gpios{
+    satellite_rsmc_nRst:satellite_rsmc_nRst {
+		pins = "gpio8";
+		function = "normal";
+        input-disable;
+        output-enable;
+        output-high;
+        power-source = <1>;
+        qcom,drive-strength = <2>;
+	};
+};
+
+
+&qupv3_se22_i2c {
+     status = "ok";
+     rsmc@75 {
+         compatible = "oplus,satellite_hl7603";
+         reg = <0x75>;
+         rm_name = "DCDC_HL7603";
+         oplus,hl7603_vout_voltage = <33>;
+     };
+ };
+
+//dxs702
+
+&soc{
+    oplus_satellite{
+        compatible = "oplus,702_satellite";
+        satellite,dvdd_0p8-supply = <&L2F>;
+        satellite,dvdd_0p6-supply = <&L4I>;
+
+        pinctrl-names = "alt_sleep_clk_disable", "alt_sleep_clk_default";
+        pinctrl-0 = <&alt_sleep_clk_disable>;
+        pinctrl-1 = <&x801_alt_sleep_clk_default>;
+
+        oplus,oplus-satellite-boot-sel = <&pmh0110_g_gpios 10 GPIO_ACTIVE_LOW>;//boot sel
+        oplus,oplus-satellite-rst= <&pmh0110_g_gpios 9 GPIO_ACTIVE_LOW>;//hostrstn_in
+        oplus,oplus-satellite-wakeup = <&tlmm 61 GPIO_ACTIVE_LOW>;//ap wake up bb
+        oplus,oplus-satellite-sleep = <&tlmm 194 GPIO_ACTIVE_LOW>;//bb wake up ap
+        oplus,oplus-satellite-pa = <&pmh0104_gpios 7 GPIO_ACTIVE_LOW>;
+    };
+
+  //#ifdef OPLUS_FEATURE_RF_CABLE_DETECT
+    oplus_rf_cable {
+        compatible = "oplus,rf_cable";
+        interrupt-parent = <&tlmm>;
+        rf_cable_support_num = <1>;
+        rf,cable0-gpio = <&tlmm 47 0>;
+        rf,cable-support-timer = <0>;
+        pinctrl-names = "rf_cable_active";
+        pinctrl-0 = <&rf_cable0_active>;
+    };
+  //#endif /* OPLUS_FEATURE_RF_CABLE_DETECT */
+};
+
+
+#include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+
+
+&pmk8850_gpios {
+	alt_702_disable_clk {
+		alt_sleep_clk_disable: alt_sleep_clk_disable {
+			pins = "gpio3";
+			function = "normal";
+			input-disable;
+			output-low;
+			bias-disable;
+			power-source = <0>;
+		};
+	};
+};
+
+
+&pmk8850_gpios{
+    x801_alt_sleep_clk_default: alt-sleep--default-state {
+ 		pins = "gpio3";
+ 		function = "func1";
+ 		input-disable;
+ 		output-enable;
+ 		power-source = <0>; 
+ 	};
+};
+
+&pmh0110_g_gpios{
+    satellite_boot_mode_sel_default: satellite_boot_mode_sel_default {
+        pins = "gpio10";
+        function = "normal";
+        drive-strength = <2>;
+        bias-pull-down;
+        output-enable;
+        output-low;
+  };
+};
+
+&pmh0110_g_gpios{
+    satellite_rst_active: satellite_rst_active {
+        pins = "gpio9";
+        function = "normal";
+        drive-strength = <2>;
+        output-enable;
+        bias-pull-up;
+  };
+};
+
+
+&tlmm {
+  	qupv3_se20_2uart_pins: qupv3_se20_2uart_pins {
+		qupv3_se20_2uart_tx_active: qupv3_se20_2uart_tx_active {
+			mux {
+				pins = "gpio30";
+				function = "qup4_se1_l2";
+			};
+
+			config {
+				pins = "gpio30";
+				drive-strength = <2>;
+				bias-disable;
+			};
+		};
+
+		qupv3_se20_2uart_rx_active: qupv3_se20_2uart_rx_active {
+			mux {
+				pins = "gpio31";
+				function = "qup4_se1_l3";
+			};
+
+			config {
+				pins = "gpio31";
+				drive-strength = <2>;
+				bias-disable;
+			};
+		};
+
+		qupv3_se20_2uart_sleep: qupv3_se20_2uart_sleep {
+ 			mux {
+ 				pins = "gpio30", "gpio31";
+ 				function = "gpio";
+ 			};
+
+ 			config {
+ 				pins = "gpio30", "gpio31";
+ 				drive-strength = <6>;
+ 				bias-pull-down;
+ 			};
+ 		};
+
+
+
+	};
+
+};
+
+
+&tlmm {
+  //#ifdef OPLUS_FEATURE_702_satellite
+  satellite_wakeup_active: satellite_wakeup_active {
+    mux {
+      pins = "gpio61";
+      function = "gpio";
+    };
+    config {
+      pins = "gpio61";
+      drive-strength = <2>;
+      output-enable;
+      bias-pull-up;
+    };
+  };
+  //#endif
+};
+
+&tlmm {
+  //#ifdef OPLUS_FEATURE_702_satellite
+  satellite_sleep_active: satellite_sleep_active {
+    mux {
+      pins = "gpio194";
+      function = "gpio";
+    };
+    config {
+      pins = "gpio194";
+      drive-strength = <2>;
+      input-enable;
+      bias-disable;
+      qcom,apps;
+    };
+  };
+  //#endif
+};
+
+
+&qupv3_4{
+    qupv3_se20_2uart: qcom,qup_uart@1a84000 {
+ 		compatible = "qcom,msm-geni-serial-hs";
+ 		reg = <0x1a84000 0x4000>;
+ 		reg-names = "se_phys";
+ 		interrupts = <GIC_SPI 857 IRQ_TYPE_LEVEL_HIGH>, <&tlmm 31 IRQ_TYPE_LEVEL_HIGH>;
+        clock-names = "se-clk";
+        clocks = <&gcc GCC_QUPV3_WRAP4_S1_CLK>;
+ 		interconnect-names = "qup-core", "qup-config", "qup-memory";
+ 		interconnects =
+        <&clk_virt MASTER_QUP_CORE_4 &clk_virt SLAVE_QUP_CORE_4>,
+        <&gem_noc MASTER_APPSS_PROC &config_noc SLAVE_QUP_4>,
+        <&aggre2_noc MASTER_QUP_4 &mc_virt  SLAVE_EBI1>;
+ 		pinctrl-names = "active", "sleep","shutdown","default";
+ 		pinctrl-0 = <&qupv3_se20_2uart_tx_active>, <&qupv3_se20_2uart_rx_active>;
+ 		pinctrl-1 = <&qupv3_se20_2uart_sleep>;
+        pinctrl-2 = <&qupv3_se20_2uart_sleep>;
+        pinctrl-3 = <&qupv3_se20_2uart_sleep>;
+ 		qcom,wakeup-byte = <0xFD>;
+		status = "ok";
+ 	};
+};
+
+
+
+
+#include <dt-bindings/regulator/qcom,rpmh-regulator-levels.h>
+&apps_rsc_drv2 {
+    rpmh-regulator-l2f-e0 {
+		compatible = "qcom,rpmh-vrm-regulator";
+		qcom,resource-name = "L2F_E0";
+		qcom,regulator-type = "pmic7-ldo";
+		qcom,supported-modes = <RPMH_REGULATOR_MODE_LPM
+					RPMH_REGULATOR_MODE_AUTO>;
+		qcom,mode-threshold-currents = <0 30000>;
+
+        L2F: L2F_E0: pmh0110_f_l2: regulator-pmh0110-f-l2 {
+			regulator-name = "pmh0110_f_l2";
+			qcom,set = <RPMH_REGULATOR_SET_ALL>;
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+			qcom,init-voltage = <1800000>;
+			qcom,init-mode = <RPMH_REGULATOR_MODE_AUTO>;
+		};
+	};
+
+};
+
+&aliases{
+    hsuart3	= "/soc/qcom,qupv3_4_geni_se@1ac0000/qcom,qup_uart@1a84000";
+};

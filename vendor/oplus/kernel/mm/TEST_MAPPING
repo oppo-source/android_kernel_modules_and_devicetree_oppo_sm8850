@@ -1,0 +1,12 @@
+{
+  "presubmit": [
+    {
+      "name": "kunit",
+      "options": [
+        {
+          "include-filter": "oplus_bsp_file_read_record_kunit"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+<configuration description="kunit">
+    <object type="module_controller" class="com.android.tradefed.testtype.suite.module.KernelTestModuleController">
+        <option name="arch" value="arm64" />
+    </object>
+
+    <target_preparer class="com.android.tradefed.targetprep.RootTargetPreparer"/>
+
+    <target_preparer class="com.android.tradefed.targetprep.PushFilePreparer">
+        <option name="cleanup" value="true" />
+        <option name="push-file" key="oplus_kunit" value="/data/kunit" />
+    </target_preparer>
+
+    <target_preparer class="com.android.tradefed.targetprep.RunCommandTargetPreparer">
+        <option name="teardown-command" value="rmmod regmap_kunit clk_test clk_kunit_helpers time_test soc_topology_test platform_test soc_utils_test hid_uclogic_test fat_test kunit_test ext4_inode_test of_kunit_helpers dev_addr_lists_test clk_gate_test lib_test input_test kunit_example_test iio_test_format kunit" />i
+        <option name="run-command" value="mount -t debugfs none /sys/kernel/debug" />
+    </target_preparer>
+
+    <target_preparer class="com.android.tradefed.targetprep.InstallKernelModulePreparer">
+        <option name="module-path" value="/system_dlkm/lib/modules/kunit.ko" />
+        <option name="install-arg" value="enable=1" />
+   </target_preparer>
+
+    <!-- KUnit tests dependencies -->
+    <target_preparer class="com.android.tradefed.targetprep.InstallKernelModulePreparer">
+        <option name='module-path' key='drivers/base/regmap/regmap-ram' value='/system_dlkm/lib/modules/regmap-ram.ko' />
+        <option name='module-path' key='drivers/base/regmap/regmap-raw-ram' value='/system_dlkm/lib/modules/regmap-raw-ram.ko' />
+   </target_preparer>
+
+    <!-- oplus kunit test eg -->
+    <test class="com.android.tradefed.testtype.binary.KUnitModuleTest" >
+        <option name="skip-binary-check" value="true" />
+        <option name="ktap-result-parser-resolution" value="INDIVIDUAL_LEAVES" />
+        <option name='binary' key='drivers/rtc/lib_test' value='/data/kunit/lib_test.ko' />
+        <option name='binary' key='fs/ext4/ext4-inode-test' value='/data/kunit/ext4-inode-test.ko' />
+        <option name='binary' key='fs/fat/fat_test' value='/data/kunit/fat_test.ko' />
+        <option name='binary' key='kernel/time/time_test' value='/data/kunit/time_test.ko' />
+        <option name='binary' key='sound/soc/soc-utils-test' value='/data/kunit/soc-utils-test.ko' />
+        <option name='binary' key='vendor/oplus/kernel/boot' value='/data/kunit/oplus_kunit_example_test_module.ko' />
+
+    </test>
+</configuration>
+

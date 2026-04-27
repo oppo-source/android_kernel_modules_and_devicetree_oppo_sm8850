@@ -1,0 +1,11 @@
+/dts-v1/;
+/plugin/;
+#include "../display/canoe-sde-display-mtp-overlay.dts"
+#include "canoe-display-overlay-common.dtsi"
+#include "iceland-25926-display-canoe-overlay.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Canoe MTP,iceland";
+
+	oplus,project-id = <25927>;
+};

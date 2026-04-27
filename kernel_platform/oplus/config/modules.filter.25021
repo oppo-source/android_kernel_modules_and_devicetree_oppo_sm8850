@@ -1,0 +1,5 @@
+wsa885x_i2c_dlkm.ko
+oplus_audio_tfa98xx.ko
+oplus_bsp_pogo_keyboard.ko
+leds_aw210xx_algo.ko
+oplus_wireless_pen_mt5806.ko

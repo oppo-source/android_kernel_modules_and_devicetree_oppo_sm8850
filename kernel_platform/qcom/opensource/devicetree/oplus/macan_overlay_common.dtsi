@@ -1,0 +1,169 @@
+&soc {
+  //#ifdef OPLUS_FEATURE_ESIM
+  oplus-gpio {
+    compatible = "oplus,oplus-gpio";
+    pinctrl-names = "oplus_esim", "sim2_det_no_pull", "sim2_det_pull_high", "sim2_det_pull_low";
+    pinctrl-0 = <&esim_en_gpio>;
+    pinctrl-1 = <&sim2_det_no_pull>;
+    pinctrl-2 = <&sim2_det_pull_high>;
+    pinctrl-3 = <&sim2_det_pull_low>;
+    oplus,oplus-esim-en = <&pm8550_gpios 11 GPIO_ACTIVE_LOW>;
+    oplus,oplus-sim2-det = <&pm8550ve_f_gpios 4 0>;
+    oplus,uim-reset-pin = "modem_solution";
+  };
+  //#ifdef CONFIG_HMBIRD_SCHED
+  oplus,hmbird {
+     config_type {
+          type = "HMBIRD_EXT";
+     };
+  };
+  //#endif /* CONFIG_HMBIRD_SCHED */
+  oplus_sim_detect {
+    compatible = "oplus, sim_detect";
+    Hw,sim_det = "modem_det";
+  };
+  //#endif /*OPLUS_FEATURE_ESIM*/
+    //#ifdef OPLUS_FEATURE_THERMAL_HORAE
+    shell_front {
+        compatible = "oplus,shell-temp";
+    };
+
+    shell_frame {
+        compatible = "oplus,shell-temp";
+    };
+
+    shell_back {
+        compatible = "oplus,shell-temp";
+    };
+    //#endif /* OPLUS_FEATURE_THERMAL_HORAE */
+};
+
+&pm8550_gpios {
+  esim_en_gpio: esim_en_gpio {
+      pins = "gpio11";
+      function = "normal";
+      bias-disable; /* NO pull */
+      qcom,drive-strength = <2>; /* 2 MA */
+      power-source = <2>; /* 1.2V */
+      output-high;
+  };
+};
+
+&pm8550ve_f_gpios {
+    sim2_det_no_pull: sim2_det_no_pull {
+        pins = "gpio4";
+        function = "normal";
+        input-enable;
+        power-source = <1>;
+        bias-disable;
+    };
+
+    sim2_det_pull_high: sim2_det_pull_high {
+        pins = "gpio4";
+        function = "normal";
+        input-enable;
+        power-source = <1>;
+        bias-pull-up;
+    };
+
+    sim2_det_pull_low: sim2_det_pull_low {
+        pins = "gpio4";
+        function = "normal";
+        input-enable;
+        power-source = <1>;
+        bias-pull-down;
+    };
+};
+
+&pmk8550_vadc {
+    oled_ntc_therm {
+        reg = <PM8550_ADC5_GEN3_AMUX_THM3_100K_PU>;
+        label = "oled_ntc_therm";
+        qcom,ratiometric;
+        qcom,hw-settle-time = <200>;
+        qcom,pre-scaling = <1 1>;
+        qcom,adc-tm-type = <1>;
+    };
+
+    board_ntc_therm {
+        reg = <PM8550_ADC5_GEN3_AMUX_THM5_100K_PU>;
+        label = "board_ntc_therm";
+        qcom,ratiometric;
+        qcom,hw-settle-time = <200>;
+        qcom,pre-scaling = <1 1>;
+        qcom,adc-tm-type = <1>;
+    };
+
+    wlan_ntc_therm {
+        reg = <PMK8550_ADC5_GEN3_AMUX_THM2_GPIO1_100K_PU>;
+        label = "wlan_ntc_therm";
+        qcom,ratiometric;
+        qcom,hw-settle-time = <200>;
+        qcom,pre-scaling = <1 1>;
+        qcom,adc-tm-type = <1>;
+    };
+
+    slave_cp_therm {
+        reg = <PMK8550_ADC5_GEN3_AMUX_THM3_GPIO2_100K_PU>;
+        label = "slave_cp_therm";
+        qcom,ratiometric;
+        qcom,hw-settle-time = <200>;
+        qcom,pre-scaling = <1 1>;
+        qcom,adc-tm-type = <1>;
+    };
+};
+
+&thermal_zones {
+    oled_ntc_usr {
+        polling-delay-passive = <0>;
+        polling-delay = <0>;
+        thermal-sensors = <&pmk8550_vadc PM8550_ADC5_GEN3_AMUX_THM3_100K_PU>;
+        trips {
+            active-config0 {
+                temperature = <125000>;
+                hysteresis = <1000>;
+                type = "passive";
+            };
+        };
+    };
+
+    board_ntc_usr {
+        polling-delay-passive = <0>;
+        polling-delay = <0>;
+        thermal-sensors = <&pmk8550_vadc PM8550_ADC5_GEN3_AMUX_THM5_100K_PU>;
+        trips {
+            active-config0 {
+                temperature = <125000>;
+                hysteresis = <1000>;
+                type = "passive";
+            };
+        };
+    };
+
+    wlan_ntc_usr {
+        polling-delay-passive = <0>;
+        polling-delay = <0>;
+        thermal-sensors = <&pmk8550_vadc PMK8550_ADC5_GEN3_AMUX_THM2_GPIO1_100K_PU>;
+        trips {
+            active-config0 {
+                temperature = <125000>;
+                hysteresis = <1000>;
+                type = "passive";
+            };
+        };
+    };
+
+    slave_cp_ntc {
+        polling-delay-passive = <0>;
+        polling-delay = <0>;
+        thermal-sensors = <&pmk8550_vadc PMK8550_ADC5_GEN3_AMUX_THM3_GPIO2_100K_PU>;
+        trips {
+            active-config0 {
+                temperature = <125000>;
+                hysteresis = <1000>;
+                type = "passive";
+            };
+        };
+    };
+};
+

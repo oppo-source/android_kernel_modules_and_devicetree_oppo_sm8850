@@ -1,0 +1,13 @@
+/*
+ *   <author>     <data>      <desc>
+ *   LiFenfen   2024/09/09  , select BDF by device-tree , bug id 7902090
+ */
+
+/dts-v1/;
+/plugin/;
+#include "tablet-canoe-peach-cnss-overlay.dtsi"
+
+/ {
+	model = "OPLUS WLAN TABLET";
+	oplus,project-id = <25929 25980 25928 25926 25927 25978>;
+};

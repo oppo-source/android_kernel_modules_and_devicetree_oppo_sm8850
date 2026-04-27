@@ -1,0 +1,159 @@
+/***************************************************************
+** Copyright (C), 2024, OPLUS Mobile Comm Corp., Ltd
+**
+** Description : diplay common config
+** Version : NA
+** Date : 2024/06/19
+** Author : Oplus Display
+******************************************************************/
+            qcom,mdss-dsi-h-right-border = <0>;
+            qcom,mdss-dsi-v-top-border = <0>;
+            qcom,mdss-dsi-v-bottom-border = <0>;
+            qcom,mdss-dsi-h-left-border = <0>;
+
+            qcom,dsi-panel-date-switch-command = [
+                39 00 00 00 00 00 04 FF 5A A5 1D
+            ];
+            qcom,dsi-panel-btb-switch-command = [
+                39 00 00 00 00 00 04 FF 5A A5 1D
+            ];
+            qcom,mdss-dsi-esd-switch-page-command = [
+                39 00 00 00 00 00 04 FF 5A A5 00
+            ];
+            qcom,mdss-dsi-default-switch-page-command = [
+                39 00 00 00 00 00 04 FF 5A A5 00
+            ];
+            qcom,mdss-dsi-panel-info-switch-page-command = [
+            ];
+
+            oplus,dsi-panel-gamma-compensation-page0-command = [
+            ];
+            oplus,dsi-panel-gamma-compensation-page1-command = [
+            ];
+            oplus,dsi-panel-gamma-compensation-command = [
+            ];
+
+            oplus,mdss-dsi-dynamic-float-te-command = [
+                39 00 00 40 00 00 04 FF 5A A5 22
+                39 00 00 40 00 00 08 D8 01 17 11 10 36 1B 1B
+                39 00 00 40 00 00 08 D9 01 1B 11 10 36 1B 1B
+                39 00 00 40 00 00 08 DA 01 0F 11 10 2F 1A 1A
+                39 00 00 40 00 00 0A DC 84 94 BB 00 20 C4 A1 CC 10
+                15 00 00 40 00 00 02 DD 01
+                15 00 00 40 00 00 02 DE F1
+                15 00 00 40 00 00 02 DF 80
+                39 00 00 40 00 00 07 E0 02 00 5F 21 00 28
+                39 00 00 40 00 00 04 FF 5A A5 00
+                15 00 00 40 00 00 02 7D 00
+                39 00 00 40 00 00 04 FF 5A A5 1E
+                39 00 00 40 00 00 1F 93 AA E7 E7 E7 E7 BF E4 2F 2C 29 FF 29 29 29 29 FA 29 29 50 50 AA 50 50 50 50 AA 50 50 50 50
+                39 00 00 40 00 00 1F 8E AA E7 E7 E7 E7 BF E4 2F 2C 29 FF 29 29 29 29 FA 29 29 50 50 AA 50 50 50 50 AA 50 50 50 50
+                39 00 00 00 00 00 04 FF 5A A5 00
+            ];
+            oplus,mdss-dsi-dynamic-float-default-te-command = [
+                39 00 00 40 00 00 04 FF 5A A5 22
+                39 00 00 40 00 00 08 D8 01 1C 11 10 36 1B 1B
+                39 00 00 40 00 00 08 D9 01 1D 11 10 36 1B 1B
+                39 00 00 40 00 00 08 DA 01 12 11 10 2F 1A 1A
+                39 00 00 40 00 00 0A DC 84 94 BB 00 20 C4 A1 CC 10
+                15 00 00 40 00 00 02 DD 01
+                15 00 00 40 00 00 02 DE F1
+                15 00 00 40 00 00 02 DF 80
+                39 00 00 40 00 00 07 E0 02 00 5F 21 00 28
+                39 00 00 40 00 00 04 FF 5A A5 00
+                15 00 00 40 00 00 02 7D 00
+                39 00 00 40 00 00 04 FF 5A A5 1E
+                39 00 00 40 00 00 1F 93 AA EA EA EA EA BF EA 37 37 37 FF 37 37 37 37 FA 37 37 5A 5A AA 5A 5A 5A 5A AA 5A 5A 5A 5A
+                39 00 00 40 00 00 1F 8E AA EA EA EA EA BF EA 37 37 37 FF 37 37 37 37 FA 37 37 5A 5A AA 5A 5A 5A 5A AA 5A 5A 5A 5A
+                39 00 00 00 00 00 04 FF 5A A5 00
+            ];
+
+            qcom,mdss-dsi-lp1-command = [
+                39 00 00 40 00 00 04 FF 5A A5 00
+                39 00 00 40 00 00 05 51 00 00 03 DD
+                39 00 00 40 00 00 04 FF 5A A5 08
+                15 00 00 40 00 00 02 98 02
+                39 00 00 40 00 00 04 FF 5A A5 4F
+                15 00 00 40 00 00 02 80 01
+                15 00 00 40 00 00 02 81 06
+                15 00 00 40 00 00 02 88 78
+                39 00 00 40 00 00 04 FF 5A A5 51
+                39 00 00 40 00 00 07 C0 7C 68 22 F0 11 01
+                39 00 00 40 00 00 07 C1 6E 64 3C 3C 00 00
+                39 00 00 40 00 00 07 C2 CC CC CC CC 11 11
+                39 00 00 40 00 00 07 C3 CC CC CC CC 11 11
+                39 00 00 40 00 00 04 FF 5A A5 4F
+                15 00 00 40 00 00 02 8A 78
+                39 00 00 40 00 00 04 FF 5A A5 00
+                15 00 00 40 00 00 02 39 00
+                39 00 00 40 00 00 04 FF 5A A5 51
+                39 00 00 40 00 00 07 C0 7C 68 22 F0 11 01
+                39 00 00 40 00 00 07 C1 6E 64 3C 3C 00 00
+                39 00 00 40 00 00 07 C2 3C 3C 3C 1E 00 00
+                39 00 00 40 00 00 07 C3 1E 1E CC CC 00 11
+                39 00 00 40 00 00 04 FF 5A A5 08
+                15 00 00 40 00 00 02 98 A6
+                39 00 00 40 00 00 04 FF 5A A5 00
+                15 00 00 40 00 00 02 00 00
+                39 00 00 40 00 00 04 FF 5A A5 4F
+                15 00 00 00 00 00 02 8B 78
+            ];
+            qcom,mdss-dsi-nolp-command = [
+                39 00 00 40 00 00 04 FF 5A A5 00
+                05 00 00 40 00 00 01 38
+                39 00 00 00 00 00 05 51 00 00 00 00
+            ];
+            qcom,mdss-dsi-aod-high-mode-command = [
+                39 00 00 40 00 00 04 FF 5A A5 00
+                39 00 00 40 00 00 05 51 00 00 03 DD
+                39 00 00 00 00 00 04 FF 5A A5 00
+            ];
+            qcom,mdss-dsi-aod-low-mode-command = [
+                39 00 00 40 00 00 04 FF 5A A5 00
+                39 00 00 40 00 00 05 51 00 00 01 CA
+                39 00 00 00 00 00 04 FF 5A A5 00
+            ];
+            qcom,mdss-dsi-ultra-low-power-aod-on-command = [
+                39 00 00 40 00 00 04 FF 5A A5 2D
+                39 00 00 00 00 00 02 92 1D
+            ];
+            qcom,mdss-dsi-ultra-low-power-aod-off-command = [
+                39 00 00 40 00 00 04 FF 5A A5 2D
+                39 00 00 00 00 00 02 92 00
+            ];
+
+            qcom,mdss-dsi-panel-info-switch-page-command-state = "dsi_lp_mode";
+            qcom,mdss-dsi-timing-switch-high-fre-command-state = "dsi_hs_mode";
+            qcom,mdss-dsi-timing-switch-command-state = "dsi_hs_sync1_mode";
+            qcom,mdss-dsi-on-command-state = "dsi_lp_mode";
+            qcom,mdss-dsi-off-command-state = "dsi_hs_mode";
+            qcom,mdss-dsi-pwm-switch-mode2-panel-on-command-state = "dsi_hs_sync1_mode";
+            qcom,mdss-dsi-pwm-switch-mode0-command-state = "dsi_hs_sync1_mode";
+            qcom,mdss-dsi-pwm-switch-mode2-command-state = "dsi_hs_sync2_mode";
+            qcom,mdss-dsi-timming-switch-pwm-mode2-command-state = "dsi_hs_sync1_mode";
+            qcom,mdss-dsi-pwm-switch-onepulse-command-state = "dsi_hs_sync1_mode";
+
+            qcom,mdss-dsi-pwm-state-l2tol3-command-state = "dsi_hs_sync1_mode";
+            qcom,mdss-dsi-pwm-state-l3tol2-command-state = "dsi_hs_sync1_mode";
+            qcom,mdss-dsi-pwm-state-l1tol3-command-state = "dsi_hs_sync1_mode";
+            qcom,mdss-dsi-pwm-state-l3tol1-command-state = "dsi_hs_sync1_mode";
+
+            qcom,dsi-panel-date-switch-command-state = "dsi_lp_mode";
+            qcom,dsi-panel-btb-switch-command-state = "dsi_hs_mode";
+            qcom,mdss-dsi-esd-switch-page-command-state = "dsi_lp_mode";
+            qcom,mdss-dsi-default-switch-page-command-state = "dsi_lp_mode";
+            qcom,mdss-dsi-lpwm-pulse-command-state = "dsi_hs_mode";
+            qcom,mdss-dsi-hpwm-pulse-command-state = "dsi_hs_mode";
+            qcom,mdss-dsi-change-voltage-before-bl-0-command-state = "dsi_hs_mode";
+
+            qcom,mdss-dsi-on-high-fre-command-state = "dsi_lp_mode";
+            qcom,mdss-dsi-temperature-compensation-command-state = "dsi_hs_mode";
+            qcom,mdss-dsi-read-compensation-reg1-command-state = "dsi_hs_mode";
+
+            oplus,dsi-panel-gamma-compensation-page0-command-state = "dsi_hs_mode";
+            oplus,dsi-panel-gamma-compensation-page1-command-state = "dsi_hs_mode";
+            oplus,dsi-panel-gamma-compensation-command-state = "dsi_hs_mode";
+            qcom,mdss-dsi-timing-switch-compensation-command-state = "dsi_hs_sync2_mode";
+
+            /* SPR CONFIG */
+            qcom,src-chroma-format = <1>;

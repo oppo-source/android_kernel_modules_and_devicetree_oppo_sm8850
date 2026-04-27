@@ -1,0 +1,22 @@
+/dts-v1/;
+/plugin/;
+#include "../qcom/canoe-mtp-overlay.dtso"
+#include <dt-bindings/oplus/hw-id.h>
+#include "canoe_overlay_common.dtsi"
+#include "dengta_overlay_common.dtsi"
+#include "mm/dengta-25021-canoe-mm.dtsi"
+#include "security/dengta-25021-canoe-security.dtsi"
+#include "sensor/dengta-sensor-25021.dtsi"
+#include "tp/dengta-oplus-tp-25021.dtsi"
+#include "oplus_misc/oplus-misc-25211.dtsi"
+#include "oplus_icc/dengta-25021-icc.dtsi"
+#include "oplus_chg/oplus-chg-25021.dtsi"
+#include "oplus_chg/oplus-chg-25211.dtsi"
+#include "oplus_nfc/dengta-sn220.dtsi"
+#include "oplus_uff/oplus-uff-25021.dtsi"
+
+/ {
+    model = "Qualcomm Technologies, Inc. Canoe MTP,dengta";
+    oplus,project-id = <25211 25212>;
+    oplus,hw-id = <OPLUS_PRE_T0 OPLUS_EVB1 OPLUS_EVB2 OPLUS_EVB3 OPLUS_T0 OPLUS_EVT1 OPLUS_EVT2 OPLUS_DVT1 OPLUS_DVT2 OPLUS_PVT1>;
+};

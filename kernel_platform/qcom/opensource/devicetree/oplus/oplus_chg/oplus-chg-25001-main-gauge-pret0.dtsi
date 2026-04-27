@@ -1,0 +1,90 @@
+&qupv3_se3_i2c_sda_active {
+	mux {
+		pins = "gpio44";
+		function = "qup1_se3_l0";
+	};
+
+	config {
+		pins = "gpio44";
+		drive-strength = <2>;
+		bias-disable;
+	};
+};
+
+&qupv3_se3_i2c_scl_active {
+	mux {
+		pins = "gpio45";
+		function = "qup1_se3_l1";
+	};
+
+	config {
+		pins = "gpio45";
+		drive-strength = <2>;
+		bias-disable;
+	};
+};
+
+&qupv3_se3_i2c {
+	status = "ok";
+	qcom,clk-freq-out = <100000>;
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&qupv3_se3_i2c_sda_active>, <&qupv3_se3_i2c_scl_active>;
+	pinctrl-1 = <&qupv3_se3_i2c_sleep>;
+
+	oplus_ext_gauge_main: bq27541-battery-0@55 {
+		status = "okay";
+		compatible = "oplus,bq27541-battery";
+		reg = <0x55>;
+		qcom,modify-soc-smooth;
+		qcom,sha1_key_index = <1>;
+		oplus,batt_num = <2>;
+		qcom,gauge_num = <0>;
+		oplus,capacity-pct = <55>;
+		oplus,ic_type = <OPLUS_CHG_IC_GAUGE>;
+		oplus,ic_index = <0>;
+		oplus,support_extern_cmd;
+		oplus,batt_nfg8011b;
+		oplus,calib_info_save_support;
+	};
+
+	oplus_sy6603_bal: oplus,sy6603-bal@36 {
+		status = "okay";
+		compatible = "oplus,sy6603-bal";
+		reg = <0x36>;
+
+		oplus,ic_type = <OPLUS_CHG_IC_BATT_BAL>;
+		oplus,ic_index = <0>;
+
+		sy6603,int-gpio = <&tlmm 201 0x00>;
+		sy6603,en-gpio = <&pmh0110_f_gpios 11 0x00>;
+		sy6603,pmos-en-gpio = <&pmih010x_gpios 11 0x00>;
+		pinctrl-names = "sy6603_en_gpio_active", "sy6603_en_gpio_sleep",
+				"sy6603_pmos_en_gpio_active", "sy6603_pmos_en_gpio_sleep",
+				"sy6603_int_gpio_default";
+		pinctrl-0 = <&sy6603_en_gpio_active>;
+		pinctrl-1 = <&sy6603_en_gpio_sleep>;
+		pinctrl-2 = <&sy6603_pmos_en_gpio_active>;
+		pinctrl-3 = <&sy6603_pmos_en_gpio_sleep>;
+		pinctrl-4 = <&sy6603_int_gpio_default>;
+	};
+
+	byb_hl7603: byb-hl7603-0@75 {
+		status = "okay";
+		compatible = "oplus,byb-hl7603";
+		reg = <0x75>;
+		oplus,ic_type = <OPLUS_CHG_IC_BOOST>;
+		oplus,ic_index = <0>;
+		oplus,vout-mv = <2900>;
+		oplus,ilim-ma = <8500>;
+	};
+
+	byb_hl7603_second: byb-hl7603-01@77 {
+		status = "okay";
+		compatible = "oplus,byb-hl7603";
+		reg = <0x77>;
+		oplus,ic_type = <OPLUS_CHG_IC_BOOST>;
+		oplus,ic_index = <1>;
+		oplus,vout-mv = <2900>;
+		oplus,ilim-ma = <8500>;
+	};
+};

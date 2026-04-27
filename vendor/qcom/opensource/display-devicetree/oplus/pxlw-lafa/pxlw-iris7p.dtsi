@@ -1,0 +1,234 @@
+/* Copyright (c) 2020, Pixelworks
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+
+#include "pxlw-iris7p-cfg-lafa-AE084-P-7-A0020-dsc-cmd.dtsi"
+#include "pxlw-iris7p-cfg-lafa-AE084-P-3-A0033-dsc-cmd.dtsi"
+&dsi_panel_AE084_P_7_A0020_dsc_cmd {
+	qcom,iris-supply-entries = <&dsi_iris_pwr_supply>;
+	pxlw,iris-lightup-config = <&mdss_iris7p_cfg_lafa_AE084_P_7_A0020_dsc_cmd>;
+};
+
+&dsi_panel_AE084_P_3_A0033_dsc_cmd {
+	qcom,iris-supply-entries = <&dsi_iris_pwr_supply>;
+	pxlw,iris-lightup-config = <&mdss_iris7p_cfg_lafa_AE084_P_3_A0033_dsc_cmd>;
+};
+
+&dsi_panel_AE084_P_3_A0033_dsc_cmd_dvt02 {
+	qcom,iris-supply-entries = <&dsi_iris_pwr_supply>;
+	pxlw,iris-lightup-config = <&mdss_iris7p_cfg_lafa_AE084_P_3_A0033_dsc_cmd>;
+};
+
+&dsi_panel_AE084_P_3_A0033_dsc_cmd_dvt03 {
+	qcom,iris-supply-entries = <&dsi_iris_pwr_supply>;
+	pxlw,iris-lightup-config = <&mdss_iris7p_cfg_lafa_AE084_P_3_A0033_dsc_cmd>;
+};
+
+&dsi_vtdr6130_amoled_video {
+	qcom,iris-supply-entries = <&dsi_iris_pwr_supply>;
+	pxlw,iris-lightup-config = <&mdss_iris7p_cfg_lafa_AE084_P_7_A0020_dsc_cmd>; /* For PCBA-TEST without panel */
+};
+
+&qupv3_se22_i2c {
+       status = "ok";
+       qcom,clk-freq-out = <400000>;
+       pixelworks@26 {  //i2c: 22, i3c: 26
+               status = "ok";
+               compatible = "pixelworks,iris";
+               reg = <0x26>;
+        };
+
+       pixelworks@22 {  //i2c: 22, i3c: 26
+               status = "ok";
+               compatible = "pixelworks,iris-i2c";
+               reg = <0x22>;
+        };
+};
+
+&tlmm {
+	pxlw_iris_gpio: pxlw_iris_gpio {
+		iris_abyp_ready_active: iris_abyp_ready_active {
+			mux {
+				pins = "gpio172";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio172";
+				drive-strength = <8>;
+				bias-disable;
+			};
+		};
+
+		iris_abyp_ready_suspend: iris_abyp_ready_suspend {
+			mux {
+				pins = "gpio172";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio172";
+				drive-strength = <2>;
+				bias-pull-down;
+			};
+		};
+
+		iris_vdd0p9_active: iris_vdd0p9_active {
+			mux {
+				pins = "gpio210";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio210";
+				drive-strength = <8>;
+				bias-disable;
+			};
+		};
+
+		iris_vdd0p9_suspend: iris_vdd0p9_suspend {
+			mux {
+				pins = "gpio210";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio210";
+				drive-strength = <2>;
+				bias-pull-down;
+			};
+		};
+	};
+};
+
+&pmh0110_g_gpios {
+        iris_reset_active: iris_reset_active {
+                pins = "gpio9";
+                function = "normal";
+                qcom,drive-strength = <2>;
+                input-disable;
+                output-enable;
+                power-source = <1>; /* 1.8 V */
+        };
+
+        iris_reset_suspend: iris_reset_suspend {
+                pins = "gpio9";
+                function = "normal";
+                qcom,drive-strength = <2>;
+                input-disable;
+                output-enable;
+                output-low;
+        };
+
+		iris_wakeup_active: iris_wakeup_active {
+                pins = "gpio8";
+                function = "normal";
+                qcom,drive-strength = <2>;
+                input-disable;
+                output-enable;
+                output-low;
+                power-source = <1>; /* 1.8 V */
+        };
+
+        iris_wakeup_suspend: iris_wakeup_suspend {
+                pins = "gpio8";
+                function = "normal";
+                qcom,drive-strength = <2>;
+                input-disable;
+                output-enable;
+                output-low;
+        };
+};
+
+&pmh0110_i_gpios {
+	iris_abyp_ready_1p8_active: iris_abyp_ready_1p8_active {
+		pins = "gpio8";
+		function = "paired";
+		input-enable;
+		output-disable;
+		power-source = <1>; /* 1.8v */
+	};
+
+	iris_abyp_ready_1p2_active: iris_abyp_ready_1p2_active {
+		pins = "gpio7";
+		function = "paired";
+		input-disable;
+		output-enable;
+		power-source = <2>; /* 1.2v */
+	};
+
+	iris_abyp_ready_1p8_suspend: iris_abyp_ready_1p8_suspend {
+		pins = "gpio8";
+		function = "normal";
+		qcom,drive-strength = <2>;
+		input-disable;
+		output-enable;
+		output-low;
+	};
+
+	iris_abyp_ready_1p2_suspend: iris_abyp_ready_1p2_suspend {
+		pins = "gpio7";
+		function = "normal";
+		qcom,drive-strength = <2>;
+		input-disable;
+		output-enable;
+		output-low;
+	};
+};
+
+&soc {
+	dsi_iris_pwr_supply: dsi_iris_pwr_supply {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		qcom,panel-supply-entry@0 {
+			reg = <0>;
+			qcom,supply-name = "px_v18r";
+			qcom,supply-min-voltage = <1800000>;
+			qcom,supply-max-voltage = <1800000>;
+			qcom,supply-enable-load = <62000>;
+			qcom,supply-disable-load = <80>;
+			qcom,supply-post-on-sleep = <0>;
+		};
+	};
+};
+
+&sde_dsi {
+	px_v18r-supply = <&L12B>;
+};
+
+&soc {
+	pxlw,iris {
+		compatible = "pxlw,iris";
+		index = <0>;
+
+		pinctrl-names = "iris_active", "iris_suspend";
+		pinctrl-0 = <&iris_reset_active &iris_wakeup_active &iris_abyp_ready_1p8_active &iris_abyp_ready_1p2_active &iris_abyp_ready_active >;
+		pinctrl-1 = <&iris_reset_suspend &iris_wakeup_suspend &iris_abyp_ready_1p8_suspend &iris_abyp_ready_1p2_suspend &iris_abyp_ready_suspend>;
+
+		iris-vdd-gpio = <&tlmm 210 0>;
+		iris-reset-gpios = <&pmh0110_g_gpios 9 0>;
+		iris-wakeup-gpios = <&pmh0110_g_gpios 8 0>;
+		iris-abyp-ready-gpios = <&tlmm 172 0>;
+		pxlw,iris-capability = <0x1 0x1 0x7 0x377 0x3>;
+	};
+
+	// add iris chip type node according to hardware
+	// options:
+	//	pxlw,iris5
+	//	pxlw,iris7
+	//	pxlw,iris7p
+	//	pxlw,iris8
+	pxlw,iris7p {
+		compatible = "pxlw,iris7p";
+	};
+};

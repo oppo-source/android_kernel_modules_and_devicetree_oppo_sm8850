@@ -1,0 +1,1 @@
+../../../vendor/oplus/kernel/kunit/oplus_kunit_modules.bzl

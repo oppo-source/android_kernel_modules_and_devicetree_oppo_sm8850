@@ -1,0 +1,15 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/oplus/hw-id.h>
+#include "../canoe-audio-mtp.dts"
+
+#include "canoe-audio-overlay-common.dtsi"
+#include "dengta-25021-audio-canoe-overlay.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Canoe MTP,dengta";
+
+	oplus,project-id = <25021 25022 25211 25212>;
+	oplus,hw-id = <OPLUS_DVT1 OPLUS_DVT2 OPLUS_PVT1>;
+};

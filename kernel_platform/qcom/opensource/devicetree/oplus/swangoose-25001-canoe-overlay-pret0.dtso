@@ -1,0 +1,95 @@
+/dts-v1/;
+/plugin/;
+#include "../qcom/canoe-mtp-overlay.dtso"
+#include <dt-bindings/oplus/hw-id.h>
+#include "canoe_overlay_common.dtsi"
+#include "swangoose_overlay_common.dtsi"
+#include "sensor/swangoose-sensor-25001.dtsi"
+#include "oplus_misc/oplus-misc-25001.dtsi"
+#include "oplus_chg/oplus-chg-25001.dtsi"
+#include "oplus_chg/oplus-chg-25001-main-gauge-pret0.dtsi"
+#include "oplus_uff/oplus_fp_25001.dtsi"
+#include "oplus_nfc/swangoose_nfc.dtsi"
+#include "tp/swangoose-oplus-tp-25001.dtsi"
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/interconnect/qcom,canoe.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+#include <dt-bindings/spmi/spmi.h>
+/ {
+    model = "Qualcomm Technologies, Inc. Canoe MTP,swangoose";
+    oplus,project-id = <25001 25201 25002>;
+    oplus,hw-id = <OPLUS_PRE_T0>;
+};
+
+&qupv3_se15_spi {
+    status = "ok";
+    #address-cells = <1>;
+    #size-cells = <0>;
+
+    cetc_rsmc {
+        compatible = "cetc,rsmc";
+        spi-bus-id = <0>;
+        reg = <0>;
+        spi-mode = <0>;
+        spi-max-frequency = <6000000>;
+        pinctrl-names = "irq_active","default";
+        pinctrl-0 = <&satellite_rsmc_ex_int>;
+        pinctrl-1 = <&satellite_rsmc_en_default>;
+        irq_gpio = <&tlmm 195 0x00>;
+        en_gpio = <&pmh0110_g_gpios 7 GPIO_ACTIVE_LOW>;
+        mcu_rst_gpio = <&pmh0110_g_gpios 8 GPIO_ACTIVE_LOW>;
+        rsmc-tcxo-vcc-type = <2>;
+        rsmc-tcxo-vcc-supply = <&L2F>;
+        rsmc-tcxo-vcc-value = <1800000>;
+        tcxo_pwr_after_delay_ms = <10>;
+        rsmc_enable_x801;
+        platform = <1>;
+   };
+};
+
+&tlmm {
+
+    satellite_rsmc_ex_int:satellite_rsmc_ex_int {
+        mux {
+            pins = "gpio195";
+            function = "gpio";
+        };
+
+        config {
+            pins = "gpio195";
+            drive-strength = <2>;
+            bias-disable;
+            input-enable;
+            qcom,apps;
+        };
+    };
+};
+
+
+&pmh0110_g_gpios {
+    satellite_rsmc_en {
+        satellite_rsmc_en_default:satellite_rsmc_en_default {
+            pins = "gpio7";
+            function = "normal";
+            input-disable;
+            output-enable;
+            output-high;
+            power-source = <1>;
+            qcom,drive-strength = <2>;
+        };
+    };
+};
+
+
+
+&pmh0110_g_gpios{
+    satellite_rsmc_nRst:satellite_rsmc_nRst {
+        pins = "gpio8";
+        function = "normal";
+        input-disable;
+        output-enable;
+        output-high;
+        power-source = <1>;
+        qcom,drive-strength = <2>;
+	};
+};

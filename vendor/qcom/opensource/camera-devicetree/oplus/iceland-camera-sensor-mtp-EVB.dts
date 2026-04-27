@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ */
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/clock/qcom,gcc-canoe.h>
+#include <dt-bindings/clock/qcom,camcc-canoe.h>
+#include <dt-bindings/clock/qcom,cambistmclkcc-canoe.h>
+#include <dt-bindings/interconnect/qcom,canoe.h>
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/regulator/qcom,rpmh-regulator-levels.h>
+#include <dt-bindings/clock/qcom,rpmh.h>
+#include <dt-bindings/oplus/hw-id.h>
+
+#include "iceland-camera-sensor-mtp-EVB.dtsi"
+/ {
+	model = "Qualcomm Technologies, Inc. canoe/honu/iceland MTP";
+	compatible = "qcom,canoe", "qcom,canoep", "qcom,canoe-mtp",
+		"qcom,canoep-mtp", "qcom,mtp";
+		oplus,project-id = <25926 25927 25978>;
+		oplus,hw-id = <OPLUS_EVB1 OPLUS_EVB2 OPLUS_EVB3 OPLUS_T0 OPLUS_EVT1 OPLUS_EVT2 OPLUS_DVT1 OPLUS_DVT2 OPLUS_PVT1>;
+};

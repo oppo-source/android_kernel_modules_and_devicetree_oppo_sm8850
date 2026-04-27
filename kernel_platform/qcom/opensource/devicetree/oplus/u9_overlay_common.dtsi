@@ -1,0 +1,288 @@
+&soc {
+  //#ifdef OPLUS_FEATURE_ESIM
+  oplus-gpio {
+    compatible = "oplus,oplus-gpio";
+    pinctrl-names = "oplus_esim", "sim2_det_no_pull", "sim2_det_pull_high", "sim2_det_pull_low";
+    pinctrl-0 = <&esim_en_gpio>;
+    pinctrl-1 = <&sim2_det_no_pull>;
+    pinctrl-2 = <&sim2_det_pull_high>;
+    pinctrl-3 = <&sim2_det_pull_low>;
+    oplus,oplus-esim-en = <&pm8550_gpios 11 GPIO_ACTIVE_LOW>;
+    oplus,oplus-sim2-det = <&pm8550ve_g_gpios 3 0>;
+    oplus,uim-reset-pin = "modem_solution";
+  };
+  oplus_sim_detect {
+    compatible = "oplus, sim_detect";
+    Hw,sim_det = "modem_det";
+  };
+  //#endif /*OPLUS_FEATURE_ESIM*/
+    //#ifdef OPLUS_FEATURE_THERMAL_HORAE
+    shell_front {
+        compatible = "oplus,shell-temp";
+    };
+
+    shell_frame {
+        compatible = "oplus,shell-temp";
+    };
+
+    shell_back {
+        compatible = "oplus,shell-temp";
+    };
+  //#ifdef CONFIG_HMBIRD_SCHED
+  oplus,hmbird {
+    config_type {
+        type = "HMBIRD_EXT";
+    };
+  };
+  //#endif /* CONFIG_HMBIRD_SCHED */
+    //#endif /* OPLUS_FEATURE_THERMAL_HORAE */
+};
+
+&pm8550_gpios {
+  esim_en_gpio: esim_en_gpio {
+      pins = "gpio11";
+      function = "normal";
+      bias-disable; /* NO pull */
+      qcom,drive-strength = <2>; /* 2 MA */
+      power-source = <2>; /* 1.2V */
+      output-high;
+  };
+};
+
+&pm8550ve_g_gpios {
+    sim2_det_no_pull: sim2_det_no_pull {
+        pins = "gpio3";
+        function = "normal";
+        input-enable;
+        power-source = <1>;
+        bias-disable;
+    };
+
+    sim2_det_pull_high: sim2_det_pull_high {
+        pins = "gpio3";
+        function = "normal";
+        input-enable;
+        power-source = <1>;
+        bias-pull-up;
+    };
+
+    sim2_det_pull_low: sim2_det_pull_low {
+        pins = "gpio3";
+        function = "normal";
+        input-enable;
+        power-source = <1>;
+        bias-pull-down;
+    };
+};
+
+&pmk8550_vadc {
+    oled_ntc_therm {
+        reg = <PM8550_ADC5_GEN3_AMUX_THM3_100K_PU>;
+        label = "oled_ntc_therm";
+        qcom,ratiometric;
+        qcom,hw-settle-time = <200>;
+        qcom,pre-scaling = <1 1>;
+        qcom,adc-tm-type = <1>;
+    };
+
+    board_ntc_therm {
+        reg = <PM8550_ADC5_GEN3_AMUX_THM5_100K_PU>;
+        label = "board_ntc_therm";
+        qcom,ratiometric;
+        qcom,hw-settle-time = <200>;
+        qcom,pre-scaling = <1 1>;
+        qcom,adc-tm-type = <1>;
+    };
+
+    wlan_ntc_therm {
+        reg = <PMK8550_ADC5_GEN3_AMUX_THM2_GPIO1_100K_PU>;
+        label = "wlan_ntc_therm";
+        qcom,ratiometric;
+        qcom,hw-settle-time = <200>;
+        qcom,pre-scaling = <1 1>;
+        qcom,adc-tm-type = <1>;
+    };
+
+    slave_cp_therm {
+        reg = <PMK8550_ADC5_GEN3_AMUX_THM3_GPIO2_100K_PU>;
+        label = "slave_cp_therm";
+        qcom,ratiometric;
+        qcom,hw-settle-time = <200>;
+        qcom,pre-scaling = <1 1>;
+        qcom,adc-tm-type = <1>;
+    };
+};
+
+&thermal_zones {
+    oled_ntc_usr {
+        polling-delay-passive = <0>;
+        polling-delay = <0>;
+        thermal-sensors = <&pmk8550_vadc PM8550_ADC5_GEN3_AMUX_THM3_100K_PU>;
+        trips {
+            active-config0 {
+                temperature = <125000>;
+                hysteresis = <1000>;
+                type = "passive";
+            };
+        };
+    };
+
+    board_ntc_usr {
+        polling-delay-passive = <0>;
+        polling-delay = <0>;
+        thermal-sensors = <&pmk8550_vadc PM8550_ADC5_GEN3_AMUX_THM5_100K_PU>;
+        trips {
+            active-config0 {
+                temperature = <125000>;
+                hysteresis = <1000>;
+                type = "passive";
+            };
+        };
+    };
+
+    wlan_ntc_usr {
+        polling-delay-passive = <0>;
+        polling-delay = <0>;
+        thermal-sensors = <&pmk8550_vadc PMK8550_ADC5_GEN3_AMUX_THM2_GPIO1_100K_PU>;
+        trips {
+            active-config0 {
+                temperature = <125000>;
+                hysteresis = <1000>;
+                type = "passive";
+            };
+        };
+    };
+
+    slave_cp_ntc {
+        polling-delay-passive = <0>;
+        polling-delay = <0>;
+        thermal-sensors = <&pmk8550_vadc PMK8550_ADC5_GEN3_AMUX_THM3_GPIO2_100K_PU>;
+        trips {
+            active-config0 {
+                temperature = <125000>;
+                hysteresis = <1000>;
+                type = "passive";
+            };
+        };
+    };
+
+	pm8550-bcl-lvl1 {
+	cooling-maps {
+			vph_lvl_1 {
+				trip = <&bcl_lvl1>;
+				cooling-device = <&modem_bcl 0 2>,
+					<&msm_gpu 0 11>;
+			};
+		};
+	};
+
+	pm8550-bcl-lvl2 {
+	cooling-maps {
+			vph_lvl_2 {
+				trip = <&bcl_lvl2>;
+				cooling-device = <&msm_gpu 0 13>;
+			};
+		};
+	};
+
+    pm7550ba-bcl-lvl1 {
+		cooling-maps {
+			lbat_lvl1 {
+				trip = <&b_bcl_lvl1>;
+				cooling-device = <&modem_bcl 0 2>,
+					<&msm_gpu 0 11>;
+			};
+		};
+	};
+
+	pm7550ba-bcl-lvl2 {
+		cooling-maps {
+			lbat_gpu2 {
+				trip = <&b_bcl_lvl2>;
+				cooling-device = <&msm_gpu 0 13>;
+			};
+		};
+	};
+
+	socd {
+		cooling-maps {
+			socd_map {
+				trip = <&socd_trip>;
+				cooling-device =
+/* #ifdef OPLUS_FEATURE_CHG_BASIC */
+/* change big core: 2.2G, super core 2.4G */
+					<&CPU0 THERMAL_NO_LIMIT 9>,
+					<&CPU6 THERMAL_NO_LIMIT 10>,
+/* #else */
+					/* <&APC1_MX_CX_PAUSE 0 1>, */
+/* #endif */
+					<&cdsp_sw 0 4>,
+					<&msm_gpu 0 10>;
+			};
+		};
+	};
+
+};
+
+&pm8550_led_flash {
+    pm8550_flash_led3: led-3 {
+        function = LED_FUNCTION_FLASH;
+        color = <LED_COLOR_ID_YELLOW>;
+        led-sources = <1>;
+        led-max-microamp = <500000>;
+        flash-max-microamp = <2000000>;
+        flash-max-timeout-us = <1280000>;
+        function-enumerator = <0>;
+    };
+};
+
+&qupv3_se8_i2c {
+    compatible = "qcom,i2c-geni";
+    pinctrl-names = "default", "sleep";
+    pinctrl-0 = <&qupv3_se8_front_i2c_sda_active>, <&qupv3_se8_front_i2c_scl_active>;
+    pinctrl-1 = <&qupv3_se8_front_i2c_sleep>;
+    status = "ok";
+};
+
+&qupv3_se8_i2c_pins {
+    qupv3_se8_front_i2c_sda_active: qupv3_se8_front_i2c_sda_active {
+        mux {
+            pins = "gpio0";
+            function = "qup2_se0_l0";
+        };
+
+        config {
+            pins = "gpio0";
+            drive-strength = <2>;
+            bias-disable;
+            qcom,apps;
+        };
+    };
+
+    qupv3_se8_front_i2c_scl_active: qupv3_se8_front_i2c_scl_active {
+        mux {
+            pins = "gpio1";
+            function = "qup2_se0_l1";
+        };
+
+        config {
+            pins = "gpio1";
+            drive-strength = <2>;
+            bias-disable;
+            qcom,apps;
+        };
+    };
+
+    qupv3_se8_front_i2c_sleep: qupv3_se8_front_i2c_sleep {
+        mux {
+            pins = "gpio0", "gpio1";
+            function = "gpio";
+        };
+
+        config {
+            pins = "gpio0", "gpio1";
+            drive-strength = <2>;
+            qcom,remote;
+        };
+    };
+};

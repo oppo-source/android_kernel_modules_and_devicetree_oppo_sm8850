@@ -1,0 +1,47 @@
+&soc {
+    oplus_mm_config: oplus,mm_config {
+        compatible = "oplus,mm_osvelte-config";
+        ram-8g {
+            oplus_bsp_frr {
+                feature-enable;
+            };
+            ezreclaimd {
+                feature-enable;
+            };
+            kcompressed {
+                feature-enable;
+            };
+            oplus_bsp_mglru_opt {
+                feature-enable;
+            };
+        };
+        ram-12g {
+            oplus_bsp_frr {
+                feature-enable;
+            };
+            ezreclaimd {
+                feature-enable;
+            };
+            kcompressed {
+                feature-enable;
+            };
+            oplus_bsp_mglru_opt {
+                feature-enable;
+            };
+        };
+        ram-16g {
+            oplus_bsp_frr {
+                feature-enable;
+            };
+            ezreclaimd {
+                feature-enable;
+            };
+            kcompressed {
+                feature-enable;
+            };
+            oplus_bsp_mglru_opt {
+                feature-enable;
+            };
+        };
+    };
+};

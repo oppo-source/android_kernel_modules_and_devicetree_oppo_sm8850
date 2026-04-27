@@ -1,0 +1,5 @@
+config OPLUS_SENSOR_DATA_RECORD
+	tristate "for oplus data record"
+	default n
+	help
+	  It support sensor data record.

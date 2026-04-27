@@ -1,0 +1,218 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+&tlmm {
+	pmx_sde: pmx_sde {
+		sde_dsi_active: sde_dsi_active {
+			mux {
+				pins = "gpio12";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio12";
+				drive-strength = <8>;   /* 8 mA */
+				bias-disable = <0>;   /* no pull */
+			};
+		};
+
+		sde_dsi_suspend: sde_dsi_suspend {
+			mux {
+				pins = "gpio12";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio12";
+				drive-strength = <2>;   /* 2 mA */
+				bias-pull-down;         /* PULL DOWN */
+			};
+		};
+
+		sde_dsi1_active: sde_dsi1_active {
+			mux {
+				pins = "gpio127";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio127";
+				drive-strength = <8>;   /* 8 mA */
+				bias-disable = <0>;   /* no pull */
+			};
+		};
+
+		sde_dsi1_suspend: sde_dsi1_suspend {
+			mux {
+				pins = "gpio127";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio127";
+				drive-strength = <2>;   /* 2 mA */
+				bias-pull-down;         /* PULL DOWN */
+			};
+		};
+	};
+
+	pmx_sde_te: pmx_sde_te {
+		sde_te_active: sde_te_active {
+			mux {
+				pins = "gpio17";
+				function = "mdp_vsync_p";
+			};
+
+			config {
+				pins = "gpio17";
+				drive-strength = <2>;   /* 2 mA */
+				bias-pull-down;         /* PULL DOWN */
+			};
+		};
+
+		sde_te_suspend: sde_te_suspend {
+			mux {
+				pins = "gpio17";
+				function = "mdp_vsync_p";
+			};
+
+			config {
+				pins = "gpio17";
+				drive-strength = <2>;   /* 2 mA */
+				bias-pull-down;         /* PULL DOWN */
+			};
+		};
+
+		sde_te1_active: sde_te1_active {
+			mux {
+				pins = "gpio121";
+				function = "mdp_vsync_s";
+			};
+
+			config {
+				pins = "gpio121";
+				drive-strength = <2>;   /* 2 mA */
+				bias-pull-down;         /* PULL DOWN */
+			};
+		};
+
+		sde_te1_suspend: sde_te1_suspend {
+			mux {
+				pins = "gpio121";
+				function = "mdp_vsync_s";
+			};
+
+			config {
+				pins = "gpio121";
+				drive-strength = <2>;   /* 2 mA */
+				bias-pull-down;         /* PULL DOWN */
+			};
+		};
+	};
+
+	hdmi_ddc_scl_active: hdmi_ddc_scl_active {
+		mux {
+			pins = "gpio6";
+			function = "hdmi_ddc_scl";
+		};
+
+		config {
+			pins = "gpio6";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
+
+	hdmi_ddc_scl_suspend: hdmi_ddc_scl_suspend {
+		mux {
+			pins = "gpio6";
+			function = "hdmi_ddc_scl";
+		};
+
+		config {
+			pins = "gpio6";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
+
+	hdmi_ddc_sda_active: hdmi_ddc_sda_active {
+		mux {
+			pins = "gpio7";
+			function = "hdmi_ddc_sda";
+		};
+
+		config {
+			pins = "gpio7";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
+
+	hdmi_ddc_sda_suspend: hdmi_ddc_sda_suspend {
+		mux {
+			pins = "gpio7";
+			function = "hdmi_ddc_sda";
+		};
+
+		config {
+			pins = "gpio7";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
+
+	hdmi_cec_active: hdmi_cec_active {
+		mux {
+			pins = "gpio46";
+			function = "hdmi_tx_cec";
+		};
+
+		config {
+			pins = "gpio46";
+			drive-strength = <16>;
+			bias-pull-up;
+		};
+	};
+
+	hdmi_cec_suspend: hdmi_cec_suspend {
+		mux {
+			pins = "gpio46";
+			function = "hdmi_tx_cec";
+		};
+
+		config {
+			pins = "gpio46";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
+
+	hdmi_hpd_active: hdmi_hpd_active {
+		mux {
+			pins = "gpio47";
+			function = "hdmi_hot_plug";
+		};
+
+		config {
+			pins = "gpio47";
+			drive-strength = <16>;
+			bias-pull-down;
+		};
+	};
+
+	hdmi_hpd_suspend: hdmi_hpd_suspend {
+		mux {
+			pins = "gpio47";
+			function = "hdmi_hot_plug";
+		};
+
+		config {
+			pins = "gpio47";
+			drive-strength = <2>;
+			bias-pull-down;
+		};
+	};
+};

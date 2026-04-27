@@ -1,0 +1,14 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/oplus/hw-id.h>
+#include "../alor-audio-mtp.dts"
+
+#include "alor-audio-overlay-common.dtsi"
+#include "u9-25602-audio-alor-overlay.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Alor MTP,u9";
+
+	oplus,project-id = <25602 25673 25709>;
+};

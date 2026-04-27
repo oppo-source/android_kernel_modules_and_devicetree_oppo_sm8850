@@ -1,0 +1,80 @@
+#include "panel/dsi_panel_XN251_P_D_A0024_dsc_vid.dtsi"
+
+&soc {
+	oplus,dsi-display-dev {
+		oplus,dsi-panel-primary = <
+			&dsi_vtdr6130_amoled_video
+			&dsi_panel_XN251_P_D_A0024_vid
+		>;
+		oplus,dsi-panel-secondary = <
+		>;
+		oplus,dsi-panel-extended = <>;
+	};
+
+	oplus_dsi_panel_custom_pwr_supply: oplus_dsi_panel_custom_pwr_supply {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		qcom,panel-supply-entry@0 {
+			reg = <0>;
+			qcom,supply-name = "vddio";
+			qcom,supply-min-voltage = <1900000>;
+			qcom,supply-max-voltage = <1900000>;
+			qcom,supply-enable-load = <220000>;
+			qcom,supply-disable-load = <8000>;
+			qcom,supply-post-on-sleep = <2>;
+			qcom,supply-pre-off-sleep = <30>;
+		};
+	};
+};
+
+&pmh0110_d_gpios {
+    fte_mout_1p2_active: fte_mout_1p2_active {
+        pins = "gpio7";
+        function = "paired";
+        input-disable;
+        output-enable;
+        power-source = <2>; /* 1.2V */
+    };
+
+    fte_min_1p8_active: fte_mint_1p8_active {
+        pins = "gpio8";
+        function = "paired";
+        input-enable;
+        output-disable;
+        power-source = <1>; /* 1.8V */
+    };
+
+    fte_sout_1p2_active: fte_sout_1p2_active {
+        pins = "gpio9";
+        function = "paired";
+        input-disable;
+        output-enable;
+        power-source = <2>; /* 1.2V */
+    };
+
+    fte_sin_1p8_active: fte_sin_1p8_active {
+        pins = "gpio10";
+        function = "paired";
+        input-enable;
+        output-disable;
+        power-source = <1>; /* 1.8V */
+    };
+};
+
+&sde_dsi {
+	pinctrl-names = "panel_active", "panel_suspend";
+	pinctrl-0 = <&sde_te_active &oplus_sde_dsi_active &fte_mout_1p2_active &fte_min_1p8_active &fte_sout_1p2_active &fte_sin_1p8_active>;
+	pinctrl-1 = <&sde_te_suspend &oplus_sde_dsi_suspend &fte_mout_1p2_active &fte_min_1p8_active &fte_sout_1p2_active &fte_sin_1p8_active>;
+};
+
+&sde_dp {
+		qcom,hbr-rbr-voltage-swing = <0x27 0x2f 0x36 0x3f>,
+					<0x31 0x3e 0x3f 0xff>,
+					<0x3a 0x3f 0xff 0xff>,
+					<0x3f 0xff 0xff 0xff>;
+		qcom,hbr-rbr-pre-emphasis = <0x20 0x2d 0x34 0x3a>,
+					<0x20 0x2e 0x35 0xff>,
+					<0x22 0x2e 0xff 0xff>,
+					<0x22 0xff 0xff 0xff>;
+};

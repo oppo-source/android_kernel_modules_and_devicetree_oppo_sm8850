@@ -1,0 +1,157 @@
+&oplus_virtual_gauge {
+	oplus,gauge_ic = <&oplus_adsp_gauge &maxim_encryption_gauge>;
+	oplus,gauge_ic_index = <0 1>;
+	oplus,gauge_ic_func_group = <&adsp_gauge_groups &maxim_encryption_gauge_groups>;
+};
+
+&oplus_chg_core {
+	oplus-gauge {
+		adsp_gauge_groups: oplus,oplus_adsp_gauge_groups {
+			functions = <
+				OPLUS_IC_FUNC_INIT
+				OPLUS_IC_FUNC_EXIT
+				OPLUS_IC_FUNC_REG_DUMP
+				OPLUS_IC_FUNC_SMT_TEST
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_VOL
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_MAX
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_MIN
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_CURR
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_TEMP
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_SOC
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_FCC
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_CC
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_RM
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_SOH
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_AUTH
+				OPLUS_IC_FUNC_GAUGE_SET_BATT_FULL
+				OPLUS_IC_FUNC_GAUGE_UPDATE_DOD0
+				OPLUS_IC_FUNC_GAUGE_UPDATE_SOC_SMOOTH
+				OPLUS_IC_FUNC_GAUGE_GET_CB_STATUS
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_NUM
+				OPLUS_IC_FUNC_GAUGE_GET_DEVICE_TYPE
+				OPLUS_IC_FUNC_GAUGE_GET_DEVICE_TYPE_FOR_VOOC
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_FCC
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_FC
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_QM
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_PD
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_RCU
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_RCF
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_FCU
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_FCF
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_SOU
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_DO0
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_DOE
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_TRM
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_PC
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_QS
+				OPLUS_IC_FUNC_GAUGE_IS_SUSPEND
+				OPLUS_IC_FUNC_GAUGE_GET_BCC_PARMS
+				OPLUS_IC_FUNC_GAUGE_FASTCHG_UPDATE_BCC_PARMS
+				OPLUS_IC_FUNC_GAUGE_GET_PREV_BCC_PARMS
+				OPLUS_IC_FUNC_GAUGE_SET_BCC_PARMS
+				OPLUS_IC_FUNC_GAUGE_SET_PROTECT_CHECK
+				OPLUS_IC_FUNC_GAUGE_GET_AFI_UPDATE_DONE
+				OPLUS_IC_FUNC_GAUGE_CHECK_RESET
+				OPLUS_IC_FUNC_GAUGE_GET_DEVICE_TYPE_FOR_BCC
+				OPLUS_IC_FUNC_GAUGE_GET_DOD0
+				OPLUS_IC_FUNC_GAUGE_GET_DOD0_PASSED_Q
+				OPLUS_IC_FUNC_GAUGE_GET_QMAX
+				OPLUS_IC_FUNC_GAUGE_GET_QMAX_PASSED_Q
+				OPLUS_IC_FUNC_GAUGE_SET_BATTERY_CURVE
+				OPLUS_IC_FUNC_GAUGE_GET_GAUGE_CAR_C
+				OPLUS_IC_FUNC_GAUGE_GET_DEC_FG_TYPE
+				OPLUS_IC_FUNC_GAUGE_GET_DEC_CV_SOH
+				OPLUS_IC_FUNC_GAUGE_SET_VCT
+				OPLUS_IC_FUNC_GAUGE_GET_VCT
+				OPLUS_IC_FUNC_GAUGE_SET_RESET_GAUGE_DATE
+				OPLUS_IC_FUNC_GAUGE_GET_SUBBOARD_TEMP
+				OPLUS_IC_FUNC_GAUGE_UPDATE
+			>;
+			virqs = <
+				OPLUS_IC_VIRQ_ERR
+				OPLUS_IC_VIRQ_OFFLINE
+				OPLUS_IC_VIRQ_RESUME
+			>;
+		};
+
+		maxim_encryption_gauge_groups: oplus,maxim_encryption_gauge_groups {
+			functions = <
+				OPLUS_IC_FUNC_INIT
+				OPLUS_IC_FUNC_EXIT
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_HMAC
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_HISTSOH_DATA
+				OPLUS_IC_FUNC_GAUGE_SET_BATT_HISTSOH_DATA
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_IC_SN
+				OPLUS_IC_FUNC_GAUGE_GET_BATT_SN
+			>;
+			virqs = <
+				OPLUS_IC_VIRQ_ERR
+			>;
+		};
+	};
+};
+
+&tlmm {
+	maxim_active: maxim_active {
+		mux {
+			pins = "gpio203";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio203";
+			bias-pull-up;
+			drive-strength = <16>;
+		};
+	};
+};
+
+&soc {
+	maxim_encryption_gauge: maxim_gauge {
+		status = "ok";
+		compatible = "oplus-maxim";
+		pinctrl-names = "maxim_active";
+		pinctrl-0 = <&maxim_active>;
+		support_encryption_in_kernel;
+		data-gpio = <&tlmm 203 0x00>;
+		gpio-addr-set-out = <0x0F1CB000>;	/* Address used to config gpio direction as output */
+		gpio-set-out-val = <0x1bc3>;		/* Value used to config gpio direction as output */
+		gpio-addr-set-in = <0x0F1CB000>;	/* Address used to config gpio direction as input */
+		gpio-set-in-val = <0x19c3>;		/* Value used to config gpio direction as input */
+
+		gpio-addr-level_high = <0x0F1CB004>;	/* Address used to config gpio as high */
+		gpio_level_high_val = <0x3>;		/* Value used to config gpio output as high */
+		gpio-addr-level_low = <0x0F1CB004>;	/* Address used to config gpio as low */
+		gpio_level_low_val = <0x0>;		/* Value used to config gpio output as low */
+
+		gpio-addr-data-in = <0x0F1CB004>;	/* Address used to read gpio value */
+		gpio-addr-offset = <0x0>;		/* Address offset used to read gpio value based on gpio-addr-data-in*/
+
+		maxim_trl_ndelay = <500>;
+
+		oplus,ic_type = <OPLUS_CHG_IC_GAUGE>;
+		oplus,ic_index = <1>;
+	};
+};
+
+&oplus_chg_comm {
+	oplus,smooth_switch;
+	oplus,reserve_chg_soc = <1>;
+};
+
+&oplus_smart_charge {
+	oplus,batt_sn_support;
+};
+
+&battery_charger {
+	/* QCOM QBG full param, depend on adapter type and temp_region */
+	oplus,batt_full_method_new;
+	oplus,batt_full_temp = <(-100) 160 350 440>;
+	oplus,batt_full_para = <800  800 2200 2200    /* normal pd qc */
+				1200 1500 2000 3000      /* svooc */
+				1200 1500 2000 2900      /* oplus ufcs */
+				1200 1500 2000 2900      /* oplus pps */
+				1200 1500 2000 2900      /* third ufcs */
+				1200 1500 2000 2900      /* third pps */
+				1500 1500 1300 1300>;    /* ffc */
+};

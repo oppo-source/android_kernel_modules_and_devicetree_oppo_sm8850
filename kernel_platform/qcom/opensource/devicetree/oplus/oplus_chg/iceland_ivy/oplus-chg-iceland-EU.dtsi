@@ -1,0 +1,38 @@
+/* EU MPC8011B */
+#include "oplus-chg-iceland-common.dtsi"
+#include "oplus-chg-iceland-ext_gauge.dtsi"
+#include "oplus-chg-iceland-80w.dtsi"
+
+&soc {
+	oplus_cpa: oplus,cpa {
+		compatible = "oplus,cpa";
+		/* format: <protocol_type power_w> */
+		oplus,protocol_list = <	CHG_PROTOCOL_VOOC 80
+					CHG_PROTOCOL_PPS  55
+					CHG_PROTOCOL_PD   13
+					CHG_PROTOCOL_QC   13>;
+		oplus,default_protocol_list = <	CHG_PROTOCOL_VOOC
+						CHG_PROTOCOL_PPS
+						CHG_PROTOCOL_PD>;
+	};
+};
+
+&oplus_ext_gauge {
+	/* iceland EU:611307000111 */
+	sn-match-config {
+		match-type = <SN_MATCH_REGION>;
+		region_eu_us {
+			region = <REGION_EU REGION_US>;
+			sn = "07000111";
+			status = "okay";
+		};
+	};
+};
+
+&oplus_monitor {
+	track,wired_max_power = <80000>;
+};
+
+&oplus_sc8547d {
+	oplus_spec,voocphy_ibat_over_current = <16000>;
+};

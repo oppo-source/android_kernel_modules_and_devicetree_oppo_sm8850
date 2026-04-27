@@ -1,0 +1,168 @@
+&lpass_bt_swr {
+	status = "ok";
+};
+
+&canoe_snd {
+	qcom,model = "canoe-mtp-snd-card";
+	swr-haptics-unsupported;
+	qcom,wcn-bt = <1>;
+	qcom,audio-routing =
+		"AMIC1", "Analog Mic1",
+		"AMIC1", "MIC BIAS1",
+		"AMIC5", "Analog Mic5",
+		"AMIC5", "MIC BIAS1",
+		"VA AMIC1", "Analog Mic1",
+		"VA AMIC1", "VA MIC BIAS1",
+		"VA AMIC5", "Analog Mic5",
+		"VA AMIC5", "VA MIC BIAS1",
+		"TX DMIC0", "Digital Mic0",
+		"TX DMIC0", "MIC BIAS1",
+		"TX DMIC1", "Digital Mic1",
+		"TX DMIC1", "MIC BIAS1",
+		"TX DMIC2", "Digital Mic2",
+		"TX DMIC2", "MIC BIAS3",
+		"TX DMIC3", "Digital Mic3",
+		"TX DMIC3", "MIC BIAS3",
+		"IN1_HPHL", "HPHL_OUT",
+		"IN2_HPHR", "HPHR_OUT",
+		"IN3_EAR", "AUX_OUT",
+		"RX_TX DEC0_INP", "TX DEC0 MUX",
+		"RX_TX DEC1_INP", "TX DEC1 MUX",
+		"RX_TX DEC2_INP", "TX DEC2 MUX",
+		"RX_TX DEC3_INP", "TX DEC3 MUX",
+		"TX SWR_INPUT", "WCD_TX_OUTPUT",
+		"VA SWR_INPUT", "VA_SWR_CLK",
+		"VA SWR_INPUT", "WCD_TX_OUTPUT",
+		"VA_AIF1 CAP", "VA_SWR_CLK",
+		"VA_AIF2 CAP", "VA_SWR_CLK",
+		"VA_AIF3 CAP", "VA_SWR_CLK",
+		"VA DMIC0", "Digital Mic0",
+		"VA DMIC1", "Digital Mic1",
+		"VA DMIC2", "Digital Mic2",
+		"VA DMIC3", "Digital Mic3",
+		"VA DMIC0", "VA MIC BIAS1",
+		"VA DMIC1", "VA MIC BIAS1",
+		"VA DMIC2", "VA MIC BIAS3",
+		"VA DMIC3", "VA MIC BIAS3";
+
+	qcom,mi2s-audio-intf = <1>;
+	qcom,tdm-audio-intf = <0>;
+	qcom,pri-mi2s-gpios = <&cdc_pri_mi2s_gpios>;
+	asoc-codec  = <&stub_codec>, <&lpass_cdc>,
+		      <&wcd939x_codec>;
+	asoc-codec-names = "msm-stub-codec.1", "lpass-cdc",
+			   "wcd939x_codec";
+};
+
+&cdc_pri_mi2s_gpios {
+	status = "ok";
+};
+
+&qupv3_se0_i2c {
+	status = "ok";
+	qcom,clk-freq-out = <400000>;
+	tfa98xx@34 {
+		compatible = "tfa,tfa98xx-v6";
+		reg = <0x34>;
+		reset-gpio = <&tlmm 2 0x00>;
+		tfa98xx_vdd-supply = <&L15B>;
+		tfa_min_range = <5900>;
+		tfa_max_range = <8100>;
+		tfa_default_mohm = <6800>;
+		f0_range_min = <100>;
+		f0_range_max = <2000>;
+		channel-config = <1>;
+		reset-polarity = <0>;
+		status = "ok";
+	};
+	tfa98xx@35 {
+		compatible = "tfa,tfa98xx-v6";
+		reg = <0x35>;
+		reset-gpio = <&tlmm 160 0x00>;
+		tfa98xx_vdd-supply = <&L15B>;
+		tfa_min_range = <5900>;
+		tfa_max_range = <8100>;
+		tfa_default_mohm = <6800>;
+		f0_range_min = <100>;
+		f0_range_max = <2000>;
+		channel-config = <2>;
+		reset-polarity = <0>;
+		status = "ok";
+	};
+};
+
+&soc {
+	oplus_audio_drv: oplus_audio_drv {
+		compatible = "oplus,asoc-audio";
+		//for tfa speaker
+		oplus,speaker-vendor = "nxp";
+		oplus,speaker-i2s-id = <0>;
+		oplus,speaker-codec-name = "tfa98xx-v6.0-0034", "tfa98xx-v6.0-0035";
+		oplus,speaker-codec-dai-name = "tfa98xx-v6-aif-0-34", "tfa98xx-v6-aif-0-35";
+	};
+};
+
+&wcd939x_codec {
+	qcom,cdc-micbias1-mv = <2700>;
+};
+
+&i2s0_sck_active {
+	config {
+		drive-strength = <4>;   /* 4 mA */
+	};
+};
+
+&i2s0_ws_active {
+	config {
+		drive-strength = <4>;   /* 4 mA */
+	};
+};
+
+&i2s0_sd0_active {
+	config {
+		drive-strength = <4>;   /* 4 mA */
+	};
+};
+
+&i2s0_sd1_active {
+	config {
+		drive-strength = <4>;   /* 4 mA */
+		bias-pull-down;         /* PULL DOWN */
+	};
+};
+
+&swr_tx_clk_active {
+	config {
+		drive-strength = <2>;   /* 2 mA */
+	};
+};
+
+&swr_tx_data0_active {
+	config {
+		drive-strength = <2>;   /* 2 mA */
+	};
+};
+
+&swr_tx_data1_active {
+	config {
+		drive-strength = <2>;   /* 2 mA */
+	};
+};
+
+&swr_tx_data2_active {
+	config {
+		drive-strength = <2>;   /* 2 mA */
+	};
+};
+
+&wcd939x_reset_active {
+	config {
+		drive-strength = <4>;   /* 4 mA */
+	};
+};
+
+&wcd939x_reset_sleep {
+	config {
+		drive-strength = <2>;   /* 2 mA */
+	};
+};

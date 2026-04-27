@@ -1,0 +1,128 @@
+/***************************************************************
+** Copyright (C), 2025, OPLUS Mobile Comm Corp., Ltd
+**
+** Description : diplay common config
+** Version : NA
+** Date : 2025/02/18
+** Author : Oplus Display
+******************************************************************/
+                qcom,mdss-dsi-h-right-border = <0>;
+                qcom,mdss-dsi-v-top-border = <0>;
+                qcom,mdss-dsi-v-bottom-border = <0>;
+                qcom,mdss-dsi-h-left-border = <0>;
+                qcom,mdss-dsi-panel-jitter = <0x4 0x1>;
+                oplus,hbm-max-exit-restore-gir;
+
+                qcom,compression-mode = "dsc";
+                qcom,mdss-dsc-encoders = <2>;
+                qcom,mdss-dsc-slice-per-pkt = <2>;
+                qcom,mdss-dsc-bit-per-component = <10>;
+                qcom,mdss-dsc-bit-per-pixel = <8>;
+                qcom,mdss-dsc-version = <0x12>;
+                qcom,mdss-dsc-block-prediction-enable;
+
+                qcom,dsi-panel-date-switch-command = [
+                    39 00 00 00 00 00 06 F0 55 AA 52 08 01
+                ];
+                qcom,mdss-dsi-esd-switch-page-command = [
+                    39 00 00 00 00 00 06 F0 55 AA 52 08 00
+                ];
+                qcom,mdss-dsi-default-switch-page-command = [
+                    39 00 00 00 00 00 06 F0 55 AA 52 08 00
+                ];
+                qcom,mdss-dsi-panel-info-switch-page-command = [
+                    39 00 00 00 00 00 06 F0 55 AA 52 08 00
+                ];
+                qcom,mdss-dsi-hbm-max-command = [
+                    39 00 00 40 00 00 03 51 0F FF
+                    39 00 00 00 00 00 43 A9 01 00 A2 00 3C 01 02 00 B0 78 78 11 00 00 00 00 00 00 00 02 08 C1 00 07 8F FF FF FF FF FF FF FF 02 08 C1 08 0F FF FF FF FF FF FF FF FF 02 08 C1 10 15 FF FF FF FF 0F FF 00 00 02 08 C1 20 22 0F 29 FF
+                ];
+                qcom,mdss-dsi-hbm-exit-max-command = [
+                    39 00 00 00 00 00 03 51 0D BB
+                ];
+                qcom,mdss-dsi-off-command = [
+                    05 00 00 00 14 00 01 28
+                    05 00 00 00 78 00 01 10
+                ];
+                qcom,dsi-panel-btb-switch-command = [
+                    39 00 00 00 00 00 06 F0 55 AA 52 08 00
+                ];
+                qcom,mdss-dsi-lp1-command = [
+                    15 00 00 40 00 00 02 6F 04
+                    39 00 00 40 00 00 03 51 0F FF
+                    05 00 00 00 00 00 01 39
+                ];
+                qcom,mdss-dsi-nolp-command = [
+                    05 00 00 00 00 00 01 38
+                ];
+                qcom,mdss-dsi-aod-high-mode-command = [
+                    15 00 00 40 00 00 02 6F 04
+                    39 00 00 00 00 00 03 51 0F FF
+                ];
+                qcom,mdss-dsi-aod-low-mode-command = [
+                    15 00 00 40 00 00 02 6F 04
+                    39 00 00 00 00 00 03 51 0D BB
+                ];
+                qcom,mdss-dsi-fps-switch-120-to-60-command = [
+                    39 00 00 40 00 00 02 68 00
+                ];
+                qcom,mdss-dsi-fps-switch-60-to-120-command = [
+                    39 00 00 40 00 00 02 68 10
+                ];
+                qcom,mdss-dsi-fps-switch-120-to-144-command = [
+                    39 00 00 40 00 00 02 68 30
+                ];
+                qcom,mdss-dsi-fps-switch-144-to-120-command = [
+                    39 00 00 40 00 00 02 68 01
+                ];
+                qcom,mdss-dsi-fps-switch-120-to-90-command = [
+                    39 00 00 40 00 00 02 68 11
+                ];
+                qcom,mdss-dsi-fps-switch-90-to-120-command = [
+                    39 00 00 40 00 00 02 68 31
+                ];
+                qcom,mdss-dsi-fps-switch-144-to-60-command = [
+                    39 00 00 40 00 00 02 68 00
+                ];
+                qcom,mdss-dsi-fps-switch-60-to-144-command = [
+                    39 00 00 40 00 00 02 68 10
+                ];
+                qcom,mdss-dsi-fps-switch-90-to-60-command = [
+                    39 00 00 40 00 00 02 68 00
+                ];
+                qcom,mdss-dsi-fps-switch-60-to-90-command = [
+                    39 00 00 40 00 00 02 68 30
+                ];
+                qcom,mdss-dsi-fps-switch-144-to-90-command = [
+                    39 00 00 40 00 00 02 68 01
+                ];
+                qcom,mdss-dsi-fps-switch-90-to-144-command = [
+                    39 00 00 40 00 00 02 68 30
+                ];
+                qcom,mdss-dsi-lp1-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-nolp-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-panel-info-switch-page-command-state = "dsi_lp_mode";
+                qcom,mdss-dsi-timing-switch-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-on-command-state = "dsi_lp_mode";
+                qcom,mdss-dsi-off-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-aod-high-mode-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-aod-low-mode-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-fps-switch-120-to-60-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-fps-switch-60-to-120-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-fps-switch-120-to-144-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-fps-switch-144-to-120-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-fps-switch-120-to-90-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-fps-switch-90-to-120-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-fps-switch-144-to-60-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-fps-switch-60-to-144-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-fps-switch-90-to-60-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-fps-switch-60-to-90-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-fps-switch-144-to-90-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-fps-switch-90-to-144-command-state = "dsi_hs_mode";
+
+                qcom,dsi-panel-date-switch-command-state = "dsi_lp_mode";
+                qcom,mdss-dsi-esd-switch-page-command-state = "dsi_lp_mode";
+                qcom,mdss-dsi-default-switch-page-command-state = "dsi_lp_mode";
+                qcom,mdss-dsi-hbm-max-command-state = "dsi_hs_mode";
+                qcom,mdss-dsi-hbm-exit-max-command-state = "dsi_hs_mode";
+                qcom,dsi-panel-btb-switch-command-state = "dsi_hs_mode";
