@@ -1,0 +1,12 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+#include "canoe.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Whale SoC";
+	compatible = "qcom,whale";
+	qcom,msm-id = <722 0x30000>;
+};

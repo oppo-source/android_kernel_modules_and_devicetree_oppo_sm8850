@@ -1,0 +1,71 @@
+#include "panel/dsi-panel-AC285-P-7-A0020-dsc-cmd.dtsi"
+#include "panel/dsi-panel-AA616-P-7-A0020-dsc-cmd.dtsi"
+
+&soc {
+	oplus,dsi-display-dev {
+		oplus,dsi-panel-primary = <
+			&dsi_vtdr6130_amoled_video
+			&dsi_panel_AC285_P_7_A0020_dsc_cmd
+			&dsi_panel_AA616_P_7_A0020_dsc_cmd
+		>;
+		oplus,dsi-panel-secondary = <
+		>;
+		oplus,dsi-panel-extended = <>;
+	};
+
+	oplus_dsi_panel_custom_pwr_supply: oplus_dsi_panel_custom_pwr_supply {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		qcom,panel-supply-entry@0 {
+			reg = <0>;
+			qcom,supply-name = "vddio";
+			qcom,supply-min-voltage = <1800000>;
+			qcom,supply-max-voltage = <1800000>;
+			qcom,supply-enable-load = <220000>;
+			qcom,supply-disable-load = <8000>;
+			qcom,supply-post-on-sleep = <2>;
+			qcom,supply-pre-off-sleep = <30>;
+		};
+
+		qcom,panel-supply-entry@1 {
+			reg = <1>;
+			qcom,supply-name = "vdd";
+			qcom,supply-min-voltage = <1200000>;
+			qcom,supply-max-voltage = <1200000>;
+			qcom,supply-enable-load = <10000>;
+			qcom,supply-disable-load = <300>;
+			qcom,supply-pre-on-sleep = <1>;
+			qcom,supply-post-on-sleep = <15>;
+			qcom,supply-pre-off-sleep = <1>;
+		};
+
+		qcom,panel-supply-entry@2 {
+			reg = <1>;
+			qcom,supply-name = "vci";
+			qcom,supply-min-voltage = <3000000>;
+			qcom,supply-max-voltage = <3000000>;
+			qcom,supply-enable-load = <10000>;
+			qcom,supply-disable-load = <300>;
+			qcom,supply-pre-on-sleep = <1>;
+			qcom,supply-post-on-sleep = <15>;
+			qcom,supply-pre-off-sleep = <1>;
+		};
+	};
+};
+
+&pmh0101_l11 {
+	regulator-min-microvolt = <1200000>;
+	regulator-max-microvolt = <1200000>;
+	qcom,init-voltage = <1200000>;
+};
+
+&dsi_vtdr6130_amoled_video {
+	qcom,panel-supply-entries = <&oplus_dsi_panel_custom_pwr_supply>;
+	qcom,platform-reset-gpio = <&tlmm 171 0>;
+	oplus,panel-gpio2 = <&pmh0101_gpios 4 0>;
+
+	panel-reset-position = <0x02>;
+	oplus,panel-power-on-sequence = "1", "vddio", "3", "vdd", "3", "gpio2", "3", "vci", "10";
+	oplus,panel-power-off-sequence = "1", "vci", "3", "vdd", "3", "gpio2", "3", "vddio", "3";
+};

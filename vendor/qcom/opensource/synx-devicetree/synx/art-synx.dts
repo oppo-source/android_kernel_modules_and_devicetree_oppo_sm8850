@@ -1,0 +1,17 @@
+/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/mailbox/qcom-ipcc.h>
+#include <dt-bindings/mailbox/qcom-ipcc-art.h>
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include "art-synx.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Art SoC";
+	compatible = "qcom,art";
+	qcom,msm-id = <707 0x10000>, <707 0x20000>, <708 0x10000>, <708 0x20000>;
+	qcom,board-id = <0 0>;
+};

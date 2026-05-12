@@ -1,0 +1,160 @@
+//ifdef OPLUS_FEATURE_CHG_BASIC
+&oplus_mms_gauge {
+	silicon_p_dodge {
+		deep_spec,support;
+
+		deep_spec,uv_thr = <3000>;
+		deep_spec,count_thr = <50>;
+		deep_spec,vbat_soc = <20>;
+		deep_spec,count_step = <0 10 0
+					350 12 1
+					450 15 2
+					530 20 3>;
+
+		deep_spec,term_coeff = <3000 320 0
+					3050 440 2
+					3060 440 2
+					3150 600 4
+					3250 600 5
+					3350 600 7>;
+		deep_spec,ddrc_strategy_name = "ddrc_curve";
+		deep_spec,volt_step = <20>;
+		deep_spec,ddbc_curve {
+			oplus,temp_type = <OPLUS_STRATEGY_USE_BATT_TEMP>;
+			oplus,temp_range = <(-100) 50 200>;
+			deep_spec,ddbc_temp_cold = <500 3200 5
+						   10000 3150 2>;
+			deep_spec,ddbc_temp_cool = <500 3300 5
+						   10000 3250 2>;
+			deep_spec,ddbc_temp_normal = <500 3400 5
+						   10000 3350 2>;
+			deep_spec,ddbc_temp_warm = <500 3400 5
+						   10000 3350 2>;
+		};
+		ddrc_strategy {
+			oplus,temp_type = <OPLUS_STRATEGY_USE_BATT_TEMP>;
+			oplus,ratio_range = <20 30 50 70 90>;
+			oplus,temp_range = <(-50) 100 350>;
+			strategy_ratio_range_min {
+				strategy_temp_cold =	<0 3000 3060 0
+							15 3000 3060 1
+							500 3000 3060 2
+							1000 3100 3150 3
+							1500 3200 3250 4>;
+				strategy_temp_cool =	<0 3000 3060 0
+							15 3000 3060 1
+							500 3000 3060 2
+							1000 3100 3150 3
+							1500 3200 3250 4>;
+				strategy_temp_normal =	<0 3000 3060 0
+							15 3000 3060 1
+							500 3100 3150 2
+							1000 3200 3250 3
+							1500 3300 3350 4>;
+				strategy_temp_warm =	<0 3000 3060 0
+							15 3000 3060 1
+							500 3100 3150 2
+							1000 3200 3250 3
+							1500 3300 3350 4>;
+			};
+			strategy_ratio_range_low {
+				strategy_temp_cold =	<0 3000 3060 0
+							15 3000 3060 1
+							400 3000 3060 2
+							800 3100 3150 3
+							1200 3200 3250 4>;
+				strategy_temp_cool =	<0 3000 3060 0
+							15 3000 3060 1
+							400 3000 3060 2
+							800 3100 3150 3
+							1200 3200 3250 4>;
+				strategy_temp_normal =	<0 3000 3060 0
+							15 3000 3060 1
+							400 3100 3150 2
+							800 3200 3250 3
+							1200 3300 3350 4>;
+				strategy_temp_warm =	<0 3000 3060 0
+							15 3000 3060 1
+							400 3100 3150 2
+							800 3200 3250 3
+							1200 3300 3350 4>;
+			};
+			strategy_ratio_range_mid_low {
+				strategy_temp_cold =	<0 3000 3060 0
+							15 3000 3060 1
+							400 3100 3150 2
+							800 3200 3250 3>;
+				strategy_temp_cool =	<0 3000 3060 0
+							15 3000 3060 1
+							400 3100 3150 2
+							800 3200 3250 3
+							>;
+				strategy_temp_normal =	<0 3000 3060 0
+							15 3000 3060 1
+							300 3100 3150 2
+							600 3200 3250 3
+							900 3300 3350 4>;
+				strategy_temp_warm =	<0 3000 3060 0
+							15 3000 3060 1
+							300 3100 3150 2
+							600 3200 3250 3
+							900 3300 3350 4>;
+			};
+			strategy_ratio_range_mid {
+				strategy_temp_cold =	<0 3000 3060 0
+							15 3000 3060 1
+							160 3100 3150 2
+							400 3200 3250 3>;
+				strategy_temp_cool =	<0 3000 3060 0
+							15 3000 3060 1
+							160 3100 3150 2
+							400 3200 3250 3>;
+				strategy_temp_normal =	<0 3000 3060 0
+							100 3100 3150 1
+							200 3200 3250 2
+							500 3300 3350 3>;
+				strategy_temp_warm =	<0 3000 3060 0
+							100 3100 3150 1
+							200 3200 3250 2
+							500 3300 3350 3>;
+			};
+			strategy_ratio_range_mid_high {
+				strategy_temp_cold =	<0 3000 3060 0
+							15 3000 3060 1
+							80 3100 3150 2
+							160 3200 3250 3>;
+				strategy_temp_cool =	<0 3000 3060 0
+							15 3000 3060 1
+							80 3100 3150 2
+							160 3200 3250 3>;
+				strategy_temp_normal =	<0 3000 3060 0
+							50 3100 3150 1
+							100 3200 3250 2
+							150 3300 3350 3>;
+				strategy_temp_warm =	<0 3000 3060 0
+							50 3100 3150 1
+							100 3200 3250 2
+							150 3300 3350 3>;
+			};
+			strategy_ratio_range_high {
+				strategy_temp_cold =	<0 3000 3060 0
+							15 3000 3060 1
+							80 3100 3150 2
+							160 3200 3250 3>;
+				strategy_temp_cool =	<0 3000 3060 0
+							15 3000 3060 1
+							80 3100 3150 2
+							160 3200 3250 3>;
+				strategy_temp_normal =	<0 3000 3060 0
+							50 3100 3150 1
+							100 3200 3250 2
+							150 3300 3350 3>;
+				strategy_temp_warm =	<0 3000 3060 0
+							50 3100 3150 1
+							100 3200 3250 2
+							150 3300 3350 3>;
+			};
+		};
+	};
+};
+//#endif

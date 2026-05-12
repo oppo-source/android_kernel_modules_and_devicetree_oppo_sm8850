@@ -1,0 +1,240 @@
+&swr_haptics {
+	status = "ok";
+};
+
+&clock_audio_wsa_2 {
+	status = "ok";
+};
+
+&clock_audio_wsa2_tx {
+	status = "ok";
+};
+
+&wsa2_swr_gpios {
+	status = "ok";
+};
+
+&swr3 {
+	qcom,swr-num-dev = <1>; // only haptics connected
+};
+
+&wsa2_macro {
+	status = "ok";
+};
+
+&lpass_cdc {
+	qcom,num-macros = <4>;
+	lpass-cdc-clk-rsc-mngr {
+		clock-names = "tx_core_clk", "rx_core_clk", "rx_tx_core_clk", "va_core_clk",
+				"wsa2_core_clk", "wsa2_tx_core_clk";
+		clocks = <&clock_audio_tx_1 0>, <&clock_audio_rx_1 0>,
+			<&clock_audio_rx_tx 0>, <&clock_audio_va_1 0>,
+			<&clock_audio_wsa_2 0>, <&clock_audio_wsa2_tx 0>;
+	};
+};
+
+&lpass_bt_swr {
+	status = "ok";
+};
+
+&wcd_usbss {
+	status = "disabled";
+};
+
+&wcd939x_codec {
+	status = "disabled";
+};
+
+&canoe_snd {
+	qcom,model = "canoe-mtp-snd-card";
+	swr-haptics-unsupported;
+	oplus-swr-haptics-supported; // use oplus haptics
+	qcom,wcn-bt = <1>;
+	qcom,audio-routing =
+		"TX DMIC4", "Digital Mic4",
+		"TX DMIC4", "DMIC BIAS1",
+		"TX DMIC5", "Digital Mic5",
+		"TX DMIC5", "DMIC BIAS1",
+		"TX DMIC6", "Digital Mic6",
+		"TX DMIC6", "DMIC BIAS0",
+		"TX DMIC7", "Digital Mic7",
+		"TX DMIC7", "DMIC BIAS0",
+		"HAP_IN", "WSA2_HAPT OUT", // haptics connect to wsa2
+		"RX_TX DEC0_INP", "TX DEC0 MUX",
+		"RX_TX DEC1_INP", "TX DEC1 MUX",
+		"RX_TX DEC2_INP", "TX DEC2 MUX",
+		"RX_TX DEC3_INP", "TX DEC3 MUX",
+		"VA SWR_INPUT", "VA_SWR_CLK",
+		"VA_AIF1 CAP", "VA_SWR_CLK",
+		"VA_AIF2 CAP", "VA_SWR_CLK",
+		"VA_AIF3 CAP", "VA_SWR_CLK",
+		"VA DMIC4", "Digital Mic4",
+		"VA DMIC5", "Digital Mic5",
+		"VA DMIC6", "Digital Mic6",
+		"VA DMIC7", "Digital Mic7",
+		"VA DMIC4", "DMIC BIAS1",
+		"VA DMIC5", "DMIC BIAS1",
+		"VA DMIC6", "DMIC BIAS0",
+		"VA DMIC7", "DMIC BIAS0";
+
+	qcom,mi2s-audio-intf = <1>;
+	qcom,tdm-audio-intf = <0>;
+	qcom,wcd-disabled = <1>;
+
+	qcom,pri-mi2s-gpios = <&cdc_pri_mi2s_gpios>;
+
+	asoc-codec  = <&stub_codec>, <&lpass_cdc>, <&swr_haptics>;
+	asoc-codec-names = "msm-stub-codec.1", "lpass-cdc",
+						"swr-haptics";
+
+	qcom,cdc-dmic67-gpios = <&cdc_dmic67_gpios>;
+
+	pinctrl-names = "dmic0_micbias_pull_low", "dmic0_micbias_pull_high";
+	pinctrl-0 = <&dmic0_micbias_pull_low>;
+	pinctrl-1 = <&dmic0_micbias_pull_high>;
+
+	oplus-dmic0-micb-supply = <&BOB1>;
+	oplus-dmic0-micb-voltage = <3296000 3800000>;
+
+	oplus-dmic1-micb-supply = <&L4B>;
+	oplus-dmic1-micb-voltage = <1800000 1800000>;
+
+	oplus-level-shifter-supply = <&L15B>;
+	oplus-level-shifter-voltage = <1800000 1800000>;
+	oplus,dmic-supplies = "oplus-dmic0-micb", "oplus-dmic1-micb", "oplus-level-shifter";
+};
+
+&cdc_pri_mi2s_gpios {
+	status = "ok";
+};
+
+&qupv3_se0_i2c {
+	status = "ok";
+	qcom,clk-freq-out = <400000>;
+	tfa98xx@34 {
+		compatible = "nxp,tfa98xx";
+		reg = <0x34>;
+		reset-gpio = <&tlmm 2 0x00>;
+		tfa9874_vdd-supply = <&L15B>;
+		tfa_min_range = <5100>;
+		tfa_max_range = <7300>;
+		tfa_default_mohm = <6000>;
+		tfa_channel = <1>;
+		is_use_freq = <1>;
+		reset-polarity = <0>;
+		status = "ok";
+	};
+	tfa98xx@35 {
+		compatible = "nxp,tfa98xx";
+		reg = <0x35>;
+		reset-gpio = <&tlmm 160 0x00>;
+		tfa9874_vdd-supply = <&L15B>;
+		tfa_min_range = <5100>;
+		tfa_max_range = <7300>;
+		tfa_default_mohm = <6000>;
+		tfa_channel = <0>;
+		is_use_freq = <1>;
+		reset-polarity = <0>;
+		status = "ok";
+	};
+};
+
+&soc {
+	oplus_audio_drv: oplus_audio_drv {
+		compatible = "oplus,asoc-audio";
+		//for nxp speaker
+		oplus,speaker-vendor = "nxp";
+		oplus,speaker-i2s-id = <0>;
+		oplus,speaker-codec-name = "tfa98xx.0-0034", "tfa98xx.0-0035";
+		oplus,speaker-codec-dai-name = "tfa98xx-aif-0-34", "tfa98xx-aif-0-35";
+	};
+};
+
+&i2s0_sck_active {
+	config {
+		drive-strength = <4>;   /* 4 mA */
+	};
+};
+
+&i2s0_ws_active {
+	config {
+		drive-strength = <4>;   /* 4 mA */
+	};
+};
+
+&i2s0_sd0_active {
+	config {
+		drive-strength = <4>;   /* 4 mA */
+	};
+};
+
+&i2s0_sd1_active {
+	config {
+		drive-strength = <4>;   /* 4 mA */
+		bias-pull-down;         /* PULL DOWN */
+	};
+};
+
+&lpi_dmic2_clk_active {
+	config {
+		drive-strength = <2>;   /* 2 mA */
+	};
+};
+
+&lpi_dmic3_clk_active {
+	config {
+		drive-strength = <2>;   /* 2 mA */
+	};
+};
+
+&wcd939x_rst_gpio {
+	status = "disabled";
+};
+
+&rx_swr_gpios {
+	status = "disabled";
+};
+
+&va_swr_gpios {
+	status = "disabled";
+};
+
+&swr1 {
+	status = "disabled";
+};
+
+&va_macro {
+	qcom,is-used-swr-gpio = <0>;
+	/delete-property/ qcom,va-swr-gpios;
+};
+
+&rx_macro {
+	qcom,is-used-swr-gpio = <0>;
+	/delete-property/ qcom,rx-swr-gpios;
+};
+
+&cdc_dmic45_gpios {
+	status = "ok";
+};
+
+&cdc_dmic67_gpios {
+	status = "ok";
+};
+
+&awgpio {
+	dmic0_micbias_pull_low: dmic0_micbias_pull_low {
+		pins = "gpio23";
+		function = "gpio";
+		drive-strength = <0>;
+		output-low;
+		bias-pull-up;
+	};
+
+	dmic0_micbias_pull_high: dmic0_micbias_pull_high {
+		pins = "gpio23";
+		function = "gpio";
+		drive-strength = <0>;
+		output-high;
+		bias-pull-up;
+	};
+};

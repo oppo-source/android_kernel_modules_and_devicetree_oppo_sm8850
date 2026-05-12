@@ -1,0 +1,100 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+&reserved_memory {
+	#address-cells = <2>;
+	#size-cells = <2>;
+	ranges;
+
+	hyp_mem: hyp-region@80000000 {
+		reg = <0x0 0x80000000 0x0 0x700000>;
+		no-map;
+	};
+
+	xblboot_mem: xblboot-region@80700000 {
+		reg = <0x0 0x80700000 0x0 0x100000>;
+		no-map;
+	};
+
+	chipinfo_mem: chipinfo-region@80900000 {
+		reg = <0x0 0x80900000 0x0 0x1000>;
+		no-map;
+	};
+
+	smem_mem: smem-region@80a00000 {
+		reg = <0x0 0x80a00000 0x0 0x200000>;
+		no-map;
+	};
+
+	wlan_mem: wlan-region@84000000 {
+		reg = <0x0 0x84000000 0x0 0x1900000>;
+		no-map;
+	};
+
+	video_mem: video-region@85900000 {
+		reg = <0x0 0x85900000 0x0 0x500000>;
+		no-map;
+	};
+
+	ipa_fw_mem: ipa-fw-region@85e00000 {
+		reg = <0x0 0x85e00000 0x0 0x10000>;
+		no-map;
+	};
+
+	ipa_gsi_mem: ipa-gsi-region@85e10000 {
+		reg = <0x0 0x85e10000 0x0 0xa000>;
+		no-map;
+	};
+
+	gpu_microcode_mem: gpu-microcode-region@85e1a000 {
+		reg = <0x0 0x85e1a000 0x0 0x2000>;
+		no-map;
+	};
+
+	rpm_dump_mem: rpm-dump-region@85e1c000 {
+		reg = <0x0 0x85e1c000 0x0 0x25800>;
+		no-map;
+	};
+
+	mpss_mem: mpss-region@85f00000 {
+		reg = <0x0 0x85f00000 0x0 0xce00000>;
+		no-map;
+	};
+
+	adsp_mem: adsp-region@92d00000 {
+		reg = <0x0 0x92d00000 0x0 0x1e00000>;
+		no-map;
+	};
+
+	/* UEFI region at 0x9f800000 is reclaimed by Linux */
+
+	wlan_msa_mem: wlan-msa-region@a7d00000 {
+		reg = <0x0 0xa7d00000 0x0 0x300000>;
+		no-map;
+	};
+
+	/* Linux kernel image is loaded at 0xa8000000 */
+
+	tz_stat_mem: tz-stat-region@c4000000 {
+		reg = <0x0 0xc4000000 0x0 0x100000>;
+		no-map;
+	};
+
+	tags_mem: tags-region@c4100000 {
+		reg = <0x0 0xc4100000 0x0 0xb00000>;
+		no-map;
+	};
+
+	qtee_mem: qtee-region@c4c00000 {
+		reg = <0x0 0xc4c00000 0x0 0x500000>;
+		no-map;
+	};
+
+	trusted_apps_mem: trusted-apps-region@c5100000 {
+		reg = <0x0 0xc5100000 0x0 0x2100000>;
+		no-map;
+	};
+
+};

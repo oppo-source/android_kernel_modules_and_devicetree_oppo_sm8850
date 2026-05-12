@@ -1,0 +1,52 @@
+/dts-v1/;
+/plugin/;
+#include "../qcom/alor-mtp-overlay.dtso"
+#include "alor_overlay_common.dtsi"
+#include "u9_overlay_common.dtsi"
+#include <dt-bindings/oplus/hw-id.h>
+#include "oplus_chg/oplus-chg-25602.dtsi"
+#include "oplus_misc/oplus-misc-25602.dtsi"
+#include "tp/u9-oplus-tp-25602.dtsi"
+#include "oplus_uff/oplus-uff-25602.dtsi"
+#include "oplus_nfc/u9-nfc-thn31.dtsi"
+#include "sensor/u9-sensor-25602-25673-25709.dtsi"
+#include "oplus_misc/oplus-misc-breathlight-u9.dtsi"
+#include "mm/u9-25602-alor-mm.dtsi"
+
+/ {
+    model = "Qualcomm Technologies, Inc. Alor MTP + WCN7750 WLAN + PM7750BA SMB1500 + ST54L + Panderio,u9";
+    oplus,project-id = <25602>;
+    oplus,hw-id = <OPLUS_EVB1 OPLUS_EVB2 OPLUS_EVB3 OPLUS_PRE_T0 OPLUS_T0 OPLUS_EVT1 OPLUS_EVT2 OPLUS_DVT1 OPLUS_DVT2 OPLUS_PVT1 OPLUS_MP1>;
+};
+&tlmm {
+
+  //#ifdef OPLUS_FEATURE_RF_CABLE_DETECT
+  rf_cable0_active: rf_cable0_active {
+    mux {
+      pins = "gpio84";
+      function = "gpio";
+    };
+    config {
+      pins = "gpio84";
+      drive-strength = <2>;
+      input-enable;
+      bias-pull-up;
+    };
+  };
+  //#endif /* OPLUS_FEATURE_RF_CABLE_DETECT */
+};
+
+&soc{
+
+  //#ifdef OPLUS_FEATURE_RF_CABLE_DETECT
+    oplus_rf_cable {
+        compatible = "oplus,rf_cable";
+        interrupt-parent = <&tlmm>;
+        rf_cable_support_num = <1>;
+        rf,cable0-gpio = <&tlmm 84 0>;
+        rf,cable-support-timer = <0>;
+        pinctrl-names = "rf_cable_active";
+        pinctrl-0 = <&rf_cable0_active>;
+    };
+  //#endif /* OPLUS_FEATURE_RF_CABLE_DETECT */
+};

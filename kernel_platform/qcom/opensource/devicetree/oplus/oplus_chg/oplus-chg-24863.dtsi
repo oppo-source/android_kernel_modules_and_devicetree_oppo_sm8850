@@ -1,0 +1,13 @@
+//ifdef OPLUS_FEATURE_CHG_BASIC
+&oplus_cpa {
+	/* format: <protocol_type power_w> */
+	oplus,protocol_list = <CHG_PROTOCOL_VOOC 120
+					   CHG_PROTOCOL_PPS  55
+					   CHG_PROTOCOL_PD   36
+					   CHG_PROTOCOL_QC   36>;
+	oplus,default_protocol_list = <CHG_PROTOCOL_PD
+						   CHG_PROTOCOL_VOOC
+						   CHG_PROTOCOL_PPS>;
+};
+//#endif OPLUS_FEATURE_CHG_BASIC /*for wls charging config*/
+

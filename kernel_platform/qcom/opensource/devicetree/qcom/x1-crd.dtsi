@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+&usb2_phy_0 {
+	status = "okay";
+};
+
+&usb3_phy_0 {
+	status = "okay";
+};
+
+&usb0 {
+	status = "okay";
+	dwc3@a600000 {
+		dr_mode = "peripheral";
+	};
+};
+
+
+&usb2_phy_1 {
+	status = "okay";
+};
+
+&usb3_phy_1 {
+	status = "okay";
+};
+
+&usb1 {
+	status = "okay";
+	dwc3@a800000 {
+		dr_mode = "host";
+	};
+};

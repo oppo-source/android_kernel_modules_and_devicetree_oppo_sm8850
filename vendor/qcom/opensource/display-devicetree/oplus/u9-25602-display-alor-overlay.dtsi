@@ -1,0 +1,144 @@
+#include "panel/dsi-panel-AE106-P-1-A0037-dsc-cmd-t0.dtsi"
+#include "panel/dsi-panel-AE106-P-1-A0037-dsc-cmd-evt.dtsi"
+#include "panel/dsi-panel-AE106-P-1-A0037-dsc-cmd-dvt.dtsi"
+#include "panel/dsi-panel-AE106-P-1-A0037-dsc-cmd.dtsi"
+#include "panel/dsi-panel-AE174-P-1-A0037-dsc-cmd.dtsi"
+#include "panel/dsi-panel-AE174-P-1-A0037-dsc-cmd-evt.dtsi"
+#include "panel/dsi-panel-AE174-P-1-A0037-dsc-cmd-05.dtsi"
+#include <dt-bindings/regulator/qcom,rpmh-regulator-levels.h>
+
+&soc {
+	oplus,dsi-display-dev {
+		oplus,dsi-panel-primary = <
+			&dsi_vtdr6130_amoled_video
+			&dsi_panel_AE106_P_1_A0037_dsc_cmd_t0
+			&dsi_panel_AE106_P_1_A0037_dsc_cmd_evt
+			&dsi_panel_AE106_P_1_A0037_dsc_cmd_dvt
+			&dsi_panel_AE106_P_1_A0037_dsc_cmd
+			&dsi_panel_AE174_P_1_A0037_dsc_cmd
+			&dsi_panel_AE174_P_1_A0037_dsc_cmd_evt
+			&dsi_panel_AE174_P_1_A0037_dsc_cmd_05
+		>;
+		oplus,dsi-panel-secondary = <
+		>;
+		oplus,dsi-panel-extended = <>;
+	};
+
+	oplus_dsi_panel_custom_pwr_supply: oplus_dsi_panel_custom_pwr_supply {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		qcom,panel-supply-entry@0 {
+			reg = <0>;
+			qcom,supply-name = "vddio";
+			qcom,supply-min-voltage = <1850000>;
+			qcom,supply-max-voltage = <1850000>;
+			qcom,supply-enable-load = <220000>;
+			qcom,supply-disable-load = <8000>;
+			qcom,supply-post-on-sleep = <2>;
+			qcom,supply-pre-off-sleep = <30>;
+		};
+
+		qcom,panel-supply-entry@1 {
+			reg = <1>;
+			qcom,supply-name = "vci";
+			qcom,supply-min-voltage = <3000000>;
+			qcom,supply-max-voltage = <3000000>;
+			qcom,supply-enable-load = <10000>;
+			qcom,supply-disable-load = <300>;
+			qcom,supply-pre-on-sleep = <1>;
+			qcom,supply-post-on-sleep = <15>;
+			qcom,supply-pre-off-sleep = <1>;
+		};
+	};
+};
+
+&pm8550ve_i_gpios {
+	oplus_pmic_reset_active: oplus_pmic_reset_active {
+		pins = "gpio3";
+		power-source = <1>; /* 1.8V */
+	};
+
+	oplus_pmic_reset_suspend: oplus_pmic_reset_suspend  {
+		pins = "gpio3";
+		power-source = <1>; /* 1.8V */
+	};
+};
+
+&pm8550ve_i_gpios {
+	oplus_vddr_en_active: oplus_vddr_en_active {
+		pins = "gpio4";
+		power-source = <1>; /* 1.8V */
+
+	};
+
+	oplus_vddr_en_suspend: oplus_vddr_en_suspend  {
+		pins = "gpio4";
+		power-source = <1>; /* 1.8V */
+
+	};
+};
+
+&sde_dsi {
+	pinctrl-0 = <&sde_te_active &oplus_pmic_reset_active
+				&oplus_vddr_en_active>;
+	pinctrl-1 = <&sde_te_suspend &oplus_pmic_reset_suspend
+				&oplus_vddr_en_suspend>;
+};
+
+/* #ifdef OPLUS_FEATURE_DISPLAY */
+&mdss_dsi_phy0 {
+	oplus,dsi-pll-ssc-disalbed;
+};
+
+&mdss_dsi_phy1 {
+	oplus,dsi-pll-ssc-disalbed;
+};
+
+&apps_rsc_drv2 {
+	//vddio
+	rpmh-regulator-l10b-e0 {
+		compatible = "qcom,rpmh-vrm-regulator";
+		qcom,resource-name = "L10B_E0";
+		qcom,regulator-type = "pmic5-ldo";
+		qcom,supported-modes =
+			<RPMH_REGULATOR_MODE_LPM
+			 RPMH_REGULATOR_MODE_HPM>;
+		qcom,mode-threshold-currents = <0 30000>;
+		proxy-supply = <&L10B>;
+
+		L10B: L10B_E0: pm_humu_l10: vreg-pm-humu-l10 {
+			regulator-name = "pm_humu_l10";
+			qcom,set = <RPMH_REGULATOR_SET_ALL>;
+			regulator-min-microvolt = <1650000>;
+			regulator-max-microvolt = <1950000>;
+			qcom,init-voltage = <1850000>;
+			qcom,init-mode = <RPMH_REGULATOR_MODE_HPM>;
+			qcom,proxy-consumer-enable;
+			qcom,proxy-consumer-current = <154000>;
+		};
+	};
+	//vci
+	rpmh-regulator-l13b-e0 {
+		compatible = "qcom,rpmh-vrm-regulator";
+		qcom,resource-name = "L13B_E0";
+		qcom,regulator-type = "pmic5-ldo";
+		qcom,supported-modes =
+			<RPMH_REGULATOR_MODE_LPM
+			 RPMH_REGULATOR_MODE_HPM>;
+		qcom,mode-threshold-currents = <0 10000>;
+		proxy-supply = <&L13B>;
+
+		L13B: L13B_E0: pm_humu_l13: vreg-pm-humu-l13 {
+			regulator-name = "pm_humu_l13";
+			qcom,set = <RPMH_REGULATOR_SET_ALL>;
+			regulator-min-microvolt = <2650000>;
+			regulator-max-microvolt = <3544000>;
+			qcom,init-voltage = <3000000>;
+			qcom,init-mode = <RPMH_REGULATOR_MODE_HPM>;
+			qcom,proxy-consumer-enable;
+			qcom,proxy-consumer-current = <10000>;
+		};
+	};
+};
+/* OPLUS_FEATURE_DISPLAY */

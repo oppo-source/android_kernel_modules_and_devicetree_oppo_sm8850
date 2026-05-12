@@ -1,0 +1,31 @@
+/dts-v1/;
+/plugin/;
+#include <dt-bindings/oplus/hw-id.h>
+#include "../canoe-audio-mtp.dts"
+
+#include "canoe-audio-overlay-common.dtsi"
+#include "swangoose-25001-audio-canoe-overlay.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Canoe MTP,swangoose";
+
+	oplus,project-id = <25001 25002 25201>;
+	oplus,hw-id = <OPLUS_EVB1 OPLUS_EVB2 OPLUS_T0>;
+};
+
+&oplus_audio_drv {
+	oplus,config-path = "t0_params";
+};
+
+&qupv3_se0_i2c {
+	tfa98xx@34 {
+		tfa_fw_name = "tfa98xx_t0.cnt";
+	};
+	tfa98xx@35 {
+		tfa_fw_name = "tfa98xx_t0.cnt";
+	};
+};
+
+&canoe_snd {
+	oplus-level-shifter-supply = <&L4B>;
+};

@@ -1,0 +1,231 @@
+&lpass_cdc {
+	qcom,num-macros = <3>;
+	lpass-cdc-clk-rsc-mngr {
+	    clock-names = "tx_core_clk", "rx_core_clk", "rx_tx_core_clk", "va_core_clk";
+	    clocks = <&clock_audio_tx_1 0>, <&clock_audio_rx_1 0>,
+		    <&clock_audio_rx_tx 0>, <&clock_audio_va_1 0>;
+	};
+};
+
+&lpass_bt_swr {
+    status = "ok";
+};
+
+&wcd9378_tx_slave {
+	status = "ok";
+};
+
+&wcd9378_rx_slave {
+	status = "ok";
+};
+
+&fm_i2s1_gpios {
+	status = "ok";
+	pinctrl-0 = <&i2s1_sck_active &i2s1_ws_active
+				&i2s1_sd0_active &i2s1_sd1_active>;
+	pinctrl-1 = <&i2s1_sck_sleep &i2s1_ws_sleep
+				&i2s1_sd0_sleep &i2s1_sd1_sleep>;
+};
+
+&alor_snd {
+	qcom,model = "alor-mtp-wcd9378-snd-card";
+	swr-haptics-unsupported;
+	qcom,ext-disp-audio-rx = <1>;
+	qcom,audio-routing =
+			"AMIC1", "Analog Mic1",
+			"AMIC1", "MIC BIAS1",
+			"AMIC2", "Analog Mic2",
+			"AMIC2", "MIC BIAS2",
+			"AMIC3", "Analog Mic3",
+			"AMIC3", "MIC BIAS1",
+			"AMIC4", "Analog Mic4",
+			"AMIC4", "MIC BIAS1",
+			"VA AMIC1", "Analog Mic1",
+			"VA AMIC1", "VA MIC BIAS1",
+			"VA AMIC2", "Analog Mic2",
+			"VA AMIC2", "VA MIC BIAS2",
+			"VA AMIC3", "Analog Mic3",
+			"VA AMIC3", "VA MIC BIAS1",
+			"VA AMIC4", "Analog Mic4",
+			"VA AMIC4", "VA MIC BIAS1",
+			"TX DMIC0", "Digital Mic0",
+			"TX DMIC0", "MIC BIAS3",
+			"TX DMIC1", "Digital Mic1",
+			"TX DMIC1", "MIC BIAS3",
+			"TX DMIC2", "Digital Mic2",
+			"TX DMIC2", "MIC BIAS1",
+			"TX DMIC3", "Digital Mic3",
+			"TX DMIC3", "MIC BIAS1",
+			"IN1_HPHL", "HPHL_OUT",
+			"IN2_HPHR", "HPHR_OUT",
+			"IN3_AUX", "AUX_OUT",
+			"RX_TX DEC0_INP", "TX DEC0 MUX",
+			"RX_TX DEC1_INP", "TX DEC1 MUX",
+			"RX_TX DEC2_INP", "TX DEC2 MUX",
+			"RX_TX DEC3_INP", "TX DEC3 MUX",
+			"VA SWR_INPUT", "VA_SWR_CLK",
+			"VA_AIF1 CAP", "VA_SWR_CLK",
+			"VA_AIF2 CAP", "VA_SWR_CLK",
+			"VA_AIF3 CAP", "VA_SWR_CLK",
+			"VA DMIC0", "Digital Mic0",
+			"VA DMIC1", "Digital Mic1",
+			"VA DMIC2", "Digital Mic2",
+			"VA DMIC3", "Digital Mic3",
+			"VA DMIC0", "VA MIC BIAS3",
+			"VA DMIC1", "VA MIC BIAS3",
+			"VA DMIC2", "VA MIC BIAS1",
+			"VA DMIC3", "VA MIC BIAS1";
+	qcom,wsa-max-devs = <0>;
+	qcom,mi2s-audio-intf = <1>;
+	qcom,tdm-audio-intf = <0>;
+	qcom,sec-mi2s-gpios = <&fm_i2s1_gpios>;
+
+	/delete-property/ qcom,pri-mi2s-gpios;
+	qcom,msm-mbhc-hs-mic-max-threshold-mv = <2600>;
+	qcom,msm-mbhc-hs-mic-min-threshold-mv = <112>;
+	oplus,mbhc-headset-micbias-alwayon = <1>;
+	oplus,mbhc-check-cross-conn = <1>;
+	qcom,msm-mbhc-usbc-audio-supported = <1>;
+	qcom,msm-mbhc-hphl-swh = <0>;
+	qcom,msm-mbhc-gnd-swh = <0>;
+	qcom,wcd-disable-legacy-surge;
+	asoc-codec  = <&stub_codec>, <&lpass_cdc>,
+			<&wcd9378_codec>;
+	asoc-codec-names = "msm-stub-codec.1", "lpass-cdc",
+			"wcd9378_codec";
+
+	oplus-switch-handle = <&oplus_typec_switch>;
+};
+
+&ucsi {
+    connector {
+        ports {
+            port@2 {
+                reg = <2>;
+                audio_switch_mux: endpoint {
+                    remote-endpoint = <&typec_switch_mux>;
+                };
+            };
+        };
+    };
+};
+
+&qupv3_se20_i2c {
+	status = "ok";
+	qcom,clk-freq-out = <400000>;
+	tfa98xx@34 {
+		compatible = "nxp,tfa98xx";
+		reg = <0x34>;
+		reset-gpio = <&tlmm 129 0x00>;
+		tfa9874_vdd-supply = <&L15B>;
+		tfa_min_range = <5100>;
+		tfa_max_range = <7300>;
+		tfa_default_mohm = <6000>;
+		tfa_channel = <0>;
+		is_use_freq = <1>;
+		reset-polarity = <0>;
+		status = "ok";
+	};
+	tfa98xx@35 {
+		compatible = "nxp,tfa98xx";
+		reg = <0x35>;
+		reset-gpio = <&tlmm 164 0x00>;
+		tfa9874_vdd-supply = <&L15B>;
+		tfa_min_range = <5100>;
+		tfa_max_range = <7300>;
+		tfa_default_mohm = <6000>;
+		tfa_channel = <1>;
+		is_use_freq = <1>;
+		reset-polarity = <0>;
+		status = "ok";
+	};
+
+	oplus_typec_switch: typec_switch@42 {
+		status = "ok";
+		compatible = "oplus,was4783-i2c";
+		reg = <0x42>;
+		mode-switch;
+
+		port {
+			typec_switch_mux: endpoint {
+				remote-endpoint = <&audio_switch_mux>;
+			};
+		};
+	};
+};
+
+&sde_dp {
+	qcom,dp-aux-switch = <&oplus_typec_switch>;
+};
+
+&soc {
+	oplus_audio_drv: oplus_audio_drv {
+		compatible = "oplus,asoc-audio";
+		//for nxp speaker
+		oplus,speaker-vendor = "nxp";
+		oplus,speaker-i2s-id = <1>;
+		oplus,speaker-codec-name = "tfa98xx.20-0034", "tfa98xx.20-0035";
+		oplus,speaker-codec-dai-name = "tfa98xx-aif-14-34", "tfa98xx-aif-14-35";
+	};
+};
+
+&i2s1_sck_active {
+	config {
+		drive-strength = <4>;   /* 4 mA */
+	};
+};
+
+&i2s1_ws_active {
+	config {
+		drive-strength = <4>;   /* 4 mA */
+	};
+};
+
+&i2s1_sd0_active {
+	config {
+		drive-strength = <4>;   /* 4 mA */
+	};
+};
+
+&i2s1_sd1_active {
+	config {
+		drive-strength = <4>;   /* 4 mA */
+		bias-pull-down;         /* PULL DOWN */
+	};
+};
+
+&swr_tx_clk_active {
+	config {
+		drive-strength = <2>;   /* 2 mA */
+	};
+};
+
+&swr_tx_data0_active {
+	config {
+		drive-strength = <2>;   /* 2 mA */
+	};
+};
+
+&swr_tx_data1_active {
+	config {
+		drive-strength = <2>;   /* 2 mA */
+	};
+};
+
+&swr_tx_data2_active {
+	config {
+		drive-strength = <2>;   /* 2 mA */
+	};
+};
+
+&wcd939x_reset_active {
+	config {
+		drive-strength = <4>;   /* 4 mA */
+	};
+};
+
+&wcd939x_reset_sleep {
+	config {
+		drive-strength = <2>;   /* 2 mA */
+	};
+};

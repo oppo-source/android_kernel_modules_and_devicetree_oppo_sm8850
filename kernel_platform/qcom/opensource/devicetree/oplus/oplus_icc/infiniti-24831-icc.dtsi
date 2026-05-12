@@ -1,0 +1,182 @@
+//#ifdef OPLUS_FEATURE_ICC
+
+#include <dt-bindings/regulator/qcom,rpmh-regulator-levels.h>
+
+&tlmm {
+    qupv3_se17_spi_pins: qupv3_se17_spi_pins {
+        qupv3_se17_spi_miso_active: qupv3_se17_spi_miso_active {
+            mux {
+                pins = "gpio20";
+                function = "qup3_se4_l0";
+            };
+
+			config {
+				pins = "gpio20";
+				drive-strength = <6>;
+				bias-disable;
+			};
+		};
+
+		qupv3_se17_spi_mosi_active: qupv3_se17_spi_mosi_active {
+			mux {
+				pins = "gpio21";
+				function = "qup3_se4_l1";
+			};
+
+			config {
+				pins = "gpio21";
+				drive-strength = <6>;
+				bias-disable;
+			};
+		};
+
+		qupv3_se17_spi_clk_active: qupv3_se17_spi_clk_active {
+			mux {
+				pins = "gpio22";
+				function = "qup3_se4_l2";
+			};
+
+			config {
+				pins = "gpio22";
+				drive-strength = <6>;
+				bias-disable;
+			};
+		};
+
+		qupv3_se17_spi_cs_active: qupv3_se17_spi_cs_active {
+			mux {
+				pins = "gpio23";
+				function = "qup3_se4_l3";
+			};
+
+			config {
+				pins = "gpio23";
+				drive-strength = <6>;
+				bias-pull-up;
+			};
+		};
+
+		qupv3_se17_spi_sleep: qupv3_se17_spi_sleep {
+			mux {
+				pins = "gpio20", "gpio21",
+					"gpio22";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio20", "gpio21",
+					"gpio22";
+				drive-strength = <2>;
+				bias-disable;
+			};
+        };
+
+		qupv3_se17_spi_cs_sleep: qupv3_se17_spi_cs_sleep {
+			mux {
+				pins = "gpio23";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio23";
+				drive-strength = <2>;
+				bias-pull-up;
+			};
+		};
+    };
+    icc_plus_pins: icc_plus_pins {
+        icc_spi_goodpin_default: icc_spi_goodpin_default {
+            mux {
+                pins = "gpio199";
+                function = "gpio";
+            };
+            config {
+                pins = "gpio199";
+                drive-strength = <2>;
+                input-disable;
+                bias-disable;
+            };
+        };
+        icc_spi_readirq_default: icc_spi_readirq_default {
+            mux {
+                pins = "gpio216";
+                function = "gpio";
+            };
+            config {
+                pins = "gpio216";
+                drive-strength = <2>;
+                input-disable;
+                bias-disable;
+            };
+        };
+    };
+    icc_spi_goodpin_active: icc_spi_goodpin_active {
+            mux {
+                pins = "gpio199";
+                function = "gpio";
+            };
+            config {
+                pins = "gpio199";
+                drive-strength = <2>;
+                input-enable;
+                bias-disable;
+            };
+        };
+        icc_spi_readirq_active: icc_spi_readirq_active {
+            mux {
+                pins = "gpio216";
+                function = "gpio";
+            };
+            config {
+                pins = "gpio216";
+                drive-strength = <2>;
+                input-enable;
+                bias-disable;
+            };
+        };
+};
+
+&L10B{
+    regulator-min-microvolt = <1800000>;
+    regulator-max-microvolt = <1800000>;
+    com,init-voltage = <1800000>;
+    qcom,init-mode = <RPMH_REGULATOR_MODE_AUTO>;
+};
+
+&qupv3_se17_spi {
+    pinctrl-names = "default", "sleep";
+    pinctrl-0 = <&qupv3_se17_spi_mosi_active>, <&qupv3_se17_spi_miso_active>,
+        <&qupv3_se17_spi_clk_active>, <&qupv3_se17_spi_cs_active>;
+    pinctrl-1 = <&qupv3_se17_spi_sleep>, <&qupv3_se17_spi_cs_sleep>;
+    status = "ok";
+    icc_spi_dev@0 {
+        compatible = "oplus,icc_mcu_dev";
+        spi-bus-id = <0>;
+        reg = <0>;
+        interrupts = <216 0x2008>;
+        /* spi read irq */
+        spi-irq-gpio = <&tlmm 216 0x2008>;
+        icc,pwr-en-gpio = <&tlmm 168 GPIO_ACTIVE_HIGH>;
+        icc-vcc-power-type = <2>; /* LDO */
+        vdd-supply = <&L10B>;
+        /* mcu runtime status irq */
+        icc,irq-gpio = <&tlmm 199 GPIO_ACTIVE_LOW>;
+        icc,rst-gpio = <&tlmm 148 GPIO_ACTIVE_HIGH>;
+        icc,bypass-gpio = <&tlmm 117 GPIO_ACTIVE_LOW>;
+        spi-max-frequency = <16000000>;
+        pinctrl-names = "default", "active";
+        pinctrl-0 = <&icc_spi_goodpin_default>, <&icc_spi_readirq_default>;
+        pinctrl-1 = <&icc_spi_goodpin_active>, <&icc_spi_readirq_active>;
+    };
+};
+
+&qupv3_se1_2uart {
+	status = "ok";
+};
+
+&aliases{
+    spi17 = "/soc/qcom,qupv3_3_geni_se@19c0000/spi@1990000";
+    hsuart5 = "/soc/qcom,qupv3_1_geni_se@ac0000/qcom,qup_uart@a84000";
+};
+//#endif /* ifdef OPLUS_FEATURE_ICC */
+//#endif

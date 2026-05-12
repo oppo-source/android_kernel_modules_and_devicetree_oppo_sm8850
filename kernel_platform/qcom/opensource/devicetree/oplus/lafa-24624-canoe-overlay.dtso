@@ -1,0 +1,51 @@
+/dts-v1/;
+/plugin/;
+#include "../qcom/canoe-mtp-overlay.dtso"
+#include <dt-bindings/oplus/hw-id.h>
+#include "canoe_overlay_common.dtsi"
+#include "lafa_overlay_common.dtsi"
+#include "tp/lafa-oplus-tp-24624.dtsi"
+#include "oplus_uff/oplus-uff-24624.dtsi"
+#include "oplus_misc/oplus-misc-24624.dtsi"
+#include "sensor/lafa-sensor-24624.dtsi"
+#include "oplus_nfc/lafa-24624-sn220.dtsi"
+#include "mm/lafa-24624-canoe-mm.dtsi"
+#include "oplus_chg/oplus-chg-24624.dtsi"
+#include "oplus_chg/oplus-chg-24624-pps.dtsi"
+#include "oplus_chg/oplus-chg-24624-silicon-deep-discharge-dodge.dtsi"
+/ {
+    model = "Qualcomm Technologies, Inc. Canoe MTP,lafa";
+    oplus,project-id = <24624 24776>;
+    oplus,hw-id = <OPLUS_EVB1 OPLUS_EVB2 OPLUS_EVB3 OPLUS_T0 OPLUS_T1 OPLUS_EVT1 OPLUS_EVT2 OPLUS_DVT1 OPLUS_DVT2 OPLUS_DVT3 OPLUS_PVT1>;
+};
+
+&tlmm {
+  //#ifdef OPLUS_FEATURE_RF_CABLE_DETECT
+  rf_cable0_active: rf_cable0_active {
+    mux {
+      pins = "gpio47";
+      function = "gpio";
+    };
+    config {
+      pins = "gpio47";
+      drive-strength = <2>;
+      input-enable;
+      bias-pull-up;
+    };
+  };
+  //#endif /* OPLUS_FEATURE_RF_CABLE_DETECT */
+};
+
+&soc{
+  //#ifdef OPLUS_FEATURE_RF_CABLE_DETECT
+    oplus_rf_cable {
+        compatible = "oplus,rf_cable";
+        interrupt-parent = <&tlmm>;
+        rf_cable_support_num = <1>;
+        rf,cable0-gpio = <&tlmm 47 0>;
+        rf,cable-support-timer = <0>;
+        pinctrl-names = "rf_cable_active";
+        pinctrl-0 = <&rf_cable0_active>;
+    };
+  //#endif /* OPLUS_FEATURE_RF_CABLE_DETECT */
+};

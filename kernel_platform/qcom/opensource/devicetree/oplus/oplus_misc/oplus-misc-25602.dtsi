@@ -1,0 +1,118 @@
+&tlmm {
+	aw_haptics: aw_haptics {
+		aw_irq_gpio_default: aw_irq_gpio_default {
+			mux {
+				pins = "gpio71";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio71";
+				drive-strength = <2>;
+				input-enable;
+				bias-pull-up;
+			};
+		};
+	};
+};
+
+&pm7550ba_vib {
+	status = "disabled";
+};
+
+&qupv3_se16_i2c {
+	qcom,clk-freq-out = <1000000>;
+	status = "ok";
+	aw_haptic@5A {
+		compatible = "oplus,aw_haptic";
+		reg = <0x5A>;
+		reset-gpio = <&tlmm 82 0>;
+		irq-gpio = <&tlmm 71 0>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&aw_irq_gpio_default>;
+		status = "ok";
+		qcom,device_id = <809>; /* 809 */
+
+		oplus,livetap_support;
+		oplus,auto_break_mode_support;
+		oplus,vbat_low_soc = <5>;
+		oplus,vbat_low_soc_cold = <20>;
+		oplus,vbat_low_temp = <(-50)>; /*-5C*/
+		oplus,vbat_low_vmax_level = <2000>;
+
+		aw8693xs_boost_voltage = <0x11>;
+		aw8693xs_vmax = /bits/ 8 < 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11
+					0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 >;
+		aw8693xs_gain = /bits/ 8 < 0x00 0x0b 0x10 0x15 0x1b 0x20 0x25 0x2b 0x31 0x36 0x3c 0x41
+					0x47 0x50 0x5a 0x60 0x64 0x67 0x6b 0x6e 0x72 0x75 0x79 0x7c 0x7e >;
+
+		aw8693xs_cont_brk_gain = /bits/ 8 < 0x08 >;
+		aw8693xs_cont_brk_time = /bits/ 8 < 0x08 >;
+		aw8693xs_d2s_gain = /bits/ 8 < 0x07 >;
+		aw8693xs_bemf_d2s_gain = /bits/ 8 < 0x04 >;
+		aw8693xs_is_enabled_vbat_pro;
+	};
+};
+
+&soc {
+	feedback_fb: feedback_fb {
+		compatible = "oplus,haptic-feedback";
+	};
+};
+
+&pm7550ba_eusb2_repeater {
+	qcom,param-override-seq = <0x0e 0x51 0x01 0x52 0x06 0x53 0x01 0x54 0x03 0x55 0x06 0x57>;
+	qcom,host-param-override-seq = <0x08 0x51 0x04 0x52 0x06 0x53 0x01 0x54 0x00 0x55 0x01 0x57>;
+};
+
+&soc {
+	usb_nop_phy: usb_nop_phy {
+		compatible = "usb-nop-xceiv";
+	};
+};
+
+&usb0 {
+	/delete-property/ extcon;
+	dwc3@a600000 {
+		usb-phy = <&eusb2_phy0>, <&usb_nop_phy>;
+		maximum-speed = "high-speed";
+		snps,usb2-lpm-disable;
+		snps,usb2-gadget-lpm-disable;
+	};
+};
+
+&usb_qmp_dp_phy {
+	status = "disabled";
+};
+
+&battery_charger {
+	qcom,otg_boost_src = <0>; /* 0:plat_pmic 1:external */
+};
+
+&pm7550ba_bcl {
+	bcl,support_track;
+	bcl,support_dynamic_vbat;
+	bcl,dynamic_vbat_data = <(-50) 3050 2950 2500
+				100 2950 2750 2500
+				1000 2850 2700 2500>;
+};
+
+&pm8550_bcl {
+	compatible = "qcom,pm8550-bcl-v5";
+	bcl,support_track;
+	bcl,support_dynamic_vbat;
+	bcl,dynamic_vbat_data = <(-50) 3050 2700 2300
+				100 2950 2700 2300
+				1000 2850 2700 2300>;
+};
+
+&ibat_lvl0 {
+	temperature = <11300>;
+	hysteresis = <200>;
+	type = "passive";
+};
+&ibat_lvl1 {
+	temperature = <12000>;
+	hysteresis = <200>;
+	type = "passive";
+};

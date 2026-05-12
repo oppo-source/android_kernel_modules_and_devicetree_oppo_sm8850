@@ -1,0 +1,65 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+&soc {
+	ipcc_mproc_apps_ns2: qcom,ipcc@422000 {
+		compatible = "qcom,ipcc";
+		reg = <0x422000 0x1000>;
+		interrupts = <GIC_SPI 560 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-controller;
+		#interrupt-cells = <3>;
+		#mbox-cells = <2>;
+	};
+};
+
+&hab {
+	vmid = <3>;
+};
+
+&usb2_phy0 {
+	status = "disabled";
+};
+
+&usb1 {
+	/delete-property/ qcom,host-poweroff-in-pm-suspend;
+	/delete-property/ qcom,default-mode-host;
+	status = "disabled";
+};
+
+&usb2_phy1 {
+	status = "disabled";
+};
+
+&usb_qmp_phy1 {
+	status = "disabled";
+};
+
+&pcie_smmu {
+	status = "disabled";
+};
+
+&pcie1 {
+	status = "disabled";
+};
+
+&pcie1_msi_snps {
+	status = "disabled";
+};
+
+&qupv3_1 {
+	status = "disabled";
+};
+
+&qupv3_2 {
+	status = "disabled";
+};
+
+&glink_cma_mem0 {
+	status = "okay";
+};
+
+&qcom_rng_ee3 {
+	status = "disabled";
+};

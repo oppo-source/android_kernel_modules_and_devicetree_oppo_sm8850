@@ -1,0 +1,6 @@
+&trust_ui_vm_mem {
+
+       guarantee;
+
+};
+

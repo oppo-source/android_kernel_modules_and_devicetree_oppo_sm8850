@@ -1,0 +1,54 @@
+/dts-v1/;
+/plugin/;
+#include "../qcom/alor-mtp-overlay.dtso"
+#include "alor_overlay_common.dtsi"
+#include "macan_overlay_common.dtsi"
+#include <dt-bindings/oplus/hw-id.h>
+#include "region-id.h.dtsi"
+#include "tp/macan-oplus-tp-24855.dtsi"
+#include "sensor/macan-sensor-24855-24877.dtsi"
+#include "oplus_chg/oplus-chg-24877-IN.dtsi"
+#include "oplus_misc/oplus-misc-24877-IN.dtsi"
+#include "oplus_uff/oplus-uff-24855.dtsi"
+#include "oplus_nfc/macan-nfc.dtsi"
+#include "mm/macan-24877-alor-mm.dtsi"
+
+/ {
+    model = "Qualcomm Technologies, Inc. Alor MTP + WCN7750 WLAN + PM7750BA SMB1500 + ST54L + Panderio,macan-IN";
+    oplus,project-id = <24877 24878 24879>;
+    oplus,hw-id = <OPLUS_EVB1 OPLUS_EVB2 OPLUS_EVB3 OPLUS_PRE_T0 OPLUS_T0 OPLUS_EVT1 OPLUS_EVT2 OPLUS_DVT1 OPLUS_DVT2 OPLUS_PVT1>;
+    oplus,region-id = <REGION_UNKNOWN REGION_CN REGION_IN>;
+};
+
+&tlmm {
+
+  //#ifdef OPLUS_FEATURE_RF_CABLE_DETECT
+  rf_cable0_active: rf_cable0_active {
+    mux {
+      pins = "gpio84";
+      function = "gpio";
+    };
+    config {
+      pins = "gpio84";
+      drive-strength = <2>;
+      input-enable;
+      bias-pull-up;
+    };
+  };
+  //#endif /* OPLUS_FEATURE_RF_CABLE_DETECT */
+};
+
+&soc{
+
+  //#ifdef OPLUS_FEATURE_RF_CABLE_DETECT
+    oplus_rf_cable {
+        compatible = "oplus,rf_cable";
+        interrupt-parent = <&tlmm>;
+        rf_cable_support_num = <1>;
+        rf,cable0-gpio = <&tlmm 84 0>;
+        rf,cable-support-timer = <0>;
+        pinctrl-names = "rf_cable_active";
+        pinctrl-0 = <&rf_cable0_active>;
+    };
+  //#endif /* OPLUS_FEATURE_RF_CABLE_DETECT */
+};
