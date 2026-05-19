@@ -1,0 +1,15 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/oplus/hw-id.h>
+#include "../alor-audio-mtp.dts"
+
+#include "alor-audio-overlay-common.dtsi"
+#include "ivy-25928-audio-alor-overlay.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Alor MTP,ivy";
+
+	oplus,project-id = <25928>;
+	oplus,hw-id = <OPLUS_EVB1 OPLUS_EVB2 OPLUS_EVB3 OPLUS_EVT1 OPLUS_EVT2 OPLUS_EVT3 OPLUS_DVT1 OPLUS_DVT2 OPLUS_PVT1>;
+};

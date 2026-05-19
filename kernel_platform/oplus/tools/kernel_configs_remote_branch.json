@@ -1,0 +1,4 @@
+{
+    "default": "upstream/google/android15-tests-release",
+    "android15": "upstream/google/android15-tests-release"
+}

@@ -1,0 +1,197 @@
+&tlmm {
+	qupv3_se12_i2c_pins: qupv3_se12_i2c_pins {
+		qupv3_se12_i2c_sda_active: qupv3_se12_i2c_sda_active {
+			mux {
+				pins = "gpio208";
+				function = "qup2_se4_l0";
+			};
+
+			config {
+				pins = "gpio208";
+				drive-strength = <2>;
+				bias-pull-up;
+				qcom,i2c_pull;
+				qcom,apps;
+			};
+		};
+
+		qupv3_se12_i2c_scl_active: qupv3_se12_i2c_scl_active {
+			mux {
+				pins = "gpio209";
+				function = "qup2_se4_l1";
+			};
+
+			config {
+				pins = "gpio209";
+				drive-strength = <2>;
+				bias-pull-up;
+				qcom,i2c_pull;
+				qcom,apps;
+			};
+		};
+
+		qupv3_se12_i2c_sleep: qupv3_se12_i2c_sleep {
+			mux {
+				pins = "gpio208", "gpio209";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio208", "gpio209";
+				drive-strength = <2>;
+				qcom,remote;
+			};
+		};
+	};
+
+	aw_pin {
+		gpio_chip_reset: gpio_chip_reset {
+			mux {
+				pins = "gpio177";
+				function = "gpio";
+			};
+			config {
+				pins = "gpio177";
+				drive-strength = <0>;
+				output-high;
+				bias-pull-up;
+			};
+		};
+		gpio_chip_int: gpio_chip_int {
+			mux {
+				pins = "gpio30";
+				function = "gpio";
+			};
+			config {
+				pins = "gpio30";
+				bias-pull-up; /* enable pull up */
+				drive-strength = <0>;
+				input-enable; /* digital input */
+			};
+		};
+		gpio_i2c_sync: gpio_i2c_sync {
+			mux {
+				pins = "gpio161";
+				function = "gpio161";
+			};
+			config {
+				pins = "gpio161";
+				bias-pull-down; /* enable pull down */
+				drive-strength = <0>;
+				input-enable; /* digital input */
+			};
+		};
+	};
+};
+
+&qupv3_se12_i2c {
+	qcom,clk-freq-out = <1000000>;
+	qcom,high-perf;
+	oplus,suspend_delay;
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&qupv3_se12_i2c_sda_active>, <&qupv3_se12_i2c_scl_active>;
+	pinctrl-1 = <&qupv3_se12_i2c_sleep>;
+	dmas = <&gpi_dma2 0 7 3 1024 2>,
+			<&gpi_dma2 1 7 3 1024 2>;
+	status = "ok";
+	awgpio: gpio@22 {
+		compatible = "awinic,aw95124";
+		reg = <0x22>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <30 IRQ_TYPE_EDGE_FALLING>;
+		interrupt-controller;
+		#interrupt-cells = <2>;
+
+		reset-gpio =  <&tlmm 177 0>;
+		int-gpio =  <&tlmm 30 0>;
+		aw_i2c_sync_gpio = <&tlmm 161 0>;
+
+		pinctrl-names = "gpio_chip_int","gpio_chip_reset","gpio_i2c_sync";
+		pinctrl-0 = <&gpio_chip_int>;
+		pinctrl-1 = <&gpio_chip_reset>;
+		pinctrl-2 = <&gpio_i2c_sync>;
+
+		gpio-controller;
+		#gpio-cells = <2>;
+		gpio_ex_info = [
+			//REG  DATA
+			04 21
+			0C 00
+			40 FF
+			41 FF
+			4C FF
+			50 00
+			42 00
+			43 10
+			44 04
+			45 00
+			4D 00
+			4E 00
+			51 00
+			52 00
+			5C 00
+		];
+		status = "ok";
+	};
+};
+
+&pmih010x_haptics {
+	qcom,vmax-mv = <1650>;
+	qcom,cl-vmax-mv = <1650>;
+	qcom,lra-period-us = <5882>;
+	qcom,cl_lra-period-us = <5618>;
+	qcom,fifo-vmax-mv = <8350>;
+	qcom,old-steady-vmax-mv = <8350>;
+	qcom,brake-mode = <BRAKE_OPEN_LOOP>;
+	qcom,cal-data-restore;
+	qcom,fifo-empty-threshold = <480>;
+	qcom,vibrator-type = <617>;//ESA0617
+	qcom,vbat-low-soc = <5>;
+	qcom,vbat-low-soc-cold = <20>;
+	qcom,vbat-low-temp = <(-50)>;/*-5C*/
+	qcom,vbat-low-fifo-vmax-mv = <6700>;
+	oplus,livetap_support;
+	oplus,he_optimization_support;
+	qcom,autores-en-delay-cycles = <20>; //10 cycle
+	qcom,autores-error-window = <1>; //25 percent
+	qcom,adt_drv_brk_duty_en;  //en f060 bit6 && bit7
+};
+
+&soc {
+	feedback_fb: feedback_fb {
+		compatible = "oplus,haptic-feedback";
+	};
+};
+
+&pmih010x_eusb2_repeater {
+	qcom,param-override-seq = <0x0e 0x51 0x06 0x53 0x02 0x54 0x07 0x57>;
+	qcom,host-param-override-seq = <0x0f 0x51 0x06 0x53 0x04 0x54 0x07 0x57>;
+};
+
+&usb0 {
+	dwc3@a600000 {
+		maximum-speed = "super-speed";
+		snps,usb2-lpm-disable;
+		snps,usb2-gadget-lpm-disable;
+	};
+};
+
+&battery_charger {
+	qcom,otg_boost_src = <0>; /* 0:plat_pmic 1:external */
+};
+
+&pmih010x_bcl {
+	bcl,support_track;
+	bcl,support_dynamic_vbat;
+	bcl,dynamic_vbat_data = <(-50) 3000 3000 2600
+				100 2900 2900 2550
+				1000 2800 2800 2500>;
+};
+
+&pmh0101_bcl {
+	bcl,support_track;
+	bcl,support_dynamic_vbat;
+	bcl,dynamic_vbat_data = <(-50) 3050 2900 2400
+				100 2950 2800 2350
+				1000 2850 2700 2300>;
+};

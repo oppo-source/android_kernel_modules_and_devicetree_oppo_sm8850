@@ -1,0 +1,15 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/oplus/hw-id.h>
+#include "../canoe-audio-mtp.dts"
+
+#include "canoe-audio-overlay-common.dtsi"
+#include "ivy-25928-audio-canoe-overlay.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Canoe MTP,ivy";
+
+	oplus,project-id = <25929 25980>;
+	oplus,hw-id = <OPLUS_T0>;
+};

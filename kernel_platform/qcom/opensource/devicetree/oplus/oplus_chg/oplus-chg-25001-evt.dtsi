@@ -1,0 +1,36 @@
+&oplus_virtual_buck {
+		oplus,buck_ic = <&oplus_pm8550_charger>;
+		oplus,buck_ic_index = <0>;
+		oplus,buck_ic_current_ratio = <100>;
+		oplus,buck_ic_func_group = <&plat_pm8550_groups>;
+};
+
+&byb_hl7603 {
+	status = "disabled";
+};
+
+&byb_hl7603_second {
+	status = "disabled";
+};
+
+&awgpio {
+	oplus_supplementary_power_active:oplus_supplementary_power_active{
+		pins = "gpio22";
+		drive-strength = <0>;
+		output-high;
+	};
+
+	oplus_supplementary_power_sleep:oplus_supplementary_power_sleep{
+		pins = "gpio22";
+		drive-strength = <0>;
+		output-low;
+	};
+};
+
+&battery_charger {
+	oplus,supplementary-power-gpio = <&awgpio 22 0>;
+	pinctrl-names = "default","oplus_supplementary_power_active", "oplus_supplementary_power_sleep";
+	pinctrl-0 = <&batt_con_gpio_default>;
+	pinctrl-1 = <&oplus_supplementary_power_active>;
+	pinctrl-2 = <&oplus_supplementary_power_sleep>;
+};

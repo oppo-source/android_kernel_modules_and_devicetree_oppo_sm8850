@@ -1,0 +1,14 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/oplus/hw-id.h>
+#include "../alor-audio-mtp.dts"
+
+#include "alor-audio-overlay-common.dtsi"
+#include "macan-24855-audio-alor-overlay.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Alor MTP,macan";
+
+	oplus,project-id = <24855 24877 24878 24879>;
+};

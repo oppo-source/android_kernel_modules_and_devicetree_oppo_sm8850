@@ -1,0 +1,90 @@
+#include "panel/dsi-panel-AC306-P-1-A0002-dsc-cmd.dtsi"
+#include "panel/dsi-panel-AC140-S-3-A0014-dsc-cmd.dtsi"
+#include "panel/dsi-panel-AC306-S-3-A0020-dsc-cmd.dtsi"
+
+&soc {
+	oplus,dsi-display-dev {
+		oplus,dsi-panel-primary = <
+			&dsi_vtdr6130_amoled_video
+			&dsi_panel_AC306_P_1_A0002_dsc_cmd
+		>;
+		oplus,dsi-panel-secondary = <
+			&dsi_vtdr6130_amoled_video
+			&dsi_panel_AC140_S_3_A0014_dsc_cmd
+			&dsi_panel_AC306_S_3_A0020_dsc_cmd
+		>;
+		oplus,dsi-panel-extended = <>;
+	};
+};
+
+&sde_dp {
+	oplus,dp-ctrl-enable;
+	oplus,dp-ctrl-gpio = <&pmh0110_d_gpios 13 0>;
+};
+
+&sde_dsi {
+	pinctrl-names = "panel_active", "panel_suspend";
+	pinctrl-0 = <&sde_te_active &oplus_panel_te_1p8_active &oplus_panel_te_1p2_active>;
+	pinctrl-1 = <&sde_te_suspend>;
+};
+
+&sde_dsi1 {
+	pinctrl-names = "panel_active", "panel_suspend";
+	pinctrl-0 = <&sde_te1_active &oplus_sec_panel_te_1p8_active &oplus_sec_panel_te_1p2_active &oplus_sde_dp_active>;
+	pinctrl-1 = <&sde_te1_suspend &oplus_sde_dp_suspend>;
+};
+
+&dsi_vtdr6130_amoled_video {
+	qcom,platform-reset-gpio = <&tlmm 211 0>;
+	qcom,platform-sec-reset-gpio = <&tlmm 171 0>;
+};
+
+&pmh0110_i_gpios {
+	oplus_panel_te_1p8_active: oplus_panel_te_1p8_active {
+		pins = "gpio8";
+		function = "paired";
+		input-enable;
+		output-disable;
+		power-source = <1>; /* 1.8v */
+	};
+
+	oplus_panel_te_1p2_active: oplus_panel_te_1p2_active {
+		pins = "gpio7";
+		function = "paired";
+		input-disable;
+		output-enable;
+		power-source = <2>; /* 1.2v */
+	};
+
+	oplus_sec_panel_te_1p8_active: oplus_sec_panel_te_1p8_active {
+		pins = "gpio6";
+		function = "paired";
+		input-enable;
+		output-disable;
+		power-source = <1>; /* 1.8v */
+	};
+
+	oplus_sec_panel_te_1p2_active: oplus_sec_panel_te_1p2_active {
+		pins = "gpio5";
+		function = "paired";
+		input-disable;
+		output-enable;
+		power-source = <2>; /* 1.2v */
+	};
+};
+
+&pmh0110_d_gpios  {
+	oplus_sde_dp_active: oplus_sde_dp_active {
+		pins = "gpio13";
+		input-disable;
+		output-enable;
+		power-source = <0>; /* 1.8v */
+	};
+
+	oplus_sde_dp_suspend: oplus_sde_dp_suspend {
+		pins = "gpio13";
+		input-disable;
+		output-enable;
+		power-source = <0>; /* 1.8v */
+	};
+};

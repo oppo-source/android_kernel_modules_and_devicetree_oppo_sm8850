@@ -1,0 +1,5 @@
+config UFF_FINGERPRINT_NOTIFY
+    tristate "fingerprint notify"
+    help
+      Say Y here if you have fingerprint notify build into driver.
+      Say M here if you have fingerprint notify as module.

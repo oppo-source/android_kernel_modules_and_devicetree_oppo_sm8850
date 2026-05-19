@@ -1,0 +1,8 @@
+config OPLUS_FEATURE_TRACE_SENSOR_ERR
+	tristate "sensor error trace support"
+	help
+	  When this option is enabled, sensor error information will be
+	  recorded via kernel tracepoint named "sensor_err" for sensors-hal.
+	  The trace event format matches oplusSensorErrToStatsd function.
+
+

@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PR Reviewer Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .strong {
+            font-weight: bold;
+        }
+        .issue {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .issue-header {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .file-info, .issue-title, .line-info {
+            margin-bottom: 10px;
+            color: #3369ff;
+        }
+        .variable-info {
+            margin-bottom: 10px;
+        }
+        .issue-content {
+            margin-bottom: 10px;
+            margin-left: 20px;
+        }
+        .variable-info {
+            margin-left: 20px;
+        }
+        code {
+            background-color: #f2f2f2;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        .change-content {
+            display: none;
+        }
+        .change-content.show {
+            display: block;
+        }
+        .toggle-button {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>PR Reviewer Guide 🔍</h2>
+    <table>
+        <tr>
+            <td>
+                <span class="strong">🔗 Gerrit 仓库地址: oplus/kernel/net</span><br>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <span class="strong toggle-button" onclick="toggleChange(this)">⚡ For change: #40154085 </span>
+                <div class="change-content">
+
+                        <div class="issue">
+                            <a href="#" class="issue-header"><span class="strong">潜在的性能风险</span></a>
+
+                            <div class="file-info">文件: <code><a href=http://gerrit.scm.adc.com:8080/#/c/40154085/2/oplus_network_tcpdump_enhance/tcpdump_enhance.c target="_blank">oplus_network_tcpdump_enhance/tcpdump_enhance.c</a></code></div>
+                            <div class="issue-title">问题描述：</div>
+                            <div class="issue-content">在tcpdump_handle_record函数中，持有自旋锁s_tcpdump_lock期间调用notify_stream_uid函数，后者可能执行网络消息发送等耗时操作。自旋锁会禁用抢占，长时间持有锁可能导致内核延迟增加、锁竞争加剧，甚至软死锁风险。</div>
+                            <div class="line-info"><em>行号范围：359 - 377</em></div>
+
+                            <div class="variable-info"><em>变量：<code>notify_stream_uid</code> 在第368行</em></div>
+
+                        </div>
+
+                        <div class="issue">
+                            <a href="#" class="issue-header"><span class="strong">潜在的内存泄漏风险</span></a>
+
+                            <div class="file-info">文件: <code><a href=http://gerrit.scm.adc.com:8080/#/c/40154085/2/oplus_network_tcpdump_enhance/tcpdump_netlink.c target="_blank">oplus_network_tcpdump_enhance/tcpdump_netlink.c</a></code></div>
+                            <div class="issue-title">问题描述：</div>
+                            <div class="issue-content">在send_one_msg函数中，当触发速率限制（notify_msg_count > NOTIFY_MSG_MAX_COUNT）或genlmsg_unicast发送失败时，已分配的skbuff未被释放，导致内核内存泄漏。</div>
+                            <div class="line-info"><em>行号范围：222 - 267</em></div>
+
+                            <div class="variable-info"><em>变量：<code>skbuff</code> 在第257行</em></div>
+
+                            <div class="variable-info"><em>变量：<code>notify_msg_count</code> 在第252行</em></div>
+
+                            <div class="variable-info"><em>变量：<code>NOTIFY_MSG_MAX_COUNT</code> 在第252行</em></div>
+
+                        </div>
+
+                        <div class="issue">
+                            <a href="#" class="issue-header"><span class="strong">设计逻辑问题</span></a>
+
+                            <div class="file-info">文件: <code><a href=http://gerrit.scm.adc.com:8080/#/c/40154085/2/oplus_network_tcpdump_enhance/tcpdump_netlink.c target="_blank">oplus_network_tcpdump_enhance/tcpdump_netlink.c</a></code></div>
+                            <div class="issue-title">问题描述：</div>
+                            <div class="issue-content">速率限制机制中，消息被丢弃时返回0（成功码），调用方无法区分成功发送和被丢弃的情况，可能导致上层逻辑误判。</div>
+                            <div class="line-info"><em>行号范围：222 - 267</em></div>
+
+                            <div class="variable-info"><em>变量：<code>notify_msg_count</code> 在第252行</em></div>
+
+                            <div class="variable-info"><em>变量：<code>NOTIFY_MSG_MAX_COUNT</code> 在第252行</em></div>
+
+                            <div class="variable-info"><em>变量：<code>ret</code> 在第257行</em></div>
+
+                        </div>
+
+                        <div class="issue">
+                            <a href="#" class="issue-header"><span class="strong">潜在的性能风险</span></a>
+
+                            <div class="file-info">文件: <code><a href=http://gerrit.scm.adc.com:8080/#/c/40154085/2/oplus_network_tcpdump_enhance/tcpdump_enhance.c target="_blank">oplus_network_tcpdump_enhance/tcpdump_enhance.c</a></code></div>
+                            <div class="issue-title">问题描述：</div>
+                            <div class="issue-content">在tcpdump_handle_record函数中，持有自旋锁s_tcpdump_lock期间调用notify_stream_uid函数，后者可能执行网络消息发送等耗时操作。自旋锁会禁用抢占，长时间持有锁可能导致内核延迟增加、锁竞争加剧，甚至软死锁风险。</div>
+                            <div class="line-info"><em>行号范围：359 - 377</em></div>
+
+                            <div class="variable-info"><em>变量：<code>notify_stream_uid</code> 在第368行</em></div>
+
+                        </div>
+
+                        <div class="issue">
+                            <a href="#" class="issue-header"><span class="strong">潜在的内存泄漏风险</span></a>
+
+                            <div class="file-info">文件: <code><a href=http://gerrit.scm.adc.com:8080/#/c/40154085/2/oplus_network_tcpdump_enhance/tcpdump_netlink.c target="_blank">oplus_network_tcpdump_enhance/tcpdump_netlink.c</a></code></div>
+                            <div class="issue-title">问题描述：</div>
+                            <div class="issue-content">在send_one_msg函数中，当触发速率限制（notify_msg_count > NOTIFY_MSG_MAX_COUNT）或genlmsg_unicast发送失败时，已分配的skbuff未被释放，导致内核内存泄漏。</div>
+                            <div class="line-info"><em>行号范围：222 - 267</em></div>
+
+                            <div class="variable-info"><em>变量：<code>skbuff</code> 在第257行</em></div>
+
+                            <div class="variable-info"><em>变量：<code>notify_msg_count</code> 在第252行</em></div>
+
+                            <div class="variable-info"><em>变量：<code>NOTIFY_MSG_MAX_COUNT</code> 在第252行</em></div>
+
+                        </div>
+
+                        <div class="issue">
+                            <a href="#" class="issue-header"><span class="strong">设计逻辑问题</span></a>
+
+                            <div class="file-info">文件: <code><a href=http://gerrit.scm.adc.com:8080/#/c/40154085/2/oplus_network_tcpdump_enhance/tcpdump_netlink.c target="_blank">oplus_network_tcpdump_enhance/tcpdump_netlink.c</a></code></div>
+                            <div class="issue-title">问题描述：</div>
+                            <div class="issue-content">速率限制机制中，消息被丢弃时返回0（成功码），调用方无法区分成功发送和被丢弃的情况，可能导致上层逻辑误判。</div>
+                            <div class="line-info"><em>行号范围：222 - 267</em></div>
+
+                            <div class="variable-info"><em>变量：<code>notify_msg_count</code> 在第252行</em></div>
+
+                            <div class="variable-info"><em>变量：<code>NOTIFY_MSG_MAX_COUNT</code> 在第252行</em></div>
+
+                            <div class="variable-info"><em>变量：<code>ret</code> 在第257行</em></div>
+
+                        </div>
+
+                </div>
+            </td>
+        </tr>
+
+    </table>
+<script>
+    function toggleChange(element) {
+        const content = element.nextElementSibling;
+        content.classList.toggle('show');
+    }
+</script>
+</body>
+</html>

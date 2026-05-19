@@ -1,0 +1,14 @@
+/*
+ *   <author>     <data>      <desc>
+ *   LiFenfen   2024/09/09  , select BDF by device-tree , bug id 7902090
+ */
+/dts-v1/;
+/plugin/;
+#include <dt-bindings/interconnect/qcom,canoe.h>
+#include "../canoe-peach-cnss.dts"
+
+&wlan_peach {
+	vdd-wlan-ant-share-supply = <0>;
+	qcom,vdd-wlan-ant-share-config = <0>;
+	drop-l3k;
+};

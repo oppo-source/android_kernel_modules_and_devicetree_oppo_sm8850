@@ -1,0 +1,19 @@
+/dts-v1/;
+/plugin/;
+#include "../qcom/alor-mtp-overlay.dtso"
+#include <dt-bindings/oplus/hw-id.h>
+#include "alor_overlay_common.dtsi"
+#include "ivy_overlay_common.dtsi"
+#include "region-id.h.dtsi"
+#include "oplus_chg/iceland_ivy/oplus-chg-ivy-IN.dtsi"
+#include "tp/ivy-oplus-tp-25928-alor.dtsi"
+
+#include "sensor/ivy-sensor-25928.dtsi"
+#include "oplus_misc/oplus-misc-25928.dtsi"
+/ {
+    model = "Qualcomm Technologies, Inc. Alor MTP,ivy-O IN";
+    oplus,project-id = <25980>;
+    oplus,hw-id = <OPLUS_EVB1 OPLUS_EVB2 OPLUS_EVB3 OPLUS_T0 OPLUS_T1 OPLUS_EVT1 OPLUS_EVT2 OPLUS_EVT3 OPLUS_DVT1 OPLUS_DVT2 OPLUS_PVT1>;
+    oplus,gauge-id = <1>; /* platform gauge */
+};
+

@@ -1,0 +1,67 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+&soc {
+	vidc_iommu_region: vidc_iommu_region {
+		/* These IOVA regions are unique per context bank */
+		iommu-addresses =
+			<&non_secure_cb 0x0 0x92400000>,
+			<&non_secure_cb 0xb1800000 0x4e800000>,
+			<&non_secure_bitstream_cb 0x0 0x01000000>,
+			<&non_secure_bitstream_cb 0xe0000000 0x20000000>,
+			<&non_secure_pixel_cb 0x0 0x01000000>,
+			<&non_secure_pixel_cb 0xe0000000 0x20000000>;
+	};
+
+	msm_vidc: qcom,vidc@aaa1000 {
+		compatible = "qcom,sa8797-vidc";
+		status = "okay";
+
+		/* IOMMU Config */
+		#address-cells = <1>;
+		#isize-cells = <1>;
+
+		/* VMID */
+		vmid = <1>;
+
+		reg = <0x0aaa1000 0x1000>;
+		interrupts = <GIC_SPI 182 IRQ_TYPE_LEVEL_HIGH>;
+
+		/* MMUs */
+		/* FW accesible CB0-VM1 */
+		non_secure_cb: non_secure_cb {
+			compatible = "qcom,vidc,cb-ns";
+			iommus = <&apps_smmu_1 0x0948 0x0020>;
+			memory-region = <&vidc_iommu_region>;
+			qcom,iommu-geometry = <0x92400000 0x1F400000>;
+			qcom,iommu-faults = "non-fatal";
+			qcom,iova-best-fit;
+			qcom,iova-max-align-shift = <8>; /* 1 MB */
+			dma-coherent;
+		};
+
+		non_secure_bitstream_cb: non_secure_bitstream_cb {
+			compatible = "qcom,vidc,cb-ns-bitstream";
+			iommus = <&apps_smmu_1 0x094C 0x0000>;
+			memory-region = <&vidc_iommu_region>;
+			qcom,iommu-geometry = <0x01000000 0xDF000000>;
+			qcom,iommu-faults = "non-fatal";
+			qcom,iova-best-fit;
+			qcom,iova-max-align-shift = <8>; /* 1 MB */
+			dma-coherent;
+		};
+
+		non_secure_pixel_cb: non_secure_pixel_cb {
+			compatible = "qcom,vidc,cb-ns-pxl";
+			iommus = <&apps_smmu_1 0x094B 0x0000>;
+			memory-region = <&vidc_iommu_region>;
+			qcom,iommu-geometry = <0x01000000 0xDF000000>;
+			qcom,iommu-faults = "non-fatal";
+			qcom,iova-best-fit;
+			qcom,iova-max-align-shift = <8>; /* 1 MB */
+			dma-coherent;
+		};
+	};
+};

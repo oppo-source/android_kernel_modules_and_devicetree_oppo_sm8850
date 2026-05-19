@@ -1,0 +1,12 @@
+{
+  "presubmit": [
+    {
+      "name": "kunit",
+      "options": [
+        {
+          "include-filter": "oplus_kunit_example_test_module"
+        }
+      ]
+    }
+  ]
+}

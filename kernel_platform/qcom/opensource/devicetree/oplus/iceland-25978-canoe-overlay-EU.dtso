@@ -1,0 +1,21 @@
+/dts-v1/;
+/plugin/;
+#include "../qcom/canoe-mtp-overlay.dtso"
+#include <dt-bindings/oplus/hw-id.h>
+#include "canoe_overlay_common.dtsi"
+#include "iceland_overlay_common.dtsi"
+#include "oplus_misc/oplus-misc-25926.dtsi"
+#include "sensor/iceland-sensor-25926.dtsi"
+#include "tp/iceland-oplus-tp-25926.dtsi"
+#include "oplus_pogo_kb/iceland-oplus-pogopin-kb.dtsi"
+#include "region-id.h.dtsi"
+#include "oplus_chg/iceland_ivy/oplus-chg-iceland-EU.dtsi"
+#include "mm/iceland-25978-canoe-EU-mm.dtsi"
+
+/ {
+    model = "Qualcomm Technologies, Inc. Canoe MTP,iceland-O EU";
+    oplus,project-id = <25978>;
+    oplus,hw-id = <OPLUS_EVB1 OPLUS_EVB2 OPLUS_EVB3 OPLUS_T0 OPLUS_EVT1 OPLUS_EVT2 OPLUS_DVT1 OPLUS_DVT2 OPLUS_PVT1>;
+    oplus,gauge-id = <2>; /* ext gauge */
+};
+

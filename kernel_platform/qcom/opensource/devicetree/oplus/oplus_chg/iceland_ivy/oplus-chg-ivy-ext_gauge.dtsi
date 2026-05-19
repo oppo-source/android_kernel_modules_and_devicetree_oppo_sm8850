@@ -1,0 +1,228 @@
+&qupv3_se17_i2c_pins {
+	qupv3_se17_i2c_sda_active_oplus: qupv3_se17_i2c_sda_active_oplus {
+		mux {
+			pins = "gpio68";
+			function = "qup3_se1_l0";
+		};
+
+		config {
+			pins = "gpio68";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	qupv3_se17_i2c_scl_active_oplus: qupv3_se17_i2c_scl_active_oplus {
+		mux {
+			pins = "gpio69";
+			function = "qup3_se1_l1";
+		};
+
+		config {
+			pins = "gpio69";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	qupv3_se17_i2c_pulldown: qupv3_se17_i2c_pulldown {
+		mux {
+			pins = "gpio68", "gpio69";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio68", "gpio69";
+			drive-strength = <2>;
+			bias-pull-down;
+			output-low;
+		};
+	};
+
+	qupv3_se17_i2c_pullup: qupv3_se17_i2c_pullup {
+		mux {
+			pins = "gpio68", "gpio69";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio68", "gpio69";
+			drive-strength = <2>;
+			bias-pull-up;
+			input-enable;
+		};
+	};
+};
+
+&qupv3_se17_i2c {
+	status = "ok";
+	qcom,clk-freq-out = <100000>;
+	pinctrl-names = "default", "sleep", "pulldown", "pullup";
+	pinctrl-0 = <&qupv3_se17_i2c_sda_active_oplus>, <&qupv3_se17_i2c_scl_active_oplus>;
+	pinctrl-1 = <&qupv3_se17_i2c_sleep>;
+	pinctrl-2 = <&qupv3_se17_i2c_pulldown>;
+	pinctrl-3 = <&qupv3_se17_i2c_pullup>;
+
+	oplus_ext_gauge: bq27541-battery@55 {
+		status = "okay";
+		compatible = "oplus,bq27541-battery";
+		reg = <0x55>;
+		qcom,modify-soc-calibration;
+		oplus,batt_num = <1>;
+		oplus,support_extern_cmd;
+		oplus,calib_info_save_support;
+		oplus,batt_nfg8011b;
+		oplus,ic_type = <OPLUS_CHG_IC_GAUGE>;
+		oplus,ic_index = <1>;
+
+		sn-match-config {
+			match-type = <SN_MATCH_REGION>;
+			region_in {
+				region = <REGION_IN>;
+				sn = "03000354";
+				status = "okay";
+			};
+			region_eu_us {
+				region = <REGION_EU REGION_US>;
+				sn = "03000355";
+				status = "okay";
+			};
+		};
+	};
+};
+
+&oplus_mms_gauge {
+	oplus_virtual_gauge: oplus,virtual_gauge {
+		oplus,gauge_ic = <&oplus_ext_gauge &oplus_adsp_gauge>;
+		oplus,gauge_ic_index = <0 1>;
+		oplus,gauge_ic_func_group = <&bq27541_groups &oplus_adsp_gauge_groups>;
+	};
+};
+
+&oplus_sc8547d {
+	oplus_spec,external_gauge_support;
+};
+
+&oplus_chg_comm {
+	oplus_spec,batt_full_time = <60>;
+	oplus_spec,batt_full_low_soc = <99>;
+	oplus_spec,batt_full_low_soc_time = <600>;
+	oplus_spec,smooth_strategy_name = "bs";
+	smooth_strategy {
+		oplus_spec,reserve_table_centipercent =
+			/* start(%) end(%) dischg_reserve(0.01%) full_reserve(0.01%) chg_reserve(0.01%) chg_split(%) */
+			<0   20  0   0   200 100>,
+			<21  99  200 0   200 100>,
+			<100 100 200 0   200 100>;
+	};
+};
+
+&oplus_chg_core {
+		oplus-gauge {
+			bq27541_groups: oplus,bq27541_groups {
+				functions = <
+					OPLUS_IC_FUNC_INIT
+					OPLUS_IC_FUNC_EXIT
+					OPLUS_IC_FUNC_REG_DUMP
+					OPLUS_IC_FUNC_SMT_TEST
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_VOL
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_MAX
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_MIN
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_CURR
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_TEMP
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_SOC
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_FCC
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_CC
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_RM
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_SOH
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_AUTH
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_HMAC
+					OPLUS_IC_FUNC_GAUGE_UPDATE_DOD0
+					OPLUS_IC_FUNC_GAUGE_UPDATE_SOC_SMOOTH
+					OPLUS_IC_FUNC_GAUGE_GET_CB_STATUS
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_NUM
+					OPLUS_IC_FUNC_GAUGE_GET_DEVICE_TYPE
+					OPLUS_IC_FUNC_GAUGE_GET_DEVICE_TYPE_FOR_VOOC
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_FCC
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_FC
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_QM
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_PD
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_RCU
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_RCF
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_FCU
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_FCF
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_SOU
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_DO0
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_DOE
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_TRM
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_PC
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_QS
+					OPLUS_IC_FUNC_GAUGE_IS_SUSPEND
+					OPLUS_IC_FUNC_GAUGE_GET_BCC_PARMS
+					OPLUS_IC_FUNC_GAUGE_FASTCHG_UPDATE_BCC_PARMS
+					OPLUS_IC_FUNC_GAUGE_GET_PREV_BCC_PARMS
+					OPLUS_IC_FUNC_GAUGE_SET_BCC_PARMS
+					OPLUS_IC_FUNC_GAUGE_GET_DEVICE_TYPE_FOR_BCC
+					OPLUS_IC_FUNC_GAUGE_GET_DOD0
+					OPLUS_IC_FUNC_GAUGE_GET_DOD0_PASSED_Q
+					OPLUS_IC_FUNC_GAUGE_GET_QMAX
+					OPLUS_IC_FUNC_GAUGE_GET_QMAX_PASSED_Q
+					OPLUS_IC_FUNC_GAUGE_GET_DEEP_DISCHG_COUNT
+					OPLUS_IC_FUNC_GAUGE_SET_DEEP_DISCHG_COUNT
+					OPLUS_IC_FUNC_GAUGE_SET_DEEP_TERM_VOLT
+					OPLUS_IC_FUNC_GAUGE_GET_REG_INFO
+					OPLUS_IC_FUNC_GAUGE_GET_CALIB_TIME
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_SN
+					OPLUS_IC_FUNC_GAUGE_GET_DEEP_TERM_VOLT
+					OPLUS_IC_FUNC_GAUGE_SET_SILI_SPARE_POWER
+					OPLUS_IC_FUNC_GAUGE_GET_SILI_SIMULATE_TERM_VOLT
+					OPLUS_IC_FUNC_GAUGE_GET_SILI_IC_ALG_TERM_VOLT
+					OPLUS_IC_FUNC_GAUGE_SET_SILI_IC_ALG_CFG
+					OPLUS_IC_FUNC_GAUGE_GET_SILI_IC_ALG_DSG_ENABLE
+					OPLUS_IC_FUNC_GAUGE_SET_SILI_IC_ALG_TERM_VOLT
+					OPLUS_IC_FUNC_GAUGE_GET_SILI_ALG_APPLICATION_INFO
+					OPLUS_IC_FUNC_GAUGE_GET_SILI_LIFETIME_STATUS
+					OPLUS_IC_FUNC_GAUGE_GET_SILI_LIFETIME_INFO
+					OPLUS_IC_FUNC_GAUGE_GET_MANU_DATE
+					OPLUS_IC_FUNC_GAUGE_GET_FIRST_USAGE_DATE
+					OPLUS_IC_FUNC_GAUGE_SET_FIRST_USAGE_DATE
+					OPLUS_IC_FUNC_GAUGE_GET_UI_CC
+					OPLUS_IC_FUNC_GAUGE_SET_UI_CC
+					OPLUS_IC_FUNC_GAUGE_GET_UI_SOH
+					OPLUS_IC_FUNC_GAUGE_SET_UI_SOH
+					OPLUS_IC_FUNC_GAUGE_GET_USED_FLAG
+					OPLUS_IC_FUNC_GAUGE_SET_USED_FLAG
+					OPLUS_IC_FUNC_GAUGE_SET_CALIB_TIME
+					OPLUS_IC_FUNC_GAUGE_SET_LAST_CC
+					OPLUS_IC_FUNC_GAUGE_GET_LAST_CC
+					OPLUS_IC_FUNC_GAUGE_GET_CHEM_ID
+					OPLUS_IC_FUNC_GAUGE_GET_DEC_FG_TYPE
+					OPLUS_IC_FUNC_GAUGE_GET_DEC_CV_SOH
+					OPLUS_IC_FUNC_GAUGE_SET_VCT
+					OPLUS_IC_FUNC_GAUGE_GET_VCT
+					OPLUS_IC_FUNC_GAUGE_GET_GAUGE_CAR_C
+					OPLUS_IC_FUNC_GAUGE_GET_BATT_SOC_CENTI
+					OPLUS_IC_FUNC_GAUGE_SET_FAST_SAMPLING
+				>;
+				virqs = <
+					OPLUS_IC_VIRQ_ERR
+					OPLUS_IC_VIRQ_OFFLINE
+					OPLUS_IC_VIRQ_RESUME
+				>;
+			};
+
+			oplus_adsp_gauge_groups: oplus,oplus_adsp_gauge_groups {
+				functions = <
+					OPLUS_IC_FUNC_INIT
+					OPLUS_IC_FUNC_EXIT
+					OPLUS_IC_FUNC_REG_DUMP
+					OPLUS_IC_FUNC_SMT_TEST
+					OPLUS_IC_FUNC_GAUGE_GET_SUBBOARD_TEMP
+				>;
+				virqs = <
+					OPLUS_IC_VIRQ_ERR
+				>;
+			};
+		};
+};
+

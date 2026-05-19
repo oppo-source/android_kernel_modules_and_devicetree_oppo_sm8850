@@ -1,0 +1,7 @@
+config OPLUS_FEATURE_GEAS_CPU
+        tristate "geas cpu"
+        depends on OPLUS_FEATURE_GEAS
+        default n
+        help
+          turning for game
+

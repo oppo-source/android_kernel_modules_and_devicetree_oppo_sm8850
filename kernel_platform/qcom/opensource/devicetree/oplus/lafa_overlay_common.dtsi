@@ -1,0 +1,174 @@
+&pmh0101_flash {
+       pmh0101_flash_led3: led-3 {
+		function = LED_FUNCTION_FLASH;
+		function-enumerator = <0>;
+		color = <LED_COLOR_ID_YELLOW>;
+		led-sources = <1>;
+		led-max-microamp = <500000>;
+		flash-max-microamp = <1500000>;
+		flash-max-timeout-us = <1280000>;
+	};
+};
+
+&pmk8850_vadc {
+        pmh0101_flash_therm {
+                reg = <PMH0101_ADC5_GEN4_AMUX1_GPIO1_100K_PU(0, PMH0101_SID)>;
+                label = "pmh0101_flash_therm";
+                qcom,ratiometric;
+                qcom,hw-settle-time = <200>;
+                qcom,adc-tm-type = <1>;
+        };
+        pmh0101_board_therm {
+                reg = <PMH0101_ADC5_GEN4_AMUX_THM5_100K_PU(0, PMH0101_SID)>;
+                label = "pmh0101_board_therm";
+                qcom,ratiometric;
+                qcom,hw-settle-time = <200>;
+                qcom,adc-tm-type = <1>;
+        };
+};
+
+&thermal_zones {
+        flash_temp {
+                thermal-sensors = <&pmk8850_vadc
+                                   PMH0101_ADC5_GEN4_AMUX1_GPIO1_100K_PU(0, PMH0101_SID)>;
+
+                trips {
+                        active-config0 {
+                                temperature = <125000>;
+                                hysteresis = <1000>;
+                                type = "passive";
+                        };
+
+                        active-config1 {
+                                temperature = <125000>;
+                                hysteresis = <1000>;
+                                type = "passive";
+                        };
+                };
+        };
+        board_temp {
+                thermal-sensors = <&pmk8850_vadc
+                                   PMH0101_ADC5_GEN4_AMUX_THM5_100K_PU(0, PMH0101_SID)>;
+
+                trips {
+                        active-config0 {
+                                temperature = <125000>;
+                                hysteresis = <1000>;
+                                type = "passive";
+                        };
+
+                        active-config1 {
+                                temperature = <125000>;
+                                hysteresis = <1000>;
+                                type = "passive";
+                        };
+                };
+        };
+
+        pmih010x-bcl-lvl1 {
+            cooling-maps {
+                lbat_lvl1 {
+                    trip = <&b_bcl_lvl1>;
+                    cooling-device = <&msm_gpu 9 9>;
+                };
+            };
+        };
+
+        pmih010x-bcl-lvl2 {
+            cooling-maps {
+                lbat_gpu2 {
+                    trip = <&b_bcl_lvl2>;
+                    cooling-device = <&msm_gpu 11 11>;
+                };
+            };
+        };
+
+        pmh0101-bcl-lvl1 {
+            cooling-maps {
+                vph_lvl1 {
+                    trip = <&bcl_lvl1>;
+                    cooling-device = <&msm_gpu 9 9>;
+                };
+            };
+        };
+
+        pmh0101-bcl-lvl2 {
+            cooling-maps {
+                vph_gpu2 {
+                    trip = <&b_bcl_lvl2>;
+                    cooling-device = <&msm_gpu 11 11>;
+                };
+            };
+        };
+};
+
+&soc {
+        //#ifdef OPLUS_FEATURE_THERMAL_HORAE
+        shell_front {
+                compatible = "oplus,shell-temp";
+        };
+
+        shell_frame {
+                compatible = "oplus,shell-temp";
+        };
+
+        shell_back {
+                compatible = "oplus,shell-temp";
+        };
+        //#endif /* OPLUS_FEATURE_THERMAL_HORAE */
+
+        //#ifdef OPLUS_FEATURE_ESIM
+        oplus-gpio {
+           compatible = "oplus,oplus-gpio";
+           pinctrl-names = "oplus_esim", "sim2_det_no_pull", "sim2_det_pull_high", "sim2_det_pull_low";
+           pinctrl-0 = <&esim_en_gpio>;
+           pinctrl-1 = <&sim2_det_no_pull>;
+           pinctrl-2 = <&sim2_det_pull_high>;
+           pinctrl-3 = <&sim2_det_pull_low>;
+           oplus,oplus-esim-en = <&pmih010x_gpios 10 GPIO_ACTIVE_LOW>;
+           oplus,oplus-sim2-det = <&pmh0110_d_gpios 7 0>;
+           oplus,uim-reset-pin = "modem_solution";
+        };
+        oplus_sim_detect {
+           compatible = "oplus, sim_detect";
+           Hw,sim_det = "modem_det";
+        };
+        //#endif /*OPLUS_FEATURE_ESIM*/
+};
+
+&pmih010x_gpios {
+  esim_en_gpio: esim_en_gpio {
+      pins = "gpio10";
+      function = "normal";
+      bias-disable; /* NO pull */
+      qcom,drive-strength = <2>; /* 2 MA */
+      power-source = <2>; /* 1.2V */
+      output-high;
+  };
+};
+
+&pmh0110_d_gpios {
+    sim2_det_no_pull: sim2_det_no_pull {
+        pins = "gpio7";
+        function = "normal";
+        input-enable;
+        power-source = <0>;
+        bias-disable;
+    };
+
+    sim2_det_pull_high: sim2_det_pull_high {
+        pins = "gpio7";
+        function = "normal";
+        input-enable;
+        power-source = <0>;
+        bias-pull-up;
+    };
+
+    sim2_det_pull_low: sim2_det_pull_low {
+        pins = "gpio7";
+        function = "normal";
+        input-enable;
+        power-source = <0>;
+        bias-pull-down;
+    };
+};

@@ -1,0 +1,34 @@
+/* EU MPC8011B */
+#include "oplus-chg-ivy-common.dtsi"
+#include "oplus-chg-ivy-ext_gauge.dtsi"
+
+&soc {
+	oplus_cpa: oplus,cpa {
+		compatible = "oplus,cpa";
+		/* format: <protocol_type power_w> */
+		oplus,protocol_list = <	CHG_PROTOCOL_VOOC 67
+					CHG_PROTOCOL_PPS  55
+					CHG_PROTOCOL_PD   18
+					CHG_PROTOCOL_QC   18>;
+		oplus,default_protocol_list = <	CHG_PROTOCOL_VOOC
+						CHG_PROTOCOL_PPS
+						CHG_PROTOCOL_PD>;
+	};
+};
+
+&oplus_chg_core {
+	oplus,eco_region_list = /bits/ 8 <0x44 /* EUEX */>;
+	oplus,common_chg_region_list = /bits/ 8 <0x44 /* EUEX */>;
+};
+
+&oplus_ext_gauge {
+	/* ivy EU:611303000355 */
+	sn-match-config {
+		match-type = <SN_MATCH_REGION>;
+		region_eu_us {
+			region = <REGION_EU REGION_US>;
+			sn = "03000355";
+			status = "okay";
+		};
+	};
+};

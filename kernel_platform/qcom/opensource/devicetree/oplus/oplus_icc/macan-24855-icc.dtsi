@@ -1,0 +1,205 @@
+//#ifdef OPLUS_FEATURE_ICC
+
+#include <dt-bindings/regulator/qcom,rpmh-regulator-levels.h>
+
+&tlmm {
+	qupv3_se10_spi_pins: qupv3_se10_spi_pins {
+		qupv3_se10_spi_miso_active: qupv3_se10_spi_miso_active {
+			mux {
+				pins = "gpio8";
+				function = "qup2_se2_l0";
+			};
+
+			config {
+				pins = "gpio8";
+				drive-strength = <6>;
+				bias-disable;
+			};
+		};
+
+		qupv3_se10_spi_mosi_active: qupv3_se10_spi_mosi_active {
+			mux {
+				pins = "gpio9";
+				function = "qup2_se2_l1";
+			};
+
+			config {
+				pins = "gpio9";
+				drive-strength = <4>;
+				bias-disable;
+			};
+		};
+
+		qupv3_se10_spi_clk_active: qupv3_se10_spi_clk_active {
+			mux {
+				pins = "gpio10";
+				function = "qup2_se2_l2";
+			};
+
+			config {
+				pins = "gpio10";
+				drive-strength = <6>;
+				bias-disable;
+			};
+		};
+
+		qupv3_se10_spi_cs_active: qupv3_se10_spi_cs_active {
+			mux {
+				pins = "gpio11";
+				function = "qup2_se2_l3";
+			};
+
+			config {
+				pins = "gpio11";
+				drive-strength = <6>;
+				bias-disable;
+			};
+		};
+
+		qupv3_se10_spi_sleep: qupv3_se10_spi_sleep {
+			mux {
+				pins = "gpio8", "gpio9",
+					"gpio10";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio8", "gpio9",
+					"gpio10";
+				drive-strength = <2>;
+				bias-disable;
+			};
+		};
+		qupv3_se10_spi_cs_sleep: qupv3_se10_spi_cs_sleep {
+			mux {
+				pins = "gpio11";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio11";
+				drive-strength = <2>;
+				bias-disable;
+			};
+		};
+	};
+    icc_plus_pins: icc_plus_pins {
+        icc_spi_goodpin_default: icc_spi_goodpin_default {
+            mux {
+                pins = "gpio19";
+                function = "gpio";
+            };
+            config {
+                pins = "gpio19";
+                drive-strength = <2>;
+                input-disable;
+                bias-disable;
+            };
+        };
+        icc_spi_readirq_default: icc_spi_readirq_default {
+            mux {
+                pins = "gpio12";
+                function = "gpio";
+            };
+            config {
+                pins = "gpio12";
+                drive-strength = <2>;
+                input-disable;
+                bias-disable;
+            };
+        };
+    };
+    icc_spi_goodpin_active: icc_spi_goodpin_active {
+            mux {
+                pins = "gpio19";
+                function = "gpio";
+            };
+            config {
+                pins = "gpio19";
+                drive-strength = <2>;
+                input-enable;
+                bias-disable;
+            };
+    };
+    icc_spi_readirq_active: icc_spi_readirq_active {
+        mux {
+            pins = "gpio12";
+            function = "gpio";
+        };
+        config {
+            pins = "gpio12";
+            drive-strength = <2>;
+            input-enable;
+            bias-disable;
+        };
+    };
+
+	qupv3_se11_2uart_pins: qupv3_se11_2uart_pins {
+		qupv3_se11_default_rx: qupv3_se11_default_rx {
+			mux {
+				pins = "gpio15";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio15";
+				drive-strength = <2>;
+				bias-pull-down;
+			};
+		};
+		qupv3_se11_rx_active: qupv3_se11_rx_active {
+			mux {
+				pins = "gpio15";
+				function = "qup2_se3_l3";
+			};
+
+			config {
+				pins = "gpio15";
+				drive-strength = <2>;
+				bias-disable;
+			};
+		};
+    };
+};
+
+&qupv3_se10_spi {
+    pinctrl-names = "default", "sleep";
+    pinctrl-0 = <&qupv3_se10_spi_mosi_active>, <&qupv3_se10_spi_miso_active>,
+        <&qupv3_se10_spi_clk_active>, <&qupv3_se10_spi_cs_active>;
+    pinctrl-1 = <&qupv3_se10_spi_sleep>, <&qupv3_se10_spi_cs_sleep>;
+    status = "ok";
+    icc_spi_dev@0 {
+        compatible = "oplus,icc_mcu_dev";
+        spi-bus-id = <0>;
+        reg = <0>;
+        interrupts = <12 0x2008>;
+        /* spi read irq */
+        spi-irq-gpio = <&tlmm 12 0x2008>;
+        icc,pwr-en-gpio = <&tlmm 57 GPIO_ACTIVE_HIGH>;
+        icc-vcc-power-type = <1>; /* GPIO */
+        /* mcu runtime status irq */
+        icc,irq-gpio = <&tlmm 19 GPIO_ACTIVE_LOW>; /* good-pin */
+        icc,rst-gpio = <&tlmm 13 GPIO_ACTIVE_HIGH>; /* hw-reset */
+        icc,bypass-gpio = <&tlmm 72 GPIO_ACTIVE_LOW>;
+        spi-max-frequency = <16000000>;
+        pinctrl-names = "default", "active";
+        pinctrl-0 = <&icc_spi_goodpin_default>, <&icc_spi_readirq_default>;
+        pinctrl-1 = <&icc_spi_goodpin_active>, <&icc_spi_readirq_active>;
+    };
+};
+
+&qupv3_se11_2uart {
+    pinctrl-names = "default", "active", "sleep", "shutdown";
+    pinctrl-0 = <&qupv3_se11_default_rx>;
+    pinctrl-1 = <&qupv3_se11_rx_active>;
+    pinctrl-2 = <&qupv3_se11_default_rx>;
+    pinctrl-3 = <&qupv3_se11_default_rx>;
+	status = "ok";
+};
+
+&aliases{
+    spi10 = "/soc/qcom,qupv3_2_geni_se@8c0000/spi@888000";
+    hsuart5 = "/soc/qcom,qupv3_2_geni_se@8c0000/qcom,qup_uart@88c000";
+};
+//#endif /* ifdef OPLUS_FEATURE_ICC */
+//#endif

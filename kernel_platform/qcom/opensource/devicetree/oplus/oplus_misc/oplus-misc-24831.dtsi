@@ -1,0 +1,74 @@
+&pmih010x_haptics {
+	qcom,vmax-mv = <1600>;
+	qcom,cl-vmax-mv = <1700>;
+	qcom,lra-period-us = <7692>;
+	qcom,fifo-vmax-mv = <8300>;
+	qcom,old-steady-vmax-mv = <8300>;
+	qcom,brake-mode = <BRAKE_OPEN_LOOP>;
+	qcom,cal-data-restore;
+	qcom,fifo-empty-threshold = <480>;
+	qcom,vibrator-type = <816>;//0816B
+	qcom,vbat-low-soc = <5>;
+	qcom,vbat-low-soc-cold = <20>;
+	qcom,vbat-low-temp = <(-50)>;/*-5C*/
+	qcom,vbat-low-fifo-vmax-mv = <7055>;
+	oplus,livetap_support;
+};
+
+&soc {
+	feedback_fb: feedback_fb {
+		compatible = "oplus,haptic-feedback";
+	};
+};
+
+&pmih010x_eusb2_repeater {
+	qcom,param-override-seq = <0x0e 0x51 0x07 0x53 0x04 0x54 0x02 0x55 0x04 0x57>;
+	qcom,host-param-override-seq = <0x0e 0x51 0x07 0x53 0x05 0x54 0x03 0x55 0x05 0x57>;
+};
+
+&usb0 {
+	qcom,wcd_usbss = <&wcd_usbss>;
+	dwc3@a600000 {
+		maximum-speed = "super-speed";
+		snps,usb2-lpm-disable;
+		snps,usb2-gadget-lpm-disable;
+	};
+};
+
+&battery_charger {
+	qcom,otg_boost_src = <0>; /* 0:plat_pmic 1:external */
+};
+
+&regulator_ocp_notifier {
+	periph-d40-supply = <0>;
+	periph-d41-supply = <0>;
+	periph-d42-supply = <0>;
+	periph-d43-supply = <0>;
+	periph-d44-supply = <0>;
+	periph-d45-supply = <0>;
+	periph-d46-supply = <0>;
+};
+
+&pmih010x_bcl {
+    bcl,support_track;
+    bcl,support_dynamic_vbat;
+    bcl,dynamic_vbat_data = <(-50) 3000 3000 2500
+                100 2900 2900 2500
+                1000 2800 2800 2500>;
+	bcl,support_dynamic_vbat_compensation;
+	bcl,dynamic_vbat_data_compensation = <(-50) 50 100 150
+                100 50 100 150
+                1000 50 100 150>;
+};
+
+&pmh0101_bcl {
+    bcl,support_track;
+    bcl,support_dynamic_vbat;
+    bcl,dynamic_vbat_data = <(-50) 3050 2700 2300
+                100 2950 2700 2300
+                1000 2850 2700 2300>;
+	bcl,support_dynamic_vbat_compensation;
+	bcl,dynamic_vbat_data_compensation = <(-50) 50 100 150
+                100 50 100 150
+                1000 50 100 150>;
+};

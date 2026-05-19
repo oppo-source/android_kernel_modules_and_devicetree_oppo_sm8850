@@ -1,0 +1,154 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+&tlmm {
+	qupv3_se14_4uart_pins: qupv3_se14_4uart_pins {
+		qupv3_se14_default_cts: qupv3_se14_default_cts {
+			mux {
+				pins = "gpio56";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio56";
+				drive-strength = <2>;
+				bias-disable;
+			};
+		};
+
+		qupv3_se14_default_rts: qupv3_se14_default_rts {
+			mux {
+				pins = "gpio57";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio57";
+				drive-strength = <2>;
+				bias-pull-down;
+			};
+		};
+
+		qupv3_se14_default_tx: qupv3_se14_default_tx {
+			mux {
+				pins = "gpio58";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio58";
+				drive-strength = <2>;
+				bias-pull-up;
+			};
+		};
+
+		qupv3_se14_default_rx: qupv3_se14_default_rx {
+			mux {
+				pins = "gpio59";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio59";
+				drive-strength = <2>;
+				bias-pull-down;
+			};
+		};
+
+		qupv3_se14_cts: qupv3_se14_cts {
+		       mux {
+			       pins = "gpio56";
+			       function = "qup1_se6";
+		       };
+
+		       config {
+			       pins = "gpio56";
+			       drive-strength = <2>;
+			       bias-disable;
+		       };
+	       };
+
+		qupv3_se14_rts: qupv3_se14_rts {
+		       mux {
+			       pins = "gpio57";
+			       function = "qup1_se6";
+		       };
+
+		       config {
+			       pins = "gpio57";
+			       drive-strength = <2>;
+			       bias-pull-down;
+		       };
+	       };
+
+		qupv3_se14_tx: qupv3_se14_tx {
+		      mux {
+			      pins = "gpio58";
+			      function = "qup1_se6";
+		      };
+
+		      config {
+			      pins = "gpio58";
+			      drive-strength = <2>;
+			      bias-pull-up;
+		      };
+		};
+
+		qupv3_se14_rx_active: qupv3_se14_rx_active {
+			mux {
+				pins = "gpio59";
+				function = "qup1_se6";
+			};
+
+			config {
+				pins = "gpio59";
+				drive-strength = <2>;
+				bias-disable;
+			};
+		};
+
+		/* RX to be in gpio mode for sleep config */
+		qupv3_se14_rx_wake: qupv3_se14_rx_wake {
+			mux {
+				pins = "gpio59";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio59";
+				drive-strength = <2>;
+				bias-disable;
+			};
+		};
+	};
+
+	qupv3_se21_2uart_pins: qupv3_se21_2uart_pins {
+		qupv3_se21_2uart_active: qupv3_se21_2uart_active {
+			mux {
+				pins = "gpio86", "gpio87";
+				function = "qup2_se5";
+			};
+
+			config {
+				pins = "gpio86", "gpio87";
+				drive-strength= <2>;
+				bias-disable;
+			};
+		};
+
+		qupv3_se21_2uart_sleep: qupv3_se21_2uart_sleep {
+			mux {
+				pins = "gpio86", "gpio87";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio86", "gpio87";
+				drive-strength = <2>;
+				bias-pull-down;
+			};
+		};
+	};
+};

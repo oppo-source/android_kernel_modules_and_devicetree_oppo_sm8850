@@ -1,0 +1,22 @@
+/* IN QBG */
+#include "oplus-chg-ivy-common.dtsi"
+#include "oplus-chg-ivy-qbg.dtsi"
+
+&soc {
+	oplus_cpa: oplus,cpa {
+		compatible = "oplus,cpa";
+		/* format: <protocol_type power_w> */
+		oplus,protocol_list = <	CHG_PROTOCOL_VOOC 67
+					CHG_PROTOCOL_PPS  55
+					CHG_PROTOCOL_PD   18
+					CHG_PROTOCOL_QC   18>;
+		oplus,default_protocol_list = <	CHG_PROTOCOL_VOOC
+						CHG_PROTOCOL_PPS
+						CHG_PROTOCOL_PD>;
+	};
+};
+
+&maxim_encryption_gauge {
+	/* ivy IN:611303000354 */
+	oplus,batt_info = /bits/ 8 <0x36 0x31 0x31 0x33 0x30 0x33 0x30 0x30 0x30 0x33 0x35 0x34>;
+};

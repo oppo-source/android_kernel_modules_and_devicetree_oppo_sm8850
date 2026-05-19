@@ -1,0 +1,46 @@
+// SPDX-License-Identifier: BSD-3-Clause
+
+/*
+ *Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+#include <dt-bindings/interconnect/qcom,x1e80100-rpmh.h>
+
+&tlmm {
+	bt_en: bt_en {
+		mux {
+			pins = "gpio116";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio116";
+			drive-strength = <2>;
+			output-low;
+			bias-pull-down;
+		};
+	};
+};
+
+&soc {
+	bluetooth: bt_kiwi {
+		compatible = "qcom,kiwi";
+		pinctrl-names = "bt_en";
+		pinctrl-0 = <&bt_en>;
+
+		/* List of GPIOs to be setup for interrupt wakeup cable*/
+		qcom,wl-reset-gpio = <&tlmm 117 0>; /*WL_EN */
+		qcom,bt-reset-gpio = <&tlmm 116 0>; /*BT_EN */
+		qcom,bt-vdd18-aon-supply = <&L15B>; /*BT AON LDO*/
+		qcom,bt-vdd-rfa2-supply  = <&vreg_wlan_3p3>; /* DBU external Reg*/
+
+		qcom,bt-vdd18-aon-config = <1800000 1800000 0 1 0>;
+		qcom,bt-vdd-rfa2-config  = <3300000 3300000 0 1 0>;
+	};
+};
+
+//uart instance
+&qupv3_se14_4uart {
+	status = "ok";
+};
+
+

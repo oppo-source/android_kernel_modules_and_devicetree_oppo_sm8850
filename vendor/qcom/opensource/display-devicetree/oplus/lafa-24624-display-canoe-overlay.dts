@@ -1,0 +1,12 @@
+/dts-v1/;
+/plugin/;
+#include "../display/canoe-sde-display-mtp-overlay.dts"
+#include "canoe-display-overlay-common.dtsi"
+#include "lafa-24624-display-canoe-overlay.dtsi"
+#include "pxlw-lafa/pxlw-iris7p.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Canoe MTP,lafa";
+
+	oplus,project-id = <24624 24776>;
+};

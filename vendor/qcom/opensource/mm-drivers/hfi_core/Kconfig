@@ -1,0 +1,18 @@
+config QTI_HFI_CORE
+	bool "HFI Core"
+	depends on QCOM_SMEM
+	select QCOM_MDT_LOADER if ARCH_QCOM
+	select QCOM_SCM
+	select QCOM_PIL_INFO
+	help
+	  Enable the hfi_core module
+
+config HFI_CORE_DEBUG_FS
+	bool "HFI Core Debug"
+	help
+	  Enable the hfi_core debug module
+
+config HFI_CORE_SERAPH
+	bool "HFI Core Seraph"
+	help
+	  flag for seraph target

@@ -1,0 +1,115 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+&msm_gpu {
+	/* Power levels */
+	qcom,initial-pwrlevel = <8>;
+
+	qcom,gpu-pwrlevels {
+		compatible="qcom,gpu-pwrlevels";
+
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		/* Turbo L1 */
+		qcom,gpu-pwrlevel@0 {
+			reg = <0>;
+			qcom,gpu-freq = <1107000000>;
+			qcom,level = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
+
+			qcom,bus-freq = <8>;
+			qcom,bus-min = <7>;
+			qcom,bus-max = <9>;
+		};
+
+		/* Turbo */
+		qcom,gpu-pwrlevel@1 {
+			reg = <1>;
+			qcom,gpu-freq = <1014000000>;
+			qcom,level = <RPMH_REGULATOR_LEVEL_TURBO>;
+
+			qcom,bus-freq = <7>;
+			qcom,bus-min = <6>;
+			qcom,bus-max = <9>;
+		};
+
+		/* Nom_L1 */
+		qcom,gpu-pwrlevel@2 {
+			reg = <2>;
+			qcom,gpu-freq = <940000000>;
+			qcom,level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
+
+			qcom,bus-freq = <7>;
+			qcom,bus-min = <4>;
+			qcom,bus-max = <9>;
+		};
+
+		/* Nom */
+		qcom,gpu-pwrlevel@3 {
+			reg = <3>;
+			qcom,gpu-freq = <825000000>;
+			qcom,level = <RPMH_REGULATOR_LEVEL_NOM>;
+
+			qcom,bus-freq = <6>;
+			qcom,bus-min = <4>;
+			qcom,bus-max = <8>;
+		};
+
+		/* SVS_L2 */
+		qcom,gpu-pwrlevel@4 {
+			reg = <4>;
+			qcom,gpu-freq = <720000000>;
+			qcom,level = <RPMH_REGULATOR_LEVEL_SVS_L2>;
+
+			qcom,bus-freq = <5>;
+			qcom,bus-min = <4>;
+			qcom,bus-max = <7>;
+		};
+
+		/* SVS_L1 */
+		qcom,gpu-pwrlevel@5 {
+			reg = <5>;
+			qcom,gpu-freq = <666000000>;
+			qcom,level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
+
+			qcom,bus-freq = <5>;
+			qcom,bus-min = <4>;
+			qcom,bus-max = <7>;
+		};
+
+		/* SVS */
+		qcom,gpu-pwrlevel@6 {
+			reg = <6>;
+			qcom,gpu-freq = <550000000>;
+			qcom,level = <RPMH_REGULATOR_LEVEL_SVS>;
+
+			qcom,bus-freq = <3>;
+			qcom,bus-min = <2>;
+			qcom,bus-max = <6>;
+		};
+
+		/* Low_SVS */
+		qcom,gpu-pwrlevel@7 {
+			reg = <7>;
+			qcom,gpu-freq = <380000000>;
+			qcom,level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
+
+			qcom,bus-freq = <1>;
+			qcom,bus-min = <1>;
+			qcom,bus-max = <5>;
+		};
+
+		/* Low_SVS_D1 */
+		qcom,gpu-pwrlevel@8 {
+			reg = <8>;
+			qcom,gpu-freq = <280000000>;
+			qcom,level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D1>;
+
+			qcom,bus-freq = <1>;
+			qcom,bus-min = <1>;
+			qcom,bus-max = <3>;
+		};
+	};
+};

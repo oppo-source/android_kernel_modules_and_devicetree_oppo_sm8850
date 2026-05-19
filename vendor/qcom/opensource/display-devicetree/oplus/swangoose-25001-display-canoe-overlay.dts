@@ -1,0 +1,11 @@
+/dts-v1/;
+/plugin/;
+#include "../display/canoe-sde-display-mtp-overlay.dts"
+#include "canoe-display-overlay-common.dtsi"
+#include "swangoose-25001-display-canoe-overlay.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Canoe MTP,swangoose";
+
+	oplus,project-id = <25001 25201 25002>;
+};

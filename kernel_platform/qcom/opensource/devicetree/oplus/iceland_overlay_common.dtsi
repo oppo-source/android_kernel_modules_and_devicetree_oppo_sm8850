@@ -1,0 +1,164 @@
+&tlmm {
+    //#ifdef OPLUS_FEATURE_RF_CABLE_DETECT
+    rf_cable0_active: rf_cable0_active {
+        mux {
+            pins = "gpio47";
+            function = "gpio";
+        };
+        config {
+            pins = "gpio47";
+            drive-strength = <2>;
+            input-enable;
+            bias-pull-up;
+        };
+    };
+    //#endif /* OPLUS_FEATURE_RF_CABLE_DETECT */
+};
+
+&pmk8850_vadc {
+        pmh0101_flash_therm {
+                reg = <PMH0101_ADC5_GEN4_AMUX1_GPIO1_100K_PU(0, PMH0101_SID)>;
+                label = "pmh0101_flash_therm";
+                qcom,ratiometric;
+                qcom,hw-settle-time = <200>;
+                qcom,adc-tm-type = <1>;
+        };
+        pmh0101_board_therm {
+                reg = <PMH0101_ADC5_GEN4_AMUX_THM5_100K_PU(0, PMH0101_SID)>;
+                label = "pmh0101_board_therm";
+                qcom,ratiometric;
+                qcom,hw-settle-time = <200>;
+                qcom,adc-tm-type = <1>;
+        };
+};
+
+&thermal_zones {
+        flash_temp {
+                thermal-sensors = <&pmk8850_vadc
+                                   PMH0101_ADC5_GEN4_AMUX1_GPIO1_100K_PU(0, PMH0101_SID)>;
+
+                trips {
+                        active-config0 {
+                                temperature = <125000>;
+                                hysteresis = <1000>;
+                                type = "passive";
+                        };
+
+                        active-config1 {
+                                temperature = <125000>;
+                                hysteresis = <1000>;
+                                type = "passive";
+                        };
+                };
+        };
+        board_temp {
+                thermal-sensors = <&pmk8850_vadc
+                                   PMH0101_ADC5_GEN4_AMUX_THM5_100K_PU(0, PMH0101_SID)>;
+
+                trips {
+                        active-config0 {
+                                temperature = <125000>;
+                                hysteresis = <1000>;
+                                type = "passive";
+                        };
+
+                        active-config1 {
+                                temperature = <125000>;
+                                hysteresis = <1000>;
+                                type = "passive";
+                        };
+                };
+        };
+
+        pmih010x-bcl-lvl1 {
+            cooling-maps {
+                lbat_lvl1 {
+                    trip = <&b_bcl_lvl1>;
+                    cooling-device = <&msm_gpu 3 3>;
+                };
+            };
+        };
+
+        pmih010x-bcl-lvl2 {
+            cooling-maps {
+                lbat_gpu2 {
+                    trip = <&b_bcl_lvl2>;
+                    cooling-device = <&msm_gpu 5 5>;
+                };
+            };
+        };
+
+        pmh0101-bcl-lvl1 {
+            cooling-maps {
+                vph_lvl1 {
+                    trip = <&bcl_lvl1>;
+                    cooling-device = <&msm_gpu 3 3>;
+                };
+            };
+        };
+
+        pmh0101-bcl-lvl2 {
+            cooling-maps {
+                vph_gpu2 {
+                    trip = <&b_bcl_lvl2>;
+                    cooling-device = <&msm_gpu 5 5>;
+                };
+            };
+        };
+};
+
+&soc {
+        //#ifdef OPLUS_FEATURE_RF_CABLE_DETECT
+        oplus_rf_cable {
+                compatible = "oplus,rf_cable";
+                interrupt-parent = <&tlmm>;
+                rf_cable_support_num = <1>;
+                rf,cable0-gpio = <&tlmm 47 0>;
+                rf,cable-support-timer = <0>;
+                pinctrl-names = "rf_cable_active";
+                pinctrl-0 = <&rf_cable0_active>;
+        };
+        //#endif /* OPLUS_FEATURE_RF_CABLE_DETECT */
+        //#ifdef OPLUS_FEATURE_THERMAL_HORAE
+        shell_front {
+                compatible = "oplus,shell-temp";
+        };
+
+        shell_frame {
+                compatible = "oplus,shell-temp";
+        };
+
+        shell_back {
+                compatible = "oplus,shell-temp";
+        };
+        //#endif /* OPLUS_FEATURE_THERMAL_HORAE */
+        //#ifdef CONFIG_HMBIRD_SCHED
+        oplus,hmbird {
+                config_type {
+                        type = "HMBIRD_EXT";
+                };
+        };
+        //#endif /* CONFIG_HMBIRD_SCHED */
+
+        //#ifdef CONFIG_OPLUS_WQ_DYNAMIC_PRIORITY
+        oplus,wq_dynamic_version {
+            version = "v2";
+        };
+        //#endif /* CONFIG_OPLUS_WQ_DYNAMIC_PRIORITY */
+};
+
+&modem_pas {
+    status = "no";
+};
+&dsm_partition_1_mem {
+    status = "disabled";
+};
+&dsm_partition_2_mem{
+    status = "disabled";
+};
+&mpss_mem{
+    status = "disabled";
+};
+&qdss_apps_mem {
+    status = "disabled";
+};
